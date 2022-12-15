@@ -1,10 +1,17 @@
 version: "3.4"
+x-logging:
+  &logging
+  logging:
+    options:
+      max-size: 10m
+      max-file: "3"
 
 services:
   l2_execution_engine:
     image: gcr.io/evmchain/taiko-geth:taiko
     restart: unless-stopped
     pull_policy: always
+    stop_grace_period: 3m
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
     ports:
@@ -45,6 +52,7 @@ services:
       - "0.0.0.0"
       - --ws.origins
       - "*"
+    <<: *logging
 
   taiko_client_driver:
     image: gcr.io/evmchain/taiko-client:main
@@ -71,6 +79,7 @@ services:
       - --jwtSecret
       - /data/taiko-geth/geth/jwtsecret
       - --p2p.syncVerifiedBlocks
+    <<: *logging
 
   taiko_client_proposer:
     image: gcr.io/evmchain/taiko-client:main
@@ -79,19 +88,15 @@ services:
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
-    environment:
-      - ENABLE_PROPOSER=${ENABLE_PROPOSER}
-      - L1_ENDPOINT_WS=${L1_ENDPOINT_WS}
-      - TAIKO_L1_ADDRESS=${TAIKO_L1_ADDRESS}
-      - TAIKO_L2_ADDRESS=${TAIKO_L2_ADDRESS}
-      - L1_PROPOSER_PRIVATE_KEY=${L1_PROPOSER_PRIVATE_KEY}
-      - L2_SUGGESTED_FEE_RECIPIENT=${L2_SUGGESTED_FEE_RECIPIENT}
+    env_file:
+      - .env
     volumes:
       - ./script:/script
     entrypoint:
       - /bin/sh
       - -c
       - "/script/start-proposer.sh"
+    <<: *logging
 
   prometheus:
     image: prom/prometheus:latest
@@ -107,6 +112,7 @@ services:
     command:
       - --log.level=debug
       - --config.file=/etc/prometheus/prometheus.yml
+    <<: *logging
 
   grafana:
     image: grafana/grafana:latest
@@ -125,6 +131,7 @@ services:
       - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
       - ./docker/grafana/custom/provisioning/:/etc/grafana/custom/provisioning/
       - grafana_data:/var/lib/grafana
+    <<: *logging
 
 volumes:
   l2_execution_engine_data:
