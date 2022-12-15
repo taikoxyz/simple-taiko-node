@@ -1,6 +1,6 @@
 # simple-taiko-node
 
-Start your own Taiko node with one line command.
+Start your Taiko node with one line command.
 
 ## Prerequisite
 
