@@ -33,7 +33,7 @@ docker compose up
 
 This command starts the configured node, if you want to run it at background, please add the `-d` flag (`docker compose up -d`).
 
-If this is the first time you start the node, it will synchronize from the genesis to the present, which may take some time, you can monitor this progress through logs or in local grafana dashboard(<http://localhost:3000/d/L2ExecutionEngine/l2-exectuion-engine-overview?orgId=1&refresh=10s>) and see the latest L2 chain status in [Taiko Alpha 1 L2 block explorer](https://l2explorer.a1.taiko.xyz/). (TODO: change the block explorer URL after public testnet launched)
+If this is the first time you start the node, it will synchronize from the genesis to the present, which may take some time, you can monitor this progress through logs or in local grafana dashboard and see the latest L2 chain status in [Taiko Alpha 1 L2 block explorer](https://l2explorer.a1.taiko.xyz/). (TODO: change the block explorer URL after public testnet launched)
 
 #### Stop
 
