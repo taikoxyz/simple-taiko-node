@@ -79,20 +79,19 @@ services:
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
-    command:
-      - proposer
-      - --l1.ws
-      - ${L1_ENDPOINT_WS}
-      - --l2.ws
-      - ws://l2_execution_engine:8546
-      - --taikoL1
-      - ${TAIKO_L1_ADDRESS}
-      - --taikoL2
-      - ${TAIKO_L2_ADDRESS}
-      - --l1.proposerPrivKey
-      - ${L1_PROPOSER_PRIVATE_KEY}
-      - --l2.suggestedFeeRecipient
-      - ${L2_SUGGESTED_FEE_RECIPIENT}
+    environment:
+      - ENABLE_PROPOSER=${ENABLE_PROPOSER}
+      - L1_ENDPOINT_WS=${L1_ENDPOINT_WS}
+      - TAIKO_L1_ADDRESS=${TAIKO_L1_ADDRESS}
+      - TAIKO_L2_ADDRESS=${TAIKO_L2_ADDRESS}
+      - L1_PROPOSER_PRIVATE_KEY=${L1_PROPOSER_PRIVATE_KEY}
+      - L2_SUGGESTED_FEE_RECIPIENT=${L2_SUGGESTED_FEE_RECIPIENT}
+    volumes:
+      - ./script:/script
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "/script/start-proposer.sh"
 
   prometheus:
     image: prom/prometheus:latest
