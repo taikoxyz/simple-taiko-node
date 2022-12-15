@@ -1,0 +1,10 @@
+apiVersion: 1
+datasources:
+  - name: L2ExecutionEngine
+    type: prometheus
+    uid: P623EFAF6A3784606
+    org_id: 1
+    editable: true
+    is_default: true
+    access: proxy
+    url: http://prometheus:9090
