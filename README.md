@@ -1,3 +1,5 @@
+> **Note**
+> This repo is currently configured to connect with an unstable inner testnet -- some endpoints / chain ids will be changed when the public testnet is launched.
 # simple-taiko-node
 
 > Inspired by https://github.com/smartcontracts/simple-optimism-node
