@@ -1,0 +1,11 @@
+apiVersion: 1
+providers:
+  - name: "L2 Execution Engine"
+    folder: ""
+    type: file
+    disableDeletion: true
+    updateIntervalSeconds: 10
+    allowUiUpdates: false
+    options:
+      path: /etc/grafana/custom/provisioning/dashboards/l2-execution-engine-overview-dashboard.json
+      foldersFromFilesStructure: true

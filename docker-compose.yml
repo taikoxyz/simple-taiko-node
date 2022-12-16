@@ -1,0 +1,139 @@
+version: "3.4"
+x-logging:
+  &logging
+  logging:
+    options:
+      max-size: 10m
+      max-file: "3"
+
+services:
+  l2_execution_engine:
+    image: gcr.io/evmchain/taiko-geth:taiko
+    restart: unless-stopped
+    pull_policy: always
+    stop_grace_period: 3m
+    volumes:
+      - l2_execution_engine_data:/data/taiko-geth
+    ports:
+      - "${PORT_L2_EXECTION_ENGINE_METRICS}:6060"
+      - "${PORT_L2_EXECTION_ENGINE_HTTP}:8545"
+      - "${PORT_L2_EXECTION_ENGINE_WS}:8546"
+      - "${PORT_L2_EXECTION_ENGINE_P2P}:30303"
+      - "${PORT_L2_EXECTION_ENGINE_P2P}:30303/udp"
+    command:
+      - --taiko
+      - --networkid
+      - "${CHAIN_ID}"
+      - --syncmode
+      - full
+      - --datadir
+      - /data/taiko-geth
+      - --metrics
+      - --metrics.expensive
+      - --metrics.addr
+      - "0.0.0.0"
+      - --bootnodes
+      - ${BOOT_NODES}
+      - --authrpc.addr
+      - "0.0.0.0"
+      - --authrpc.vhosts
+      - "*"
+      - --http
+      - --http.api
+      - debug,eth,net,web3,txpool,taiko
+      - --http.addr
+      - "0.0.0.0"
+      - --http.vhosts
+      - "*"
+      - --ws
+      - --ws.api
+      - debug,eth,net,web3,txpool,taiko
+      - --ws.addr
+      - "0.0.0.0"
+      - --ws.origins
+      - "*"
+    <<: *logging
+
+  taiko_client_driver:
+    image: gcr.io/evmchain/taiko-client:main
+    restart: unless-stopped
+    pull_policy: always
+    depends_on:
+      - l2_execution_engine
+    volumes:
+      - l2_execution_engine_data:/data/taiko-geth
+    command:
+      - driver
+      - --l1.ws
+      - ${L1_ENDPOINT_WS}
+      - --l2.ws
+      - ws://l2_execution_engine:8546
+      - --l2.auth
+      - http://l2_execution_engine:8551
+      - --taikoL1
+      - ${TAIKO_L1_ADDRESS}
+      - --taikoL2
+      - ${TAIKO_L2_ADDRESS}
+      - --l2.throwawayBlockBuilderPrivKey
+      - ${L2_THROWAWAY_BLOCK_BUILDER_PRIVATE_KEY}
+      - --jwtSecret
+      - /data/taiko-geth/geth/jwtsecret
+      - --p2p.syncVerifiedBlocks
+    <<: *logging
+
+  taiko_client_proposer:
+    image: gcr.io/evmchain/taiko-client:main
+    restart: unless-stopped
+    pull_policy: always
+    depends_on:
+      - l2_execution_engine
+      - taiko_client_driver
+    env_file:
+      - .env
+    volumes:
+      - ./script:/script
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "/script/start-proposer.sh"
+    <<: *logging
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    ports:
+      - ${PORT_PROMETHEUS}:9090
+    depends_on:
+      - l2_execution_engine
+      - taiko_client_driver
+    volumes:
+      - ./docker/prometheus:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - --log.level=debug
+      - --config.file=/etc/prometheus/prometheus.yml
+    <<: *logging
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    ports:
+      - ${PROT_GRAFANA}:3000
+    depends_on:
+      - l2_execution_engine
+      - taiko_client_driver
+      - prometheus
+    environment:
+      - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
+      - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
+      - GF_LOG_LEVEL=WARN
+    volumes:
+      - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
+      - ./docker/grafana/custom/provisioning/:/etc/grafana/custom/provisioning/
+      - grafana_data:/var/lib/grafana
+    <<: *logging
+
+volumes:
+  l2_execution_engine_data:
+  prometheus_data:
+  grafana_data:
