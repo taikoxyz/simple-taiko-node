@@ -1,5 +1,6 @@
 > **Note**
 > This repo is currently configured to connect with an unstable inner testnet -- some endpoints / chain ids will be changed when the public testnet is launched.
+
 # simple-taiko-node
 
 > Inspired by https://github.com/smartcontracts/simple-optimism-node
@@ -32,17 +33,17 @@ cp .env.sample .env
 #### Start
 
 ```sh
-docker compose up
+docker-compose up
 ```
 
-This command starts the configured node. If you want to run it in the background, please add the `-d` flag (`docker compose up -d`).
+This command starts the configured node. If you want to run it in the background, please add the `-d` flag (`docker-compose up -d`).
 
 If this is the first time you start the node, it will synchronize from the genesis to the present, which may take some time. You can monitor this progress through logs or in the local grafana dashboard and see the latest L2 chain status in [Taiko Alpha 1 L2 block explorer](https://l2explorer.a1.taiko.xyz/). (TODO: change the block explorer URL after public testnet launched)
 
 #### Stop
 
 ```sh
-docker compose down
+docker-compose down
 ```
 
 This command shuts down the node, but will keep all volumes, so next time you restart the node, it won't need to synchronize from the genesis again.
@@ -50,7 +51,7 @@ This command shuts down the node, but will keep all volumes, so next time you re
 #### Wipe
 
 ```sh
-docker compose down -v
+docker-compose down -v
 ```
 
 This command completely removes the node by removing all volumes used by each container.
