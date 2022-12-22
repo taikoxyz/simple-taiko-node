@@ -15,17 +15,19 @@ Start your Taiko node with a one line command.
 ### Clone this repository
 
 ```sh
-git clone git@github.com:taikoxyz/simple-taiko-node.git
+git clone https://github.com/taikoxyz/simple-taiko-node.git
 cd simple-taiko-node
 ```
 
 ### Configure your node
 
-Copy `.env.sample` to `.env`, and (optionally) fill the required environment variables inside.
+Copy `.env.sample` to `.env`. 
 
 ```sh
 cp .env.sample .env
 ```
+
+To run your node as a proposer, configure the optional environment varibles in this `.env` file.
 
 ### Run the node
 
