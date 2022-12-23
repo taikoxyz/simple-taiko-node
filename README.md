@@ -53,7 +53,7 @@ This command shuts down the node, but will keep all volumes, so next time you re
 
 ```sh
 docker compose down -v
-rm -f ..env
+rm -f .env
 ```
 
 These commands completely remove the node by removing all volumes used by each container.
