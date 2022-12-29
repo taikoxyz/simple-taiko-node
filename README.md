@@ -8,6 +8,12 @@ Start your Taiko node with a one line command.
 
 - [Docker](https://docs.docker.com/engine/install/) is installed and running
 
+### Install Docker
+
+```sh
+curl -fsSL https://get.docker.com -o get-docker.sh && sh get-docker.sh
+```
+
 ## Instructions
 
 ### Clone this repository
@@ -74,4 +80,8 @@ These commands completely remove the node by removing all volumes used by each c
 
 A [Grafana](https://grafana.com/) dashboard with a [Prometheus](https://prometheus.io/) datasource is also included to display the L2 execution engine's real time status. You can visit it at <http://localhost:3000/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s>.
 
+Proxy your remote Grafana to the localhost (replace USERNAME and REMOTE_IP with your values):
+```sh
+ssh -L 3000:127.0.0.1:3000 -C -N -l USERNAME REMOTE_IP
+```
 <img width="2556" alt="image" src="https://user-images.githubusercontent.com/104078303/207779788-65d28e44-828e-491a-86a1-d8d9fc2ba81b.png">
