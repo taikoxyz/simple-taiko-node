@@ -118,7 +118,7 @@ services:
     image: grafana/grafana:latest
     restart: unless-stopped
     ports:
-      - ${PROT_GRAFANA}:3000
+      - ${PORT_GRAFANA}:3000
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
