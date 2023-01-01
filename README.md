@@ -91,6 +91,8 @@ This command shuts down the node, but will keep all volumes, so next time you re
 docker compose down -v
 rm -f .env
 ```
+These commands completely remove the node by removing all volumes used by each container.
+
 ### Additional troubleshooting
 1. change port from default setting if you has problem with other NODE
 * open `.env` and replace Default port
@@ -102,7 +104,7 @@ next scroll down
 ![Screenshot_299](https://user-images.githubusercontent.com/81378817/210163735-d9e29a33-5c49-4b5a-8c78-30647737d3e6.jpg)
 
 
-These commands completely remove the node by removing all volumes used by each container.
+
 
 ## What's included
 
