@@ -7,7 +7,21 @@ Start your Taiko node with a one line command.
 ## Prerequisite
 
 - [Docker](https://docs.docker.com/engine/install/) is installed and running
-
+```sh
+sudo apt install update
+```
+install automatic docker to make simple, thank you [Secord0](https://github.com/SecorD0)
+```sh
+. <(wget -qO- https://raw.githubusercontent.com/SecorD0/utils/main/installers/docker.sh)
+```
+install Docker-compose
+```sh
+sudo apt-get install docker-compose
+```
+install plugin, because some fr has issued when pull node
+```sh
+sudo apt update && apt install docker-compose-plugin
+```
 ## Instructions
 
 ### Clone this repository
@@ -24,8 +38,19 @@ Copy `.env.sample` to `.env`.
 ```sh
 cp .env.sample .env
 ```
+### Setting Node Proposer
+To run your node as a proposer, configure the optional environment varibles in this `.env` file,
+please replace additional info below on `.env`
+* ENABLE_PROPOSER=false to true 
+* L1_PROPOSER_PRIVATE_KEY= fill with your private keys from wallet used on testnet
+* L2_SUGGESTED_FEE_RECIPIENT=vyour wallet address used testnet to make easy remember
 
-To run your node as a proposer, configure the optional environment varibles in this `.env` file.
+result `.env`
+![Screenshot_296](https://user-images.githubusercontent.com/81378817/210163437-bf121edb-c9e0-4464-b539-e35445e463e5.jpg)
+
+
+now you can running Node with proposer
+
 
 ### Run the node
 
@@ -34,6 +59,19 @@ To run your node as a proposer, configure the optional environment varibles in t
 ```sh
 docker compose up
 ```
+running node on Background
+```sh
+docker compose up -d
+```
+check NODE logs, make sure you on directory node
+```sh
+cd simple-taiko-node
+```
+then check log
+```sh
+docker compose logs
+```
+![Screenshot_295](https://user-images.githubusercontent.com/81378817/210163614-31d142a5-efe1-440b-9ad4-10b0bfbe85c2.jpg)
 
 This command starts the configured node. If you want to run it in the background, please add the `-d` flag (`docker compose up -d`).
 
@@ -53,6 +91,16 @@ This command shuts down the node, but will keep all volumes, so next time you re
 docker compose down -v
 rm -f .env
 ```
+### Additional troubleshooting
+1. change port from default setting if you has problem with other NODE
+* open `.env` and replace Default port
+![Screenshot_297](https://user-images.githubusercontent.com/81378817/210163682-3d3e4616-3b56-4d8a-b5ef-5f2b5a552b24.jpg)
+
+* change default port `docker-compose.yml`
+![Screenshot_298](https://user-images.githubusercontent.com/81378817/210163731-2b48b790-aaef-4317-8716-fa95d0074eb2.jpg)
+next scroll down
+![Screenshot_299](https://user-images.githubusercontent.com/81378817/210163735-d9e29a33-5c49-4b5a-8c78-30647737d3e6.jpg)
+
 
 These commands completely remove the node by removing all volumes used by each container.
 
