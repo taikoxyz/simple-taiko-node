@@ -105,4 +105,4 @@ Next, check the proposer image's log (`docker compose logs -f taiko_client_propo
 
 - Your local node is still catching up with the latest chain head
 - Your L1 proposer account ran out of ETH (needed to propose tx's)
-- There is no available block slot to propose in the TaikoL1 smart contract at this point, you can check the protocol smart contract's status with [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables)
+- There is no available block slot to propose in the TaikoL1 smart contract at this point (you can check the protocol smart contract's status with [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables))
