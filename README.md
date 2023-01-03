@@ -97,12 +97,12 @@ Because we use a fork of geth, you can consult the (geth minimum requirements)[h
 - High-performance SSD with at least 1TB of free space
 - 25+ MBit/sec download Internet service
 
-### Why my node hasn't started proposing blocks yet
+### Why hasn't my node started proposing blocks yet?
 
-You may need to check that you have updated the optional environment varibles in `.env` file correctly, and using the latest docker images (manually update local images by `docker compose down && docker compose pull`).
+First, check that you have updated the optional environment variables in `.env` file correctly and are using the latest docker images (you can manually update local images with `docker compose down && docker compose pull`).
 
-Then check the proposer image's log to figure out why (`docker compose logs -f taiko_client_proposer`), it's probably because:
+Next, check the proposer image's log (`docker compose logs -f taiko_client_proposer`) to figure out what could be wrong. It's probably because:
 
-- Your local node is still catching up the latest chain head
-- Your L1 proposer account runs out of ETHs
-- There is no availble block slot to propose in smart contract at this point, you can check the protocol smart contract's status by [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables)
+- Your local node is still catching up with the latest chain head
+- Your L1 proposer account ran out of ETH (needed to propose tx's)
+- There is no available block slot to propose in the TaikoL1 smart contract, so you must wait for one to become available (you can check the protocol smart contract's status with [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables))
