@@ -99,9 +99,9 @@ Because we use a fork of geth, you can consult the (geth minimum requirements)[h
 
 ### Why my node hasn't started proposing blocks yet
 
-You need to check that you have updated the optional environment varibles in `.env` file correctly, and using the latest docker images (you can update local images manually by `docker compose down && docker compose pull`).
+You may need to check that you have updated the optional environment varibles in `.env` file correctly, and using the latest docker images (manually update local images by `docker compose down && docker compose pull`).
 
-Then you can check the proposer image's log to figure out why (`docker compose logs -f taiko_client_proposer`), it's probably because:
+Then check the proposer image's log to figure out why (`docker compose logs -f taiko_client_proposer`), it's probably because:
 
 - Your local node is still catching up the latest chain head
 - Your L1 proposer account runs out of ETHs
