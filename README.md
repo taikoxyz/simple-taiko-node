@@ -19,7 +19,7 @@ cd simple-taiko-node
 
 ### Configure your node
 
-Copy `.env.sample` to `.env`. 
+Copy `.env.sample` to `.env`.
 
 ```sh
 cp .env.sample .env
@@ -75,3 +75,34 @@ These commands completely remove the node by removing all volumes used by each c
 A [Grafana](https://grafana.com/) dashboard with a [Prometheus](https://prometheus.io/) datasource is also included to display the L2 execution engine's real time status. You can visit it at <http://localhost:3000/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s>.
 
 <img width="2556" alt="image" src="https://user-images.githubusercontent.com/104078303/207779788-65d28e44-828e-491a-86a1-d8d9fc2ba81b.png">
+
+## FAQs
+
+### What's the system requirements?
+
+Because we use a fork of geth, you can consult the (geth minimum requirements)[https://github.com/ethereum/go-ethereum#hardware-requirements], which are outlined below.
+
+#### Minimum:
+
+- CPU with 2+ cores
+- 4GB RAM
+- 1TB free storage space to sync the Mainnet
+  - (**only ~50GB for Testnet**)
+- 8 MBit/sec download Internet service
+
+#### Recommended:
+
+- Fast CPU with 4+ cores
+- 16GB+ RAM
+- High-performance SSD with at least 1TB of free space
+- 25+ MBit/sec download Internet service
+
+### Why my node hasn't started proposing blocks yet
+
+You need to check that you have updated the optional environment varibles in `.env` file correctly, and using the latest docker images (you can update local images manually by `docker compose down && docker compose pull`).
+
+Then you can check the proposer image's log to figure out why (`docker compose logs -f taiko_client_proposer`), it's probably because:
+
+- Your local node is still catching up the latest chain head
+- Your L1 proposer account runs out of ETHs
+- There is no availble block slot to propose in smart contract at this point, you can check the protocol smart contract's status by [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables)
