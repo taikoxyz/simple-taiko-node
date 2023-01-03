@@ -97,7 +97,7 @@ Because we use a fork of geth, you can consult the (geth minimum requirements)[h
 - High-performance SSD with at least 1TB of free space
 - 25+ MBit/sec download Internet service
 
-### Why hasn't my node hasn't started proposing blocks yet?
+### Why hasn't my node started proposing blocks yet?
 
 First, check that you have updated the optional environment variables in `.env` file correctly and are using the latest docker images (you can manually update local images with `docker compose down && docker compose pull`).
 
