@@ -27,6 +27,14 @@ cp .env.sample .env
 
 To run your node as a proposer, configure the optional environment varibles in this `.env` file.
 
+Set `ENABLE_PROPOSER` to true (deleting the default false and typing true in its place).
+
+Next you have to set `L1_PROPOSER_PRIVATE_KEY` to that of your wallet's private key that has some balance on L1. It will use it to propose blocks.
+
+After that you need set `L2_SUGGESTED_FEE_RECIPIENT` to your layer 2 address. 
+
+Finally you can save the `.env` and start proposing by starting up your node again. 
+
 ### Run the node
 
 #### Start
