@@ -106,3 +106,8 @@ Next, check the proposer image's log (`docker compose logs -f taiko_client_propo
 - Your local node is still catching up with the latest chain head
 - Your L1 proposer account ran out of ETH (needed to propose tx's)
 - There is no available block slot to propose in the TaikoL1 smart contract, so you must wait for one to become available (you can check the protocol smart contract's status with [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables))
+
+### What is Taiko?
+
+- Taiko is a fully decentralized, Ethereum-equivalent ZK-Rollup. 
+- You can find all the information about Taiko here - https://taiko.xyz/docs/intro/
