@@ -88,7 +88,7 @@ A [Grafana](https://grafana.com/) dashboard with a [Prometheus](https://promethe
 
 ### What's the system requirements?
 
-Because we use a fork of geth, you can consult the (geth minimum requirements)[https://github.com/ethereum/go-ethereum#hardware-requirements], which are outlined below.
+Because we use a fork of geth, you can consult the [geth minimum requirements](https://github.com/ethereum/go-ethereum#hardware-requirements), which are outlined below.
 
 #### Minimum:
 
