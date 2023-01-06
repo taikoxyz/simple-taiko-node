@@ -116,7 +116,7 @@ Next, check the proposer image's log (`docker compose logs -f taiko_client_propo
 
 When running a node it's normal for the node to run into errors, this doesn't mean that your node isn't working correctly. Most of the time the node resolves the errors. Some errors are there for the developers to easily debug if something goes wrong but can be ignored by users. The following table explains some error messages a bit more.
 
-| Error Message                                                                                | Explanation                                                                                             |
+| Error message                                                                                | Explanation                                                                                             |
 | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `Proposing operation error` </br> `error="failed to propose transactions: transaction reverted`      | There are other proposers competing for the limited block space. The node will try again after a while. |
 | `Unhandled trie error: missing trie node`                                                    | You can ignore this error, it doesn't affect you and goes away after a while.                                                       |
