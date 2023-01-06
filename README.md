@@ -111,3 +111,15 @@ Next, check the proposer image's log (`docker compose logs -f taiko_client_propo
 - Your local node is still catching up with the latest chain head
 - Your L1 proposer account ran out of ETH (needed to propose tx's)
 - There is no available block slot to propose in the TaikoL1 smart contract, so you must wait for one to become available (you can check the protocol smart contract's status with [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables))
+
+### Why am I receiving error messages?
+
+When running a node it's normal for the node to run into errors, this doesn't mean that your node isn't working correctly. Most of the time the node resolves the errors. Some errors are there for the developers to easily debug if something goes wrong but can be ignored by users. The following table explains some error messages a bit more.
+
+| Error Message                                                                                | Explanation                                                                                             |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| `Proposing operation error` </br> `error="failed to propose transactions: transaction reverted`      | There are other proposers competing for the limited block space. The node will try again after a while. |
+| `Unhandled trie error: missing trie node`                                                    | You can ignore this error, it doesn't affect you and goes away after a while.                                                       |
+| `Block batch iterator callback error` </br> `error="failed to fetch L2 parent block: not found` | You can ignore this error.                                                                                                    |
+| `Proposing operation error` </br> `error="failed to propose transactions: insufficient funds for gas * price + value"` | Your L1 wallet has ran out of funds to cover the fees. Please add funds to L1.                                                                                                 |
+| `Error starting ...: listen tcp4 0.0.0.0:{port} bind: address already in use` | The port is already in use by another service. You can either shut down the other program or change the port in the .env file. |
