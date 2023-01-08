@@ -44,6 +44,12 @@ This command starts the configured node. If you want to run it in the background
 
 If this is the first time you start the node, it will synchronize from the genesis to the present, which may take some time. You can monitor this progress through logs or in the local grafana dashboard and see the latest L2 chain status in [Taiko Alpha-1 L2 block explorer](https://l2explorer.a1.taiko.xyz/).
 
+#### Stats (CPU/MEM USAGE %)
+```sh
+docker stats
+```
+This command will show you live data stream of your running containers (CPU/MEM USAGE %), consumption of your machine resources. Add prefix "docker stats -a" to display all containers.
+
 #### Stop
 
 ```sh
