@@ -6,7 +6,9 @@ Start your Taiko node with a one line command.
 
 ## Prerequisite
 
-- [Docker](https://docs.docker.com/engine/install/) is installed and running
+- [Docker](https://docs.docker.com/engine/install/) is installed and running.
+- [Git](https://github.com/git-guides/install-git/) is installed.
+- Should have some ETH on the Layer 1 (L1) network. You can get some from the [L1 faucet](https://l1faucet.a1.taiko.xyz/).
 
 ## Instructions
 
