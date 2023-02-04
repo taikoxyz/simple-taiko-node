@@ -131,3 +131,16 @@ When running a node it's normal for the node to run into errors, this doesn't me
 | `Block batch iterator callback error` </br> `error="failed to fetch L2 parent block: not found` | You can ignore this error.                                                                                                    |
 | `Proposing operation error` </br> `error="failed to propose transactions: insufficient funds for gas * price + value"` | Your L1 wallet has ran out of funds to cover the fees. Please add funds to L1.                                                                                                 |
 | `Error starting ...: listen tcp4 0.0.0.0:{port} bind: address already in use` | The port is already in use by another service. You can either shut down the other program or change the port in the .env file. |
+
+### What ports need to be opened to run my node on a VPS?
+
+#### Outgoing Ports for VPS operation:
+
+ - 8545
+ - 8546
+ - 6060
+ - 30303
+
+#### Optional port for viewing your grafana page externally from VPS:
+
+ - 3000 (consider restricting to your IP address, your VPS needs a public IP for this)
