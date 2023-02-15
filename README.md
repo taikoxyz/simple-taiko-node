@@ -1,3 +1,5 @@
+> **NOTE: The alpha-1 testnet (Snæfellsjökull) has been shut down, with the alpha-2 testnet coming soon. Follow us to stay updated! https://twitter.com/taikoxyz**
+
 # simple-taiko-node
 
 > Inspired by https://github.com/smartcontracts/simple-optimism-node
