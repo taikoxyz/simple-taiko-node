@@ -35,7 +35,7 @@ echo "               Welcome to the Taiko Testnet                "
 echo "-----------------------------------------------------------"
 echo
 echo "This configuration tool sets up the .env for the Taiko Node"
-echo "You can run the Taiko node as either a standard node, or a propser"
+echo "You can run the Taiko node as either a standard node, or a proposer"
 echo "-----------------------------------------------------------"
 echo "If you are setting the node up as a proposer, you will need:"
 echo "  1) your wallet's private key"
@@ -59,7 +59,7 @@ while true; do
         echo
         echo "Please type either 'yes' or 'no'"
         echo "-> 'yes' will proceed with the configuration"
-        echo "-> 'no' will exit the configuation"
+        echo "-> 'no' will exit the configuration"
     fi
 done
 echo
@@ -100,7 +100,7 @@ else
             echo "Please type either 'yes' , 'no' or 'exit'."
             echo "-> 'yes' will backup current configuration before proceeding"
             echo "-> 'no' will proceed with backup"
-            echo "-> 'exit' with exit the configuation tool"
+            echo "-> 'exit' with exit the configuration tool"
         fi
     done
 fi
@@ -124,7 +124,7 @@ while true; do
         update_env $varname_private_key "$user_private_key" ".env"
         update_env $varname_l2_address "$user_l2_address" ".env"
         
-        echo "The node has been set up as a propser node"
+        echo "The node has been set up as a proposer node"
         echo "If any information needs to be updated, please rerun the configuration tool"
         
         break
@@ -133,7 +133,6 @@ while true; do
         echo "If any information needs to be updated, please rerun the configuration tool"
         break
     else
-        echo "Please type either 'yes' or 'no'. 'yes' will proceed with the configuring the Propser, 'no' will exit the configuation"
+        echo "Please type either 'yes' or 'no'. 'yes' will proceed with the configuring the proposer, 'no' will exit the configuration"
     fi
 done
-
