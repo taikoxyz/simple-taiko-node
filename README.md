@@ -34,7 +34,7 @@ To run your node as a proposer, configure the optional environment variables in 
 - Set `L1_PROPOSER_PRIVATE_KEY` to that of your wallet's private key -- it will need some balance on layer 1 to propose blocks.
 - Set `L2_SUGGESTED_FEE_RECIPIENT` to the layer 2 address you want to receive the tx fees from the block.
 
-Finally you can save the `.env` and start proposing by starting up your node again. 
+Finally, you can save the `.env` and start proposing by starting up your node again. 
 
 ### Run the node
 
@@ -52,7 +52,7 @@ If this is the first time you start the node, it will synchronize from the genes
 ```sh
 docker stats
 ```
-This command will show you live data stream of your running containers (CPU/MEM USAGE %), consumption of your machine resources. Add prefix "docker stats -a" to display all containers.
+This command will show you the live data stream of your running containers (CPU/MEM USAGE %), consumption of your machine resources. Add the prefix "docker stats -a" to display all containers.
 
 #### Stop
 
@@ -75,7 +75,7 @@ These commands completely remove the node by removing all volumes used by each c
 
 ### Taiko Geth (L2 execution engine)
 
-[taiko-geth](https://github.com/taikoxyz/taiko-geth) is a fork of [go-ethereum](https://github.com/ethereum/go-ethereum) with some changes according to Taiko protocol, it serves as a L2 [execution engine](https://ethereum.org/en/glossary/#execution-client), which needs to be coupled to a [consensus client](https://ethereum.org/en/glossary/#consensus-client) (in Taiko network, this will be the [taiko client](https://github.com/taikoxyz/taiko-client)'s [driver software](https://github.com/taikoxyz/taiko-client/tree/main/docs#driver)), like L1 ethereum execution engines, it will listen to new L2 transactions broadcasted in the L2 network, executes them in EVM, and holds the latest state and database of all current L2 data.
+[taiko-geth](https://github.com/taikoxyz/taiko-geth) is a fork of [go-ethereum](https://github.com/ethereum/go-ethereum) with some changes according to Taiko protocol, it serves as a L2 [execution engine](https://ethereum.org/en/glossary/#execution-client), which needs to be coupled to a [consensus client](https://ethereum.org/en/glossary/#consensus-client) (in the Taiko network, this will be the [taiko client](https://github.com/taikoxyz/taiko-client)'s [driver software](https://github.com/taikoxyz/taiko-client/tree/main/docs#driver)), like L1 ethereum execution engines, it will listen to new L2 transactions broadcasted in the L2 network, executes them in EVM, and holds the latest state and database of all current L2 data.
 
 ### Taiko client driver
 
@@ -87,13 +87,13 @@ These commands completely remove the node by removing all volumes used by each c
 
 ### Prometheus and Grafana
 
-A [Grafana](https://grafana.com/) dashboard with a [Prometheus](https://prometheus.io/) datasource is also included to display the L2 execution engine's real time status. You can visit it at <http://localhost:3000/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s>.
+A [Grafana](https://grafana.com/) dashboard with a [Prometheus](https://prometheus.io/) datasource is also included to display the L2 execution engine's real-time status. You can visit it at <http://localhost:3000/d/L2ExecutionEngine/l2-execution-engine-overview?orgId=1&refresh=10s>.
 
 <img width="2556" alt="image" src="https://user-images.githubusercontent.com/104078303/207779788-65d28e44-828e-491a-86a1-d8d9fc2ba81b.png">
 
 ## FAQs
 
-### What's the system requirements?
+### What are the system requirements?
 
 Because we use a fork of geth, you can consult the [geth minimum requirements](https://github.com/ethereum/go-ethereum#hardware-requirements), which are outlined below.
 
@@ -114,7 +114,7 @@ Because we use a fork of geth, you can consult the [geth minimum requirements](h
 
 ### Why hasn't my node started proposing blocks yet?
 
-First, check that you have updated the optional environment variables in `.env` file correctly and are using the latest docker images (you can manually update local images with `docker compose down && docker compose pull`).
+First, check that you have updated the optional environment variables in the `.env` file correctly and are using the latest docker images (you can manually update local images with `docker compose down && docker compose pull`).
 
 Next, check the proposer image's log (`docker compose logs -f taiko_client_proposer`) to figure out what could be wrong. It's probably because:
 
@@ -131,5 +131,5 @@ When running a node it's normal for the node to run into errors, this doesn't me
 | `Proposing operation error` </br> `error="failed to propose transactions: transaction reverted`      | There are other proposers competing for the limited block space. The node will try again after a while. |
 | `Unhandled trie error: missing trie node`                                                    | You can ignore this error, it doesn't affect you and goes away after a while.                                                       |
 | `Block batch iterator callback error` </br> `error="failed to fetch L2 parent block: not found` | You can ignore this error.                                                                                                    |
-| `Proposing operation error` </br> `error="failed to propose transactions: insufficient funds for gas * price + value"` | Your L1 wallet has ran out of funds to cover the fees. Please add funds to L1.                                                                                                 |
+| `Proposing operation error` </br> `error="failed to propose transactions: insufficient funds for gas * price + value"` | Your L1 wallet has run out of funds to cover the fees. Please add funds to L1.                                                                                                 |
 | `Error starting ...: listen tcp4 0.0.0.0:{port} bind: address already in use` | The port is already in use by another service. You can either shut down the other program or change the port in the .env file. |
