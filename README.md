@@ -1,5 +1,3 @@
-> **NOTE: The alpha-1 testnet (Snæfellsjökull) has been shut down, with the alpha-2 testnet coming soon. Follow us to stay updated! https://twitter.com/taikoxyz**
-
 # simple-taiko-node
 
 > Inspired by https://github.com/smartcontracts/simple-optimism-node
@@ -10,7 +8,7 @@ Start your Taiko node with a one line command.
 
 - [Docker](https://docs.docker.com/engine/install/) is installed and running.
 - [Git](https://github.com/git-guides/install-git/) is installed.
-- Should have some ETH on the Layer 1 (L1) network. You can get some from the [L1 faucet](https://l1faucet.a1.taiko.xyz/).
+- Should have some ETH on the Sepolia network.
 
 ## Instructions
 
@@ -29,12 +27,12 @@ Copy `.env.sample` to `.env`.
 cp .env.sample .env
 ```
 
-To run your node as a proposer, configure the optional environment variables in this `.env` file:
-- Set `ENABLE_PROPOSER` to `true` (replacing the default `false` with `true`).
-- Set `L1_PROPOSER_PRIVATE_KEY` to that of your wallet's private key -- it will need some balance on layer 1 to propose blocks.
-- Set `L2_SUGGESTED_FEE_RECIPIENT` to the layer 2 address you want to receive the tx fees from the block.
+To run your node as a prover, configure the optional environment variables in this `.env` file:
 
-Finally you can save the `.env` and start proposing by starting up your node again. 
+- Set `ENABLE_PROVER` to `true` (replacing the default `false` with `true`).
+- Set `L1_PROVER_PRIVATE_KEY` to that of your wallet's private key -- it will need some balance on Sepolia to prove blocks.
+
+Finally you can save the `.env` and start proving by starting up your node again.
 
 ### Run the node
 
@@ -46,12 +44,14 @@ docker compose up
 
 This command starts the configured node. If you want to run it in the background, please add the `-d` flag (`docker compose up -d`).
 
-If this is the first time you start the node, it will synchronize from the genesis to the present, which may take some time. You can monitor this progress through logs or in the local grafana dashboard and see the latest L2 chain status in [Taiko Alpha-1 L2 block explorer](https://l2explorer.a1.taiko.xyz/).
+If this is the first time you start the node, it will synchronize from the genesis to the present, which may take some time. You can monitor this progress through logs or in the local grafana dashboard and see the latest L2 chain status in [Taiko Alpha-2 L2 block explorer](https://l2explorer.a2.taiko.xyz/).
 
 #### Stats (CPU/MEM USAGE %)
+
 ```sh
 docker stats
 ```
+
 This command will show you live data stream of your running containers (CPU/MEM USAGE %), consumption of your machine resources. Add prefix "docker stats -a" to display all containers.
 
 #### Stop
@@ -81,9 +81,9 @@ These commands completely remove the node by removing all volumes used by each c
 
 [taiko client](https://github.com/taikoxyz/taiko-client)'s [driver software](https://github.com/taikoxyz/taiko-client/tree/main/docs#driver) serves as an L2 [consensus client](https://ethereum.org/en/glossary/#consensus-client). It will listen for new L2 blocks from the Taiko layer 1 protocol contract, then direct the connected L2 execution engine to insert them into its local chain through the [Engine API](https://github.com/ethereum/execution-apis/tree/main/src/engine).
 
-### Taiko client proposer
+### Taiko client prover
 
-[taiko client](https://github.com/taikoxyz/taiko-client)'s [proposer software](https://github.com/taikoxyz/taiko-client/tree/main/docs#proposer) will fetch pending transactions in a L2 execution engine's mempool intervally, then try to propose them to the Taiko layer 1 protocol contract.
+[taiko client](https://github.com/taikoxyz/taiko-client)'s [prover software](https://github.com/taikoxyz/taiko-client/tree/main/docs#prover) will request a [zkevm-circuits](https://github.com/privacy-scaling-explorations/zkevm-circuits) to generate a zero knowledge proof for the given block, then try to submit it to the Taiko layer 1 protocol contract.
 
 ### Prometheus and Grafana
 
@@ -95,15 +95,7 @@ A [Grafana](https://grafana.com/) dashboard with a [Prometheus](https://promethe
 
 ### What's the system requirements?
 
-Because we use a fork of geth, you can consult the [geth minimum requirements](https://github.com/ethereum/go-ethereum#hardware-requirements), which are outlined below.
-
-#### Minimum:
-
-- CPU with 2+ cores
-- 4GB RAM
-- 1TB free storage space to sync the Mainnet
-  - (**only ~50GB for Testnet**)
-- 8 MBit/sec download Internet service
+Because we use a fork of geth, you can consult the [geth recommended requirements](https://github.com/ethereum/go-ethereum#hardware-requirements), which are outlined below.
 
 #### Recommended:
 
@@ -112,24 +104,12 @@ Because we use a fork of geth, you can consult the [geth minimum requirements](h
 - High-performance SSD with at least 1TB of free space
 - 25+ MBit/sec download Internet service
 
-### Why hasn't my node started proposing blocks yet?
-
-First, check that you have updated the optional environment variables in `.env` file correctly and are using the latest docker images (you can manually update local images with `docker compose down && docker compose pull`).
-
-Next, check the proposer image's log (`docker compose logs -f taiko_client_proposer`) to figure out what could be wrong. It's probably because:
-
-- Your local node is still catching up with the latest chain head
-- Your L1 proposer account ran out of ETH (needed to propose tx's)
-- There is no available block slot to propose in the TaikoL1 smart contract, so you must wait for one to become available (you can check the protocol smart contract's status with [`TaikoL1.getStateVariables`](https://taiko.xyz/docs/smart-contracts/L1/TaikoL1#getstatevariables))
-
 ### Why am I receiving error messages?
 
 When running a node it's normal for the node to run into errors, this doesn't mean that your node isn't working correctly. Most of the time the node resolves the errors. Some errors are there for the developers to easily debug if something goes wrong but can be ignored by users. The following table explains some error messages a bit more.
 
-| Error message                                                                                | Explanation                                                                                             |
-| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| `Proposing operation error` </br> `error="failed to propose transactions: transaction reverted`      | There are other proposers competing for the limited block space. The node will try again after a while. |
-| `Unhandled trie error: missing trie node`                                                    | You can ignore this error, it doesn't affect you and goes away after a while.                                                       |
-| `Block batch iterator callback error` </br> `error="failed to fetch L2 parent block: not found` | You can ignore this error.                                                                                                    |
-| `Proposing operation error` </br> `error="failed to propose transactions: insufficient funds for gas * price + value"` | Your L1 wallet has ran out of funds to cover the fees. Please add funds to L1.                                                                                                 |
-| `Error starting ...: listen tcp4 0.0.0.0:{port} bind: address already in use` | The port is already in use by another service. You can either shut down the other program or change the port in the .env file. |
+| Error message                                                                                   | Explanation                                                                                                                    |
+| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
+| `Unhandled trie error: missing trie node`                                                       | You can ignore this error, it doesn't affect you and goes away after a while.                                                  |
+| `Block batch iterator callback error` </br> `error="failed to fetch L2 parent block: not found` | You can ignore this error.                                                                                                     |
+| `Error starting ...: listen tcp4 0.0.0.0:{port} bind: address already in use`                   | The port is already in use by another service. You can either shut down the other program or change the port in the .env file. |

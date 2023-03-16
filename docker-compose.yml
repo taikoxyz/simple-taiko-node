@@ -152,5 +152,6 @@ services:
 
 volumes:
   l2_execution_engine_data:
+  zkevm-chain-prover-rpcd:
   prometheus_data:
   grafana_data:
