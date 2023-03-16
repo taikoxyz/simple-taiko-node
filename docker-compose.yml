@@ -8,7 +8,7 @@ x-logging:
 
 services:
   l2_execution_engine:
-    image: gcr.io/evmchain/taiko-geth:snaefellsjokull
+    image: gcr.io/evmchain/taiko-geth:taiko
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
@@ -55,7 +55,7 @@ services:
     <<: *logging
 
   taiko_client_driver:
-    image: gcr.io/evmchain/taiko-client:snaefellsjokull
+    image: gcr.io/evmchain/taiko-client:main
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -81,13 +81,14 @@ services:
       - --p2p.syncVerifiedBlocks
     <<: *logging
 
-  taiko_client_proposer:
-    image: gcr.io/evmchain/taiko-client:snaefellsjokull
+  taiko_client_prover_relayer:
+    image: gcr.io/evmchain/taiko-client:main
     restart: unless-stopped
     pull_policy: always
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
+      - zkevm-chain-prover-rpcd
     env_file:
       - .env
     volumes:
@@ -95,7 +96,23 @@ services:
     entrypoint:
       - /bin/sh
       - -c
-      - "/script/start-proposer.sh"
+      - "/script/start-prover-relayer.sh"
+    <<: *logging
+
+  zkevm-chain-prover-rpcd:
+    image: gcr.io/evmchain/askja-proverd:latest
+    restart: unless-stopped
+    ports:
+      - "${PORT_ZKEVM_CHAIN_PROVER_RPCD}:9000"
+    pull_policy: always
+    env_file:
+      - .env
+    volumes:
+      - ./script:/script
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "/script/start-zkevm-chain-rpcd.sh"
     <<: *logging
 
   prometheus:
