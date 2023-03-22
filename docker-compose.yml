@@ -109,6 +109,7 @@ services:
       - .env
     volumes:
       - ./script:/script
+      - zkevm_chain_prover_rpcd_data:/data
     entrypoint:
       - /bin/sh
       - -c
@@ -152,6 +153,6 @@ services:
 
 volumes:
   l2_execution_engine_data:
-  zkevm-chain-prover-rpcd:
+  zkevm_chain_prover_rpcd_data:
   prometheus_data:
   grafana_data:
