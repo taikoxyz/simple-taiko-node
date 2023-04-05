@@ -1,4 +1,4 @@
-# simple-taiko-node
+# simple-taiko-node 🟢LIVE on SEPOLIA Testnet
 
 > Inspired by https://github.com/smartcontracts/simple-optimism-node
 
@@ -46,7 +46,8 @@ please replace additional info below on `.env`
 * L2_SUGGESTED_FEE_RECIPIENT=vyour wallet address used testnet to make easy remember
 
 result `.env`
-![Screenshot_296](https://user-images.githubusercontent.com/81378817/210163437-bf121edb-c9e0-4464-b539-e35445e463e5.jpg)
+![Screenshot_462](https://user-images.githubusercontent.com/81378817/230190138-45cff95f-8d7c-46c7-905b-5ded1addb26d.jpg)
+
 
 
 now you can running Node with proposer
