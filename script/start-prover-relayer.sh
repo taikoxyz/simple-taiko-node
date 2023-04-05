@@ -12,9 +12,9 @@ if [ "$ENABLE_PROVER" == "true" ]; then
 
     taiko-client prover \
         --l1.ws ${L1_ENDPOINT_WS} \
-        --l2.ws ws://l2_execution_engine:${PORT_L2_EXECTION_ENGINE_WS} \
+        --l2.ws ws://l2_execution_engine:8546 \
         --l1.http ${L1_ENDPOINT_HTTP} \
-        --l2.http http://l2_execution_engine:${PORT_L2_EXECTION_ENGINE_HTTP} \
+        --l2.http http://l2_execution_engine:8545 \
         --taikoL1 ${TAIKO_L1_ADDRESS} \
         --taikoL2 ${TAIKO_L2_ADDRESS} \
         --zkevmRpcdEndpoint http://zkevm-chain-prover-rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} \
