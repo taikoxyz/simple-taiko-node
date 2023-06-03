@@ -8,7 +8,7 @@ x-logging:
 
 services:
   l2_execution_engine:
-    image: gcr.io/evmchain/taiko-geth:sha-3c7f5c6
+    image: gcr.io/evmchain/taiko-geth:sha-9125b6f
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
@@ -55,7 +55,7 @@ services:
     <<: *logging
 
   taiko_client_driver:
-    image: gcr.io/evmchain/taiko-client:sha-f44530b
+    image: gcr.io/evmchain/taiko-client:sha-5d272d0
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -82,7 +82,7 @@ services:
     <<: *logging
 
   taiko_client_prover_relayer:
-    image: gcr.io/evmchain/taiko-client:sha-f44530b
+    image: gcr.io/evmchain/taiko-client:sha-5d272d0
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -100,7 +100,7 @@ services:
     <<: *logging
 
   taiko_client_proposer:
-    image: gcr.io/evmchain/taiko-client:sha-f44530b
+    image: gcr.io/evmchain/taiko-client:sha-5d272d0
     restart: unless-stopped
     pull_policy: always
     depends_on:
