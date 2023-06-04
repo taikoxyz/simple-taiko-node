@@ -100,7 +100,7 @@ services:
     <<: *logging
 
   taiko_client_proposer:
-    image: gcr.io/evmchain/taiko-client:sha-5d272d0
+    image: gcr.io/evmchain/taiko-client:grimsvotn
     restart: unless-stopped
     pull_policy: always
     depends_on:
