@@ -62,27 +62,15 @@ services:
     pull_policy: always
     depends_on:
       - l2_execution_engine
+    env_file:
+      - .env
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
-    command:
-      - driver
-      - --l1.ws
-      - ${L1_ENDPOINT_WS}
-      - --l2.ws
-      - ws://l2_execution_engine:8546
-      - --l2.auth
-      - http://l2_execution_engine:8551
-      - --taikoL1
-      - ${TAIKO_L1_ADDRESS}
-      - --taikoL2
-      - ${TAIKO_L2_ADDRESS}
-      - --jwtSecret
-      - /data/taiko-geth/geth/jwtsecret
-      - --p2p.syncVerifiedBlocks
-      - --p2p.checkPointSyncUrl
-      - https://rpc.test.taiko.xyz
-      - --p2p.syncTimeout
-      - "120"
+      - ./script:/script
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "/script/start-driver.sh"
     <<: *logging
 
   taiko_client_prover_relayer:
