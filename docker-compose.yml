@@ -26,6 +26,8 @@ services:
       - "${CHAIN_ID}"
       - --syncmode
       - full
+      - --gcmode
+      - archive
       - --datadir
       - /data/taiko-geth
       - --metrics
@@ -79,6 +81,8 @@ services:
       - --p2p.syncVerifiedBlocks
       - --p2p.checkPointSyncUrl
       - https://rpc.test.taiko.xyz
+      - --p2p.syncTimeout
+      - "120"
     <<: *logging
 
   taiko_client_prover_relayer:
