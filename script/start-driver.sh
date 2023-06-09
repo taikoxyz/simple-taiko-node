@@ -12,7 +12,7 @@ if [ "$DISABLE_P2P_SYNC" == "false" ]; then
         --jwtSecret /data/taiko-geth/geth/jwtsecret \
         --p2p.syncVerifiedBlocks \
         --p2p.checkPointSyncUrl https://rpc.test.taiko.xyz \
-        --p2p.syncTimeout "120"
+        --p2p.syncTimeout "5000"
 else
     taiko-client driver \
         --l1.ws ${L1_ENDPOINT_WS} \
