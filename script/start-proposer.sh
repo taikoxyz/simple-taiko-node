@@ -1,9 +1,10 @@
 #!/bin/sh
 
 set -eou pipefail
+trap "kill $!; exit 0" INT TERM
 
 if [ "$ENABLE_PROPOSER" == "true" ]; then
-    taiko-client proposer \
+    exec taiko-client proposer \
       --l1.ws ${L1_ENDPOINT_WS} \
       --l2.http http://l2_execution_engine:8545 \
       --taikoL1 ${TAIKO_L1_ADDRESS} \
@@ -12,5 +13,6 @@ if [ "$ENABLE_PROPOSER" == "true" ]; then
       --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT} \
       --minimalBlockGasLimit "5000000"
 else
-    sleep infinity
+    sleep infinity &
+    wait $!
 fi

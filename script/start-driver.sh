@@ -3,7 +3,7 @@
 set -eou pipefail
 
 if [ "$DISABLE_P2P_SYNC" == "false" ]; then
-    taiko-client driver \
+    exec taiko-client driver \
         --l1.ws ${L1_ENDPOINT_WS} \
         --l2.ws ws://l2_execution_engine:8546 \
         --l2.auth http://l2_execution_engine:8551 \
@@ -14,7 +14,7 @@ if [ "$DISABLE_P2P_SYNC" == "false" ]; then
         --p2p.checkPointSyncUrl https://rpc.test.taiko.xyz \
         --p2p.syncTimeout "5000"
 else
-    taiko-client driver \
+    exec taiko-client driver \
         --l1.ws ${L1_ENDPOINT_WS} \
         --l2.ws ws://l2_execution_engine:8546 \
         --l2.auth http://l2_execution_engine:8551 \

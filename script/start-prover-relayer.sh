@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -eou pipefail
+trap "kill $!; exit 0" INT TERM
 
 if [ "$ENABLE_PROVER" == "true" ]; then
     if [ ! -f "./wait" ];then
@@ -8,9 +9,10 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         chmod +x ./wait
     fi
 
-    WAIT_HOSTS=zkevm-chain-prover-rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} WAIT_TIMEOUT=180 ./wait
+    WAIT_HOSTS=zkevm-chain-prover-rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} WAIT_TIMEOUT=180 ./wait &
+    wait $!
 
-    taiko-client prover \
+    exec taiko-client prover \
         --l1.ws ${L1_ENDPOINT_WS} \
         --l2.ws ws://l2_execution_engine:8546 \
         --l1.http ${L1_ENDPOINT_HTTP} \
@@ -22,5 +24,6 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY} \
         --maxConcurrentProvingJobs 1
 else
-    sleep infinity
+    sleep infinity &
+    wait $!
 fi

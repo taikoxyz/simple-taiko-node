@@ -60,6 +60,7 @@ services:
     image: gcr.io/evmchain/taiko-client:grimsvotn
     restart: unless-stopped
     pull_policy: always
+    stop_grace_period: 3m
     depends_on:
       - l2_execution_engine
     env_file:
@@ -77,6 +78,7 @@ services:
     image: gcr.io/evmchain/taiko-client:grimsvotn
     restart: unless-stopped
     pull_policy: always
+    stop_grace_period: 30s
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
