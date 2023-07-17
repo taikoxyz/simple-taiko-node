@@ -7,19 +7,21 @@ x-logging:
       max-file: "3"
 
 services:
-  l2_execution_engine:
-    image: gcr.io/evmchain/taiko-geth:grimsvotn
+  l3_execution_engine:
+    image: gcr.io/evmchain/taiko-geth:eldfell
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
+    env_file:
+      - .env.l3
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - l3_execution_engine_data:/data/taiko-geth
     ports:
-      - "${PORT_L2_EXECTION_ENGINE_METRICS}:6060"
-      - "${PORT_L2_EXECTION_ENGINE_HTTP}:8545"
-      - "${PORT_L2_EXECTION_ENGINE_WS}:8546"
-      - "${PORT_L2_EXECTION_ENGINE_P2P}:30303"
-      - "${PORT_L2_EXECTION_ENGINE_P2P}:30303/udp"
+      - "${PORT_L3_EXECTION_ENGINE_METRICS}:6060"
+      - "${PORT_L3_EXECTION_ENGINE_HTTP}:8545"
+      - "${PORT_L3_EXECTION_ENGINE_WS}:8546"
+      - "${PORT_L3_EXECTION_ENGINE_P2P}:30303"
+      - "${PORT_L3_EXECTION_ENGINE_P2P}:30303/udp"
     command:
       - --taiko
       - --networkid
@@ -57,16 +59,16 @@ services:
     <<: *logging
 
   taiko_client_driver:
-    image: gcr.io/evmchain/taiko-client:grimsvotn
+    image: gcr.io/evmchain/taiko-client:eldfell
     restart: unless-stopped
     pull_policy: always
     depends_on:
-      - l2_execution_engine
+      - l3_execution_engine
     env_file:
-      - .env
+      - .env.l3
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
-      - ./script/l2:/script
+      - l3_execution_engine_data:/data/taiko-geth
+      - ./script/l3:/script
     entrypoint:
       - /bin/sh
       - -c
@@ -74,17 +76,17 @@ services:
     <<: *logging
 
   taiko_client_prover_relayer:
-    image: gcr.io/evmchain/taiko-client:grimsvotn
+    image: gcr.io/evmchain/taiko-client:eldfell
     restart: unless-stopped
     pull_policy: always
     depends_on:
-      - l2_execution_engine
+      - l3_execution_engine
       - taiko_client_driver
       - zkevm-chain-prover-rpcd
     env_file:
-      - .env
+      - .env.l3
     volumes:
-      - ./script/l2:/script
+      - ./script/l3:/script
     entrypoint:
       - /bin/sh
       - -c
@@ -92,16 +94,16 @@ services:
     <<: *logging
 
   taiko_client_proposer:
-    image: gcr.io/evmchain/taiko-client:grimsvotn
+    image: gcr.io/evmchain/taiko-client:eldfell
     restart: unless-stopped
     pull_policy: always
     depends_on:
-      - l2_execution_engine
+      - l3_execution_engine
       - taiko_client_driver
     env_file:
-      - .env
+      - .env.l3
     volumes:
-      - ./script/l2:/script
+      - ./script/l3:/script
     entrypoint:
       - /bin/sh
       - -c
@@ -109,15 +111,15 @@ services:
     <<: *logging
 
   zkevm-chain-prover-rpcd:
-    image: gcr.io/evmchain/grimsvotn-proverd:latest
+    image: gcr.io/evmchain/eldfell-proverd:latest
     restart: unless-stopped
     ports:
       - "${PORT_ZKEVM_CHAIN_PROVER_RPCD}:9000"
     pull_policy: always
     env_file:
-      - .env
+      - .env.l3
     volumes:
-      - ./script/l2:/script
+      - ./script/l3:/script
       - zkevm_chain_prover_rpcd_data:/data
     entrypoint:
       - /bin/sh
@@ -128,13 +130,15 @@ services:
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
+    env_file:
+      - .env.l3
     ports:
       - ${PORT_PROMETHEUS}:9090
     depends_on:
-      - l2_execution_engine
+      - l3_execution_engine
       - taiko_client_driver
     volumes:
-      - ./docker/prometheus/l2:/etc/prometheus
+      - ./docker/prometheus/l3:/etc/prometheus
       - prometheus_data:/prometheus
     command:
       - --log.level=debug
@@ -142,12 +146,14 @@ services:
     <<: *logging
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana:9.4.0
     restart: unless-stopped
+    env_file:
+      - .env.l3
     ports:
       - ${PORT_GRAFANA}:3000
     depends_on:
-      - l2_execution_engine
+      - l3_execution_engine
       - taiko_client_driver
       - prometheus
     environment:
@@ -161,7 +167,7 @@ services:
     <<: *logging
 
 volumes:
-  l2_execution_engine_data:
+  l3_execution_engine_data:
   zkevm_chain_prover_rpcd_data:
   prometheus_data:
   grafana_data:
