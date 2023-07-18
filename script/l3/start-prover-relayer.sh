@@ -8,7 +8,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         chmod +x ./wait
     fi
 
-    WAIT_HOSTS=zkevm-chain-prover-rpcd:9000 WAIT_TIMEOUT=180 ./wait
+    WAIT_HOSTS=zkevm-chain-prover-rpcd:9000 WAIT_TIMEOUT=3600 ./wait
 
     if [ "$ENABLE_PROVER" == "true" ]; then
         taiko-client prover \
