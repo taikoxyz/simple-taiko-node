@@ -8,7 +8,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         chmod +x ./wait
     fi
 
-    WAIT_HOSTS=zkevm-chain-prover-rpcd:9000 WAIT_TIMEOUT=3600 ./wait
+    WAIT_HOSTS=l3_zkevm_chain_prover_rpcd:9000 WAIT_TIMEOUT=3600 ./wait
 
     if [ "$ENABLE_PROVER" == "true" ]; then
         taiko-client prover \
@@ -19,7 +19,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS} \
         --taikoL2 ${TAIKO_L2_ADDRESS} \
         --taikoProverPoolL1 ${PROVER_POOL_ADDRESS} \
-        --zkevmRpcdEndpoint http://zkevm-chain-prover-rpcd:9000 \
+        --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:9000 \
         --zkevmRpcdParamsPath /data \
         --l1.proverPrivKey ${L2_PROVER_PRIVATE_KEY} \
         --maxConcurrentProvingJobs 1 \
@@ -33,7 +33,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS} \
         --taikoL2 ${TAIKO_L2_ADDRESS} \
         --taikoProverPoolL1 ${PROVER_POOL_ADDRESS} \
-        --zkevmRpcdEndpoint http://zkevm-chain-prover-rpcd:9000 \
+        --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:9000 \
         --zkevmRpcdParamsPath /data \
         --l1.proverPrivKey ${L2_PROVER_PRIVATE_KEY} \
         --maxConcurrentProvingJobs 1 \
