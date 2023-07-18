@@ -80,7 +80,7 @@ services:
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
-      - zkevm-chain-prover-rpcd
+      - zkevm_chain_prover_rpcd
     env_file:
       - .env
     volumes:
@@ -108,7 +108,7 @@ services:
       - "/script/start-proposer.sh"
     <<: *logging
 
-  zkevm-chain-prover-rpcd:
+  zkevm_chain_prover_rpcd:
     image: gcr.io/evmchain/grimsvotn-proverd:latest
     restart: unless-stopped
     ports:
