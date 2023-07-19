@@ -10,7 +10,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
 
     WAIT_HOSTS=l3_zkevm_chain_prover_rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} WAIT_TIMEOUT=3600 ./wait
 
-    if [ "$ENABLE_PROVER" == "true" ]; then
+    if [ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]; then
         taiko-client prover \
         --l1.ws ${L2_ENDPOINT_WS} \
         --l2.ws ws://l3_execution_engine:8546 \
