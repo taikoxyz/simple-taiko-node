@@ -1,0 +1,6 @@
+git config --global core.autocrlf false
+git clone https://github.com/taikoxyz/simple-taiko-node.git
+cd simple-taiko-node 
+cp .env.sample .env
+cp .env.sample.l3 .env.l3
+notepad .env
