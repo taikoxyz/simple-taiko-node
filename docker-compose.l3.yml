@@ -146,7 +146,7 @@ services:
     <<: *logging
 
   l3_grafana:
-    image: grafana/grafana:9.4.0
+    image: grafana/grafana:latest
     restart: unless-stopped
     env_file:
       - .env.l3
@@ -162,7 +162,7 @@ services:
       - GF_LOG_LEVEL=WARN
     volumes:
       - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
-      - ./docker/grafana/custom/provisioning/:/etc/grafana/custom/provisioning/
+      - ./docker/grafana/custom/l3/provisioning/:/etc/grafana/custom/provisioning/
       - l3_grafana_data:/var/lib/grafana
     <<: *logging
 
