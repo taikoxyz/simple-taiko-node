@@ -156,7 +156,7 @@ services:
       - GF_LOG_LEVEL=WARN
     volumes:
       - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
-      - ./docker/grafana/custom/provisioning/:/etc/grafana/custom/provisioning/
+      - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
       - grafana_data:/var/lib/grafana
     <<: *logging
 
