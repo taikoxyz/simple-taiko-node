@@ -4,7 +4,6 @@ set -eou pipefail
 
 if [ "$ENABLE_PROPOSER" == "true" ]; then
     if [ -z "${TXPOOL_LOCALS}" ]; then
-        echo 11
         taiko-client proposer \
             --l1.ws ${L2_ENDPOINT_WS} \
             --l2.http http://l3_execution_engine:8545 \
@@ -14,7 +13,6 @@ if [ "$ENABLE_PROPOSER" == "true" ]; then
             --l2.suggestedFeeRecipient ${L3_SUGGESTED_FEE_RECIPIENT} \
             --minimalBlockGasLimit "5000000"
     else
-        echo 22
         taiko-client proposer \
             --l1.ws ${L2_ENDPOINT_WS} \
             --l2.http http://l3_execution_engine:8545 \
