@@ -10,6 +10,7 @@ if [ "$ENABLE_PROPOSER" == "true" ]; then
       --taikoL2 ${TAIKO_L2_ADDRESS} \
       --l1.proposerPrivKey ${L2_PROPOSER_PRIVATE_KEY} \
       --l2.suggestedFeeRecipient ${L3_SUGGESTED_FEE_RECIPIENT} \
+      --txpool.localsOnly ${TXPOOL_LOCALS_ONLY} \
       --minimalBlockGasLimit "5000000"
 else
     sleep infinity
