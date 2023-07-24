@@ -1,6 +1,5 @@
 version: "3.4"
-x-logging:
-  &logging
+x-logging: &logging
   logging:
     options:
       max-size: 10m
@@ -56,6 +55,8 @@ services:
       - "0.0.0.0"
       - --ws.origins
       - "*"
+      - --txpool.locals
+      - ${TXPOOL_LOCALS}
     <<: *logging
 
   l3_taiko_client_driver:
