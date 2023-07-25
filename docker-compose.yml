@@ -1,6 +1,5 @@
 version: "3.4"
-x-logging:
-  &logging
+x-logging: &logging
   logging:
     options:
       max-size: 10m
