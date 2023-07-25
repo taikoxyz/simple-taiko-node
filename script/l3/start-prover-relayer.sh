@@ -8,7 +8,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         chmod +x ./wait
     fi
 
-    WAIT_HOSTS=l3_zkevm_chain_prover_rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} WAIT_TIMEOUT=3600 ./wait
+    WAIT_HOSTS=l3_zkevm_chain_prover_rpcd:9000 WAIT_TIMEOUT=3600 ./wait
 
     if [ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]; then
         taiko-client prover \
@@ -19,10 +19,10 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS} \
         --taikoL2 ${TAIKO_L2_ADDRESS} \
         --taikoProverPoolL1 ${PROVER_POOL_ADDRESS} \
-        --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} \
+        --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:9000 \
         --zkevmRpcdParamsPath /data \
         --l1.proverPrivKey ${L2_PROVER_PRIVATE_KEY} \
-        --maxConcurrentProvingJobs 1 \
+        --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM} \
         --prover.proveUnassignedBlocks
     else
         taiko-client prover \
@@ -33,10 +33,10 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS} \
         --taikoL2 ${TAIKO_L2_ADDRESS} \
         --taikoProverPoolL1 ${PROVER_POOL_ADDRESS} \
-        --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} \
+        --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:9000 \
         --zkevmRpcdParamsPath /data \
         --l1.proverPrivKey ${L2_PROVER_PRIVATE_KEY} \
-        --maxConcurrentProvingJobs 1 \
+        --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM} \
         --prover.proveUnassignedBlocks=false
     fi
 else
