@@ -22,7 +22,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} \
         --zkevmRpcdParamsPath /data \
         --l1.proverPrivKey ${L2_PROVER_PRIVATE_KEY} \
-        --maxConcurrentProvingJobs 1 \
+        --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM} \
         --prover.proveUnassignedBlocks
     else
         taiko-client prover \
@@ -36,7 +36,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --zkevmRpcdEndpoint http://l3_zkevm_chain_prover_rpcd:${PORT_ZKEVM_CHAIN_PROVER_RPCD} \
         --zkevmRpcdParamsPath /data \
         --l1.proverPrivKey ${L2_PROVER_PRIVATE_KEY} \
-        --maxConcurrentProvingJobs 1 \
+        --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM} \
         --prover.proveUnassignedBlocks=false
     fi
 else
