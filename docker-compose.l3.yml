@@ -123,7 +123,7 @@ services:
       - -c
       - "/script/start-zkevm-chain-rpcd.sh"
     deploy:
-      replicas: ${ZKEVM_CHAIN_INSTANCES_NUM}
+      replicas: ${ZKEVM_CHAIN_INSTANCES_NUM:-1}
       resources:
         limits:
           memory: 32G
