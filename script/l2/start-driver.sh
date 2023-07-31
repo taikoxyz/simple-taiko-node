@@ -4,7 +4,7 @@ set -eou pipefail
 
 if ["$START_L2_NODE" == "false"] then;
     sleep infinity
-else if [ "$L2_DISABLE_P2P_SYNC" == "false" ]; then
+elif [ "$L2_DISABLE_P2P_SYNC" == "false" ]; then
     taiko-client driver \
         --l1.ws ${L1_ENDPOINT_WS} \
         --l2.ws ws://l2_execution_engine:8546 \
