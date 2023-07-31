@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if ["$START_L2_NODE" == "false"] then;
+if ["$START_L2_NODE" == "false"]; then
     sleep infinity
 elif [ "$L2_DISABLE_P2P_SYNC" == "false" ]; then
     taiko-client driver \
