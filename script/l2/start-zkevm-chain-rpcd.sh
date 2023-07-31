@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" == "true" ]; then
+if [ "$L2_ENABLE_PROVER" == "true" ]; then
     mkdir -p /data
 
     if [ ! -f "/data/19.bin" ];then

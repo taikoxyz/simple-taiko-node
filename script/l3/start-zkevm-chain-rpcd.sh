@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" == "true" ]; then
+if [ "$L3_ENABLE_PROVER" == "true" ]; then
     mkdir -p /data
 
     rm -rf /data/kzg_bn254_21.srs && wget https://storage.googleapis.com/zkevm-circuits-keys/kzg_bn254_21.srs -P /data

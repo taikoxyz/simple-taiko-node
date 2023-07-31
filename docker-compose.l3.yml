@@ -24,7 +24,7 @@ services:
     command:
       - --taiko
       - --networkid
-      - "${CHAIN_ID}"
+      - "${L3_CHAIN_ID}"
       - --syncmode
       - full
       - --gcmode

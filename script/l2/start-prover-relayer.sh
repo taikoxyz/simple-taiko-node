@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" == "true" ]; then
+if [ "$L2_ENABLE_PROVER" == "true" ]; then
     if [ ! -f "./wait" ];then
         wget https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait
         chmod +x ./wait
@@ -15,11 +15,11 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --l2.ws ws://l2_execution_engine:8546 \
         --l1.http ${L1_ENDPOINT_HTTP} \
         --l2.http http://l2_execution_engine:8545 \
-        --taikoL1 ${TAIKO_L1_ADDRESS} \
-        --taikoL2 ${TAIKO_L2_ADDRESS} \
+        --taikoL1 ${TAIKO_L1_ADDRESS_ON_L1} \
+        --taikoL2 ${TAIKO_L2_ADDRESS_ON_L2} \
         --zkevmRpcdEndpoint http://zkevm_chain_prover_rpcd:9000 \
         --zkevmRpcdParamsPath /data \
-        --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY} \
+        --l1.proverPrivKey ${L2_PROVER_PRIVATE_KEY} \
         --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}
 else
     sleep infinity
