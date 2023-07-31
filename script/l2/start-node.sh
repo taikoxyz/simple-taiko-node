@@ -3,7 +3,7 @@
 set -eou pipefail
 
 if [ "$START_L2_NODE" == "true" ]; then
-    taiko-client \
+    geth \
         --taiko
         --networkid="${L2_CHAIN_ID}"
         --syncmode=full
