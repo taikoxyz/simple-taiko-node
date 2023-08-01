@@ -55,6 +55,26 @@ services:
       - "*"
     <<: *logging
 
+  sepolia_execution_engine:
+    image: thorax/erigon:v2.48.1
+    restart: unless-stopped
+    pull_policy: always
+    env_file:
+      - .env
+    volumes:
+      - sepolia_execution_engine_data:/data/sepolia
+      - ./script/l1:/script
+    ports:
+      - "${PORT_L1_EXECTION_ENGINE_METRICS}:6060"
+      - "${PORT_L1_EXECTION_ENGINE_HTTP}:8545"
+      - "${PORT_L1_EXECTION_ENGINE_P2P}:30303"
+      - "${PORT_L1_EXECTION_ENGINE_P2P}:30303/udp"
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "/script/start-sepolia-node.sh"
+    <<: *logging
+
   taiko_client_driver:
     image: gcr.io/evmchain/taiko-client:grimsvotn
     restart: unless-stopped
