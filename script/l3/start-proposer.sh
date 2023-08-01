@@ -16,7 +16,7 @@ if [[ -v "$TXPOOL_LOCALS" ]]; then
 fi
 
 if [[ -v "$PROPOSE_BLOCK_TX_GAS_LIMIT" ]]; then
-    ARGS="${ARGS} --proposeBlockGasLimit ${PROPOSE_BLOCK_TX_GAS_LIMIT}"
+    ARGS="${ARGS} --proposeBlockTxGasLimit ${PROPOSE_BLOCK_TX_GAS_LIMIT}"
 fi
 
 if [ "$ENABLE_PROPOSER" == "true" ]; then
