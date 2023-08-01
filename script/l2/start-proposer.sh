@@ -11,12 +11,12 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
     --minimalBlockGasLimit 5000000"
 
-if [[ -v "$TXPOOL_LOCALS" ]]; then
+if [[ ! -z "$TXPOOL_LOCALS" ]]; then
     ARGS="${ARGS} --txpool.localsOnly"
     ARGS="${ARGS} --txpool.locals ${TXPOOL_LOCALS}"
 fi
 
-if [[ -v "$PROPOSE_BLOCK_TX_GAS_LIMIT" ]]; then
+if [[ ! -z "$PROPOSE_BLOCK_TX_GAS_LIMIT" ]]; then
     ARGS="${ARGS} --proposeBlockTxGasLimit ${PROPOSE_BLOCK_TX_GAS_LIMIT}"
 fi
 
