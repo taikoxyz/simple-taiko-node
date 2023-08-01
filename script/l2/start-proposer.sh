@@ -20,10 +20,6 @@ if [[ ! -z "$PROPOSE_BLOCK_TX_GAS_LIMIT" ]]; then
     ARGS="${ARGS} --proposeBlockTxGasLimit ${PROPOSE_BLOCK_TX_GAS_LIMIT}"
 fi
 
-if [[ ! -z "$WAIT_RECEIPT_TIMEOUT" ]]; then
-    ARGS="${ARGS} --rpc.waitReceiptTimeout ${WAIT_RECEIPT_TIMEOUT}"
-fi
-
 if [ "$ENABLE_PROPOSER" == "true" ]; then
     taiko-client proposer ${ARGS}
 else
