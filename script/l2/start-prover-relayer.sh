@@ -21,10 +21,6 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}"
 
-    if [[ ! -z "$WAIT_RECEIPT_TIMEOUT" ]]; then
-        ARGS="${ARGS} --rpc.waitReceiptTimeout ${WAIT_RECEIPT_TIMEOUT}"
-    fi
-
     taiko-client prover {$ARGS}
 else
     sleep infinity
