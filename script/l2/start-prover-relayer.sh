@@ -21,7 +21,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}"
 
-    taiko-client prover {$ARGS}
+    taiko-client prover ${ARGS}
 else
     sleep infinity
 fi
