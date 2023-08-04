@@ -30,9 +30,8 @@ if [ "$ENABLE_PROVER" == "true" ]; then
     if [[ ! -z "$PROVE_UNASSIGNED_BLOCKS" ]]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     else
-        ARGS="${ARGS} --prover.proveUnassignedBlocks false"
+        ARGS="${ARGS} --prover.proveUnassignedBlocks=false"
     fi
-    
 
     taiko-client prover ${ARGS}
 else
