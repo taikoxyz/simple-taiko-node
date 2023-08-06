@@ -29,8 +29,6 @@ if [ "$ENABLE_PROVER" == "true" ]; then
 
     if [ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
-    else
-        ARGS="${ARGS} --prover.proveUnassignedBlocks=false"
     fi
 
     taiko-client prover ${ARGS}
