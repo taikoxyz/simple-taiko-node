@@ -27,12 +27,11 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         ARGS="${ARGS} --rpc.waitReceiptTimeout ${WAIT_RECEIPT_TIMEOUT}"
     fi
 
-    if [[ ! -z "$PROVE_UNASSIGNED_BLOCKS" ]]; then
+    if [ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     else
-        ARGS="${ARGS} --prover.proveUnassignedBlocks false"
+        ARGS="${ARGS} --prover.proveUnassignedBlocks=false"
     fi
-    
 
     taiko-client prover ${ARGS}
 else
