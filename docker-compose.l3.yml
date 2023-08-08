@@ -55,8 +55,7 @@ services:
       - "0.0.0.0"
       - --ws.origins
       - "*"
-      - --rpc.allow-unprotected-txs
-      - "${ALLOW_UNPROTECTED_TXS:-false}"
+      - --rpc.allow-unprotected-txs=${ALLOW_UNPROTECTED_TXS-false}
     <<: *logging
 
   l3_taiko_client_driver:
