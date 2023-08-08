@@ -54,7 +54,7 @@ services:
       - --ws.origins
       - "*"
       - --rpc.allow-unprotected-txs
-      - ${ALLOW_UNPROTECTED_TXS:-false}
+      - "${ALLOW_UNPROTECTED_TXS:-false}"
     <<: *logging
 
   taiko_client_driver:
