@@ -21,6 +21,10 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}"
 
+    if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
+        ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
+    fi
+
     taiko-client prover ${ARGS}
 else
     sleep infinity
