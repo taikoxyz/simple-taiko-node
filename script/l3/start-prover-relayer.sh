@@ -27,6 +27,10 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         ARGS="${ARGS} --rpc.waitReceiptTimeout ${WAIT_RECEIPT_TIMEOUT}"
     fi
 
+    if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
+        ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
+    fi
+
     if [ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
