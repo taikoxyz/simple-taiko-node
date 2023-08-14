@@ -31,6 +31,10 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
     fi
 
+    if [[ ! -z "$PROOF_SKIP_SIZE" ]]; then
+        ARGS="${ARGS} --prover.proofSkipSize ${PROOF_SKIP_SIZE}"
+    fi
+
     if [ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
