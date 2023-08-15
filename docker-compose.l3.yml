@@ -16,11 +16,11 @@ services:
     volumes:
       - l3_execution_engine_data:/data/taiko-geth
     ports:
-      - "${PORT_L3_EXECTION_ENGINE_METRICS}:6060"
-      - "${PORT_L3_EXECTION_ENGINE_HTTP}:8545"
-      - "${PORT_L3_EXECTION_ENGINE_WS}:8546"
-      - "${PORT_L3_EXECTION_ENGINE_P2P}:30303"
-      - "${PORT_L3_EXECTION_ENGINE_P2P}:30303/udp"
+      - "${PORT_L3_EXECUTION_ENGINE_METRICS}:6060"
+      - "${PORT_L3_EXECUTION_ENGINE_HTTP}:8545"
+      - "${PORT_L3_EXECUTION_ENGINE_WS}:8546"
+      - "${PORT_L3_EXECUTION_ENGINE_P2P}:30303"
+      - "${PORT_L3_EXECUTION_ENGINE_P2P}:30303/udp"
     command:
       - --taiko
       - --networkid
