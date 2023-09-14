@@ -19,6 +19,8 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --zkevmRpcdEndpoint http://zkevm_chain_prover_rpcd:9000
         --zkevmRpcdParamsPath /data
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
+        --prover.minProofFee ${MIN_ACCEPTABLE_PROOF_FEE}
+        --prover.capacity ${ZKEVM_CHAIN_INSTANCES_NUM}
         --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}"
 
     if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then

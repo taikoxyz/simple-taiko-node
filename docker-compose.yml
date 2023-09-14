@@ -80,6 +80,8 @@ services:
       - l2_execution_engine
       - taiko_client_driver
       - zkevm_chain_prover_rpcd
+    ports:
+      - "${PROT_PROVER_SERVER}:9876"
     env_file:
       - .env
     volumes:

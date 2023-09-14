@@ -8,6 +8,8 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --taikoL1 ${TAIKO_L1_ADDRESS}
     --taikoL2 ${TAIKO_L2_ADDRESS}
     --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
+    --proverEndpoints "http://taiko_client_prover_relayer:9876"
+    --blockProposalFee ${MIN_ACCEPTABLE_PROOF_FEE}
     --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
 
 if [[ ! -z "$TXPOOL_LOCALS" ]]; then
