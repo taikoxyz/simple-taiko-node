@@ -5,8 +5,8 @@ set -eou pipefail
 if [ "$ENABLE_PROVER" == "true" ]; then
     mkdir -p /data
 
-    if [ ! -f "/data/19.bin" ];then
-        wget https://storage.googleapis.com/zkevm-circuits-keys/19.bin -P /data
+    if [ ! -f "/data/kzg_bn254_22.srs" ];then
+        wget https://storage.googleapis.com/zkevm-circuits-keys/kzg_bn254_22.srs -P /data
     fi
 
     /prover_rpcd \
