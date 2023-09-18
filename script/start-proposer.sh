@@ -10,7 +10,7 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
     --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
     --proverEndpoints ${PROVER_ENDPOINTS}
-    --blockProposalFee ${MIN_ACCEPTABLE_PROOF_FEE}
+    --blockProposalFee ${BLOCK_PROPOSAL_FEE}
     --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
 
 if [[ ! -z "$TXPOOL_LOCALS" ]]; then
