@@ -5,8 +5,6 @@
 # If a key is present in .env.sample but not in .env, it should be added to .env.
 # If a key is present in both, and the value in .env.sample is non-empty, the value in .env should be updated.
 # If a key is present in both, and the value in .env.sample is empty, the value in .env should be retained.
-#
-# Run the script with "l2" or "l3" argument to update .env or .env.l3 file respectively.
 
 set -o pipefail  # Exit on pipe command errors
 
@@ -40,13 +38,5 @@ update_env() {
     mv "${env_path}.new" "$env_path"  # replace original .env file with the new one
 }
 
-# Command handling
-if [[ $1 == "l2" ]]; then
-    update_env ".env" ".env.sample"
-elif [[ $1 == "l3" ]]; then
-    update_env ".env.l3" ".env.sample.l3"
-else
-    echo "Invalid command. Use 'l2' or 'l3'."
-    exit 1
-fi
+update_env ".env" ".env.sample"
 
