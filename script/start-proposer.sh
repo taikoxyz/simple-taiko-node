@@ -9,7 +9,7 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --taikoL2 ${TAIKO_L2_ADDRESS}
     --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
     --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
-    --proverEndpoints "http://taiko_client_prover_relayer:9876"
+    --proverEndpoints ${PROVER_ENDPOINTS}
     --blockProposalFee ${MIN_ACCEPTABLE_PROOF_FEE}
     --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
 
