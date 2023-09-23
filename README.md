@@ -24,28 +24,28 @@
 
 </div>
 
-# Run a Taiko Node
+# 🚀 Run a Taiko Node
 
 [This guide](https://taiko.xyz/docs/guides/run-a-taiko-node) will help you start up a Taiko RPC node.
 
-## Prerequisites
+## 📋 Prerequisites
 
 - [Docker](https://docs.docker.com/engine/install/) is installed and running.
 - [Git](https://github.com/git-guides/install-git/) is installed.
 - Meet the [Geth minimum hardware requirements](https://github.com/ethereum/go-ethereum#hardware-requirements), except for the storage requirement. As of `2023-09-18` a node uses less than 10 GB. 100 GB should be future-proof enough if you intend to run your node for a while.
 
-## Steps
+## 🛠️ Steps
 
-### 1. Clone simple-taiko-node
+### 1. Clone simple-taiko-node 📦
 
-#### Mac/Linux
+#### 🍏 Mac/Linux
 
 ```bash
 git clone https://github.com/taikoxyz/simple-taiko-node.git
 cd simple-taiko-node
 ```
 
-#### Windows
+#### 💻 Windows
 
 ```bash
 git clone https://github.com/taikoxyz/simple-taiko-node.git
@@ -53,23 +53,23 @@ cd simple-taiko-node
 git config core.autocrlf false
 ```
 
-### 2. Copy the sample .env files
+### 2. Copy the sample .env files 📄
 
 ```bash
 cp .env.sample .env
 ```
 
-### 3. Set the required values in the `.env` file
+### 3. Set the required values in the .env file 📝
 
-**First**, open the .env in your preferred text editor:
+**First**, open the `.env` in your preferred text editor:
 
-#### Mac/Linux
+#### 🍏 Mac/Linux
 
 ```bash
 nano .env
 ```
 
-#### Windows
+#### 💻 Windows
 
 ```bash
 notepad .env
@@ -81,7 +81,7 @@ notepad .env
 
 **Recommended**: Run your own Sepolia archive node, see: [Run a Sepolia node](https://taiko.xyz/docs/guides/run-a-sepolia-node). This is recommended because you will eventually be rate-limited by public RPC providers.
 
-**Alternative**: [Alchemy](https://www.alchemy.com) and [Infura](https://www.infura.io) are two popular RPC providers. Make sure you select the RPC as Sepolia testnet, and not Ethereum mainnet.
+🔄 **Alternative**: [Alchemy](https://www.alchemy.com) and [Infura](https://www.infura.io) are two popular RPC providers. Make sure you select the RPC as Sepolia testnet, and not Ethereum mainnet.
 
 <details>
   <summary><strong>Local</strong></summary>
@@ -156,7 +156,7 @@ This is your `L1_ENDPOINT_WS` on your `.env`.
 
 Take a look at the comments above these values in the `.env.sample` to see how to set them up.
 
-### 4. Start a node
+### 4. Start a node 🏁
 
 Make sure Docker is running and then run the following command to start the node:
 
@@ -164,15 +164,15 @@ Make sure Docker is running and then run the following command to start the node
 sudo docker compose up -d
 ```
 
-### 5. Verify node is running
+### 5. Verify node is running ✅
 
-#### Check with the node dashboard
+#### 📊 Check with the node dashboard
 
 A node dashboard will be running on `localhost` on the `GRAFANA_PORT` you set in your `.env` file, which defaults to `3001`: http://localhost:3001/d/L2ExecutionEngine/l2-execution-engine-overview.
 
 You can verify that your node is syncing by checking the **chain head** on the dashboard and seeing that it is increasing. Once the chain head matches what's on the block explorer, you are fully synced.
 
-#### Check with curl commands
+#### 🖥️ Check with curl commands
 
 1. Check if the Execution Layer client is connected to Taiko L2:
 
@@ -208,15 +208,15 @@ If you find an error, check the [Node troubleshooting page](https://taiko.xyz/do
 
 ![image](https://github.com/fonckchain/simple-taiko-node/assets/30877952/ecbc4434-3c55-43cc-ab08-37471668f73f)
 
-### 6. Operate the node
+### 6. Operate the node 🕹️
 
 You can find all node operations (eg. stop node, update node, remove node, view logs) in the [Node runner manual](https://taiko.xyz/docs/manuals/node-runner-manual).
 
-## Videos
+## 🎥 Videos
 
 - [Run a Taiko L2 node (YouTube)](https://www.youtube.com/watch?v=l_tVvDcuK5o) (deprecated, but still useful)
 
-## Troubleshooting
+## ❗ Troubleshooting
 
 - View the [Node troubleshooting reference](https://taiko.xyz/docs/reference/node-troubleshooting) for help on any common error codes / issues.
 - View the logs of the node (see all log commands in the [Node runner manual](https://taiko.xyz/docs/manuals/node-runner-manual)).
