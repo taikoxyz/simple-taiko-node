@@ -16,6 +16,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --l2.http http://l2_execution_engine:8545
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
+        --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --zkevmRpcdEndpoint http://zkevm_chain_prover_rpcd:9000
         --zkevmRpcdParamsPath /data
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
@@ -25,6 +26,10 @@ if [ "$ENABLE_PROVER" == "true" ]; then
 
     if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
         ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
+    fi
+
+    if [[ ! -z "$PROVE_UNASSIGNED_BLOCKS" ]]; then
+        ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
 
     taiko-client prover ${ARGS}
