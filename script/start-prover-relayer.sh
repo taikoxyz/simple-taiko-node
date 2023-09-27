@@ -28,7 +28,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
     fi
 
-    if [[ ! -z "$PROVE_UNASSIGNED_BLOCKS" ]]; then
+    if [[ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
 
