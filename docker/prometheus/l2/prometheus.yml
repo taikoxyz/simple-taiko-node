@@ -17,3 +17,19 @@ scrape_configs:
     static_configs:
       - targets:
           - l2_execution_engine:6060
+  - job_name: proposer
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /debug/metrics/prometheus
+    scheme: http
+    static_configs:
+      - targets:
+          - taiko_client_proposer:6060
+  - job_name: prover
+    scrape_interval: 15s
+    scrape_timeout: 10s
+    metrics_path: /debug/metrics/prometheus
+    scheme: http
+    static_configs:
+      - targets:
+          - taiko_client_prover_relayer:6060
