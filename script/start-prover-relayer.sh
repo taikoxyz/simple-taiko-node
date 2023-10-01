@@ -23,7 +23,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --prover.minProofFee ${MIN_ACCEPTABLE_PROOF_FEE}
         --prover.capacity ${ZKEVM_CHAIN_INSTANCES_NUM}
         --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}
-        --metrics ${METRICS_ENABLED}"
+        --metrics ${PROPOSER_METRICS_ENABLED}"
 
     if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
         ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
