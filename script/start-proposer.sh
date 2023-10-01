@@ -11,7 +11,8 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
     --proverEndpoints ${PROVER_ENDPOINTS}
     --blockProposalFee ${BLOCK_PROPOSAL_FEE}
-    --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
+    --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
+    --metrics ${PROPOSER_METRICS_ENABLED}"
 
 if [[ ! -z "$TXPOOL_LOCALS" ]]; then
     ARGS="${ARGS} --txpool.localsOnly"
