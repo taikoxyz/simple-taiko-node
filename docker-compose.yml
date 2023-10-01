@@ -82,7 +82,7 @@ services:
       - zkevm_chain_prover_rpcd
     ports:
       - "${PORT_PROVER_SERVER}:9876"
-      - -${PORT_PROVER_METRICS}:6060
+      - "${PORT_PROVER_METRICS}:6060"
     env_file:
       - .env
     volumes:
@@ -98,7 +98,7 @@ services:
     restart: unless-stopped
     pull_policy: always
     ports:
-      -${PORT_PROPOSER_METRICS}:6060
+      - "${PORT_PROPOSER_METRICS}:6060"
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
