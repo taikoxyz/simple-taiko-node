@@ -29,5 +29,6 @@ fi
 if [ "$ENABLE_PROPOSER" == "true" ]; then
     taiko-client proposer ${ARGS}
 else
+    echo "PROPOSER IS DISABLED"
     sleep infinity
 fi
