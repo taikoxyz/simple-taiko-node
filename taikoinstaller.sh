@@ -2,6 +2,40 @@
 
 # Created with passion by @iwantanode
 
+configureEnvironment()
+{
+  local ENABLE=$1
+  local PRIVATE_KEY_TYPE=$2
+  local GAS_LIMIT_TYPE=$3
+  local GAS_LIMIT=$4
+
+echo "Enabling prover/proposer.....0%"
+echo "Enabling prover/proposer.....40%"
+echo "Enabling prover/proposer.....100%"
+echo "$ENABLE=false"
+sed -i "s|$ENABLE=false|$ENABLE=true|" .env
+
+#Prompt the user for the layer1 private key
+read -p "Enter layer 1 private key NOT WITH REAL $ " PRIVATE_KEY
+
+# Update the private key
+sed -i "s|$PRIVATE_KEY_TYPE=|$PRIVATE_KEY_TYPE=${PRIVATE_KEY}|" .env
+echo "Adding private key.....0%"
+echo "Adding private key.....40%"
+echo "Adding private key.....100%"
+
+# Set tx gas limit PROVE_BLOCK_TX_GAS_LIMIT
+sed -i "s|$GAS_LIMIT_TYPE=|$GAS_LIMIT_TYPE=$GAS_LIMIT|" .env
+}
+
+configureBeneficiaryAddress()
+{
+  local L2_RECIPIENT=$1
+   read -p "Enter A L2 account address who will be the tx fee beneficiary of the L2 blocks that you proposed " L2_SUGGESTED_FEE_RECIPIENT
+   sed -i "s|$L2_RECIPIENT=|$L2_RECIPIENT=${L2_SUGGESTED_FEE_RECIPIENT}|" .env
+}
+
+
 # Check if docker is installed, else install it
 if command -v docker &>/dev/null; then
   echo "Docker is already installed."
@@ -34,17 +68,6 @@ else
   sudo apt-get install git-all
 fi
 
-
-
-
-
-
-
-
-
-
-
-
 # Clone the repository
 git clone https://github.com/taikoxyz/simple-taiko-node.git
 
@@ -53,6 +76,19 @@ cd simple-taiko-node
 
 # Copy env file
 cp .env.sample .env
+
+read -p "Enter L1_ENDPOINT_HTTP: (you can get it -> https://infura.io/) " L1_ENDPOINT_HTTP
+
+# Prompt the user for L1_ENDPOINT_WS input
+read -p "Enter L1_ENDPOINT_WS: (you can get it -> https://infura.io/) " L1_ENDPOINT_WS
+
+# Update the configuration file
+sed -i "s|L1_ENDPOINT_HTTP=|L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}|" .env
+sed -i "s|L1_ENDPOINT_WS=|L1_ENDPOINT_WS=${L1_ENDPOINT_WS}|" .env
+
+echo "Configuration updated with the following values:"
+echo "L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}"
+echo "L1_ENDPOINT_WS=${L1_ENDPOINT_WS}"
 
 # Chosing between prover, proposer or both to be installed
 
@@ -65,120 +101,20 @@ read choice
 case $choice in
   "A" | "a")
     echo "You selected option A."
-    # Prompt the user for L1_ENDPOINT_HTTP input
-read -p "Enter L1_ENDPOINT_HTTP: " L1_ENDPOINT_HTTP
-
-# Prompt the user for L1_ENDPOINT_WS input
-read -p "Enter L1_ENDPOINT_WS: " L1_ENDPOINT_WS
-
-# Update the configuration file
-sed -i "s|L1_ENDPOINT_HTTP=|L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}|" .env
-sed -i "s|L1_ENDPOINT_WS=|L1_ENDPOINT_WS=${L1_ENDPOINT_WS}|" .env
-
-echo "Configuration updated with the following values:"
-echo "L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}"
-echo "L1_ENDPOINT_WS=${L1_ENDPOINT_WS}"
-echo "Enabling prover.....0%"
-echo "Enabling prover.....40%"
-echo "Enabling prover.....100%"
-sed -i "s|ENABLE_PROVER=false|ENABLE_PROVER=true|" .env
-
-#Prompt the user for the layer1 private key
-read -p "Enter layer 1 private key NOT WITH REAL $ " L1_PROVER_PRIVATE_KEY
-
-# Update the private key
-sed -i "s|L1_PROVER_PRIVATE_KEY=|L1_PROVER_PRIVATE_KEY=${L1_PROVER_PRIVATE_KEY}|" .env
-echo "Adding private key.....0%"
-echo "Adding private key.....40%"
-echo "Adding private key.....100%"
-
-# Set tx gas limit PROVE_BLOCK_TX_GAS_LIMIT
-sed -i "s|PROVE_BLOCK_TX_GAS_LIMIT=|PROVE_BLOCK_TX_GAS_LIMIT=10000000000|" .env
+    configureEnvironment "ENABLE_PROVER" "L1_PROVER_PRIVATE_KEY" "PROVE_BLOCK_TX_GAS_LIMIT" "10000000000"
 
     ;;
   "B" | "b")
     echo "You selected option B."
-    read -p "Enter L1_ENDPOINT_HTTP: " L1_ENDPOINT_HTTP
-
-# Prompt the user for L1_ENDPOINT_WS input
-read -p "Enter L1_ENDPOINT_WS: " L1_ENDPOINT_WS
-
-# Update the configuration file
-sed -i "s|L1_ENDPOINT_HTTP=|L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}|" .env
-sed -i "s|L1_ENDPOINT_WS=|L1_ENDPOINT_WS=${L1_ENDPOINT_WS}|" .env
-
-echo "Configuration updated with the following values:"
-echo "L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}"
-echo "L1_ENDPOINT_WS=${L1_ENDPOINT_WS}"
-echo "Enabling proposer.....0%"
-echo "Enabling proposer.....40%"
-echo "Enabling proposer.....100%"
-sed -i "s|ENABLE_PROPOSER=false|ENABLE_PROPOSER=true|" .env
-
-#Prompt the user for the layer1 private key
-read -p "Enter layer 1 private key NOT WITH REAL $ " L1_PROPOSER_PRIVATE_KEY
-
-# Update the private key
-sed -i "s|L1_PROPOSER_PRIVATE_KEY=|L1_PROPOSER_PRIVATE_KEY=${L1_PROPOSER_PRIVATE_KEY}|" .env
-echo "Adding private key.....0%"
-echo "Adding private key.....40%"
-echo "Adding private key.....100%"
-
-# Set tx gas limit PROVE_BLOCK_TX_GAS_LIMIT
-sed -i "s|PROPOSE_BLOCK_TX_GAS_LIMIT=|PROPOSE_BLOCK_TX_GAS_LIMIT=80000000|" .env
-
-read -p "Enter A L2 account address who will be the tx fee beneficiary of the L2 blocks that you proposed " L2_SUGGESTED_FEE_RECIPIENT
-sed -i "s|L2_SUGGESTED_FEE_RECIPIENT=|L2_SUGGESTED_FEE_RECIPIENT=${L2_SUGGESTED_FEE_RECIPIENT}|" .env
-
-
+        configureEnvironment "ENABLE_PROPOSER" "L1_PROPOSER_PRIVATE_KEY" "PROPOSE_BLOCK_TX_GAS_LIMIT" "80000000"
+        configureBeneficiaryAddress "L2_SUGGESTED_FEE_RECIPIENT"
     ;;
   "C" | "c")
     echo "You selected option C."
-    read -p "Enter L1_ENDPOINT_HTTP: " L1_ENDPOINT_HTTP
-
-# Prompt the user for L1_ENDPOINT_WS input
-read -p "Enter L1_ENDPOINT_WS: " L1_ENDPOINT_WS
-
-# Update the configuration file
-sed -i "s|L1_ENDPOINT_HTTP=|L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}|" .env
-sed -i "s|L1_ENDPOINT_WS=|L1_ENDPOINT_WS=${L1_ENDPOINT_WS}|" .env
-
-echo "Configuration updated with the following values:"
-echo "L1_ENDPOINT_HTTP=${L1_ENDPOINT_HTTP}"
-echo "L1_ENDPOINT_WS=${L1_ENDPOINT_WS}"
-echo "Enabling prover.....0%"
-echo "Enabling prover.....40%"
-echo "Enabling prover.....100%"
-sed -i "s|ENABLE_PROVER=false|ENABLE_PROVER=true|" .env
-
-#Prompt the user for the layer1 private key
-read -p "Enter layer 1 private key NOT WITH REAL for PROVER$ " L1_PROVER_PRIVATE_KEY
-
-# Update the private key
-sed -i "s|L1_PROVER_PRIVATE_KEY=|L1_PROVER_PRIVATE_KEY=${L1_PROVER_PRIVATE_KEY}|" .env
-echo "Adding private key.....0%"
-echo "Adding private key.....40%"
-echo "Adding private key.....100%"
-
-# Set tx gas limit PROVE_BLOCK_TX_GAS_LIMIT
-sed -i "s|PROVE_BLOCK_TX_GAS_LIMIT=|PROVE_BLOCK_TX_GAS_LIMIT=10000000000|" .env
-sed -i "s|ENABLE_PROPOSER=false|ENABLE_PROPOSER=true|" .env
-
-#Prompt the user for the layer1 private key
-read -p "Enter layer 1 private key NOT WITH REAL for PROPOSER (could be same as above)$ " L1_PROPOSER_PRIVATE_KEY
-
-# Update the private key
-sed -i "s|L1_PROPOSER_PRIVATE_KEY=|L1_PROPOSER_PRIVATE_KEY=${L1_PROPOSER_PRIVATE_KEY}|" .env
-echo "Adding private key.....0%"
-echo "Adding private key.....40%"
-echo "Adding private key.....100%"
-
-# Set tx gas limit PROVE_BLOCK_TX_GAS_LIMIT
-sed -i "s|PROPOSE_BLOCK_TX_GAS_LIMIT=|PROPOSE_BLOCK_TX_GAS_LIMIT=80000000|" .env
-
-read -p "Enter A L2 account address who will be the tx fee beneficiary of the L2 blocks that you proposed " L2_SUGGESTED_FEE_RECIPIENT
-sed -i "s|L2_SUGGESTED_FEE_RECIPIENT=|L2_SUGGESTED_FEE_RECIPIENT=${L2_SUGGESTED_FEE_RECIPIENT}|" .env
-    ;;
+        configureEnvironment "ENABLE_PROVER" "L1_PROVER_PRIVATE_KEY" "PROVE_BLOCK_TX_GAS_LIMIT" "10000000000"
+        configureEnvironment "ENABLE_PROPOSER" "L1_PROPOSER_PRIVATE_KEY" "PROPOSE_BLOCK_TX_GAS_LIMIT" "80000000"
+        configureBeneficiaryAddress "L2_SUGGESTED_FEE_RECIPIENT"
+   ;;
   *)
     echo "Invalid choice. Please select A, B, or C."
     ;;
