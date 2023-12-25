@@ -110,7 +110,7 @@ services:
     <<: *logging
 
   zkevm_chain_prover_rpcd:
-    image: gcr.io/evmchain/jolnir-proverd:latest
+    image: gcr.io/evmchain/jolnir-proverd
     restart: unless-stopped
     pull_policy: always
     env_file:
@@ -130,7 +130,7 @@ services:
     <<: *logging
 
   prometheus:
-    image: prom/prometheus:latest
+    image: prom/prometheus
     restart: unless-stopped
     ports:
       - ${PORT_PROMETHEUS}:9090
@@ -146,7 +146,7 @@ services:
     <<: *logging
 
   grafana:
-    image: grafana/grafana:latest
+    image: grafana/grafana
     restart: unless-stopped
     ports:
       - ${PORT_GRAFANA}:3000
