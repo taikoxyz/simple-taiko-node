@@ -39,4 +39,3 @@ update_env() {
 }
 
 update_env ".env" ".env.sample"
-

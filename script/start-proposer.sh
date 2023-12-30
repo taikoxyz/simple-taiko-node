@@ -8,10 +8,12 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --taikoL1 ${TAIKO_L1_ADDRESS}
     --taikoL2 ${TAIKO_L2_ADDRESS}
     --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
+    --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}
     --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
     --proverEndpoints ${PROVER_ENDPOINTS}
-    --blockProposalFee ${BLOCK_PROPOSAL_FEE}
-    --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
+    --tierFee.optimistic ${BLOCK_PROPOSAL_FEE}
+    --tierFee.sgx ${BLOCK_PROPOSAL_FEE}
+    --tierFee.pseZKEvm ${BLOCK_PROPOSAL_FEE}
 
 if [[ ! -z "$TXPOOL_LOCALS" ]]; then
     ARGS="${ARGS} --txpool.localsOnly"
@@ -19,11 +21,11 @@ if [[ ! -z "$TXPOOL_LOCALS" ]]; then
 fi
 
 if [[ ! -z "$PROPOSE_BLOCK_TX_GAS_LIMIT" ]]; then
-    ARGS="${ARGS} --proposeBlockTxGasLimit ${PROPOSE_BLOCK_TX_GAS_LIMIT}"
+    ARGS="${ARGS} --tx.gasLimit ${PROPOSE_BLOCK_TX_GAS_LIMIT}"
 fi
 
 if [[ ! -z "$PROPOSE_BLOCK_TX_GAS_TIP_CAP" ]]; then
-    ARGS="${ARGS} --proposeBlockTxGasTipCap ${PROPOSE_BLOCK_TX_GAS_TIP_CAP}"
+    ARGS="${ARGS} --tx.gasTipCap ${PROPOSE_BLOCK_TX_GAS_TIP_CAP}"
 fi
 
 if [ "$ENABLE_PROPOSER" == "true" ]; then
