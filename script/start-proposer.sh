@@ -13,7 +13,7 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --proverEndpoints ${PROVER_ENDPOINTS}
     --tierFee.optimistic ${BLOCK_PROPOSAL_FEE}
     --tierFee.sgx ${BLOCK_PROPOSAL_FEE}
-    --tierFee.pseZKEvm ${BLOCK_PROPOSAL_FEE}
+    --tierFee.pseZKEvm ${BLOCK_PROPOSAL_FEE}"
 
 if [[ ! -z "$TXPOOL_LOCALS" ]]; then
     ARGS="${ARGS} --txpool.localsOnly"
