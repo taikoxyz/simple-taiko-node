@@ -31,7 +31,7 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         ARGS="${ARGS} --tx.gasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
     fi
 
-    if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
+    if [[ ! -z "$TOKEN_ALLOWANCE" ]]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
     fi
 
