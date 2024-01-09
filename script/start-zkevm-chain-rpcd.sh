@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" == "true" ]; then
+if [ "$ENABLE_PROVER" = "true" ]; then
     mkdir -p /data
 
     if [ ! -f "/data/kzg_bn254_22.srs" ];then

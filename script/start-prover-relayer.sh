@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" == "true" ]; then
+if [ "$ENABLE_PROVER" = "true" ]; then
     if [ ! -f "./wait" ];then
         wget https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait
         chmod +x ./wait
@@ -24,11 +24,11 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --prover.capacity ${ZKEVM_CHAIN_INSTANCES_NUM}
         --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}"
 
-    if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
+    if [ -n "$PROVE_BLOCK_TX_GAS_LIMIT" ]; then
         ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
     fi
 
-    if [[ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]]; then
+    if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
 

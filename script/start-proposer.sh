@@ -1,4 +1,3 @@
-
 #!/bin/sh
 
 set -eou pipefail
@@ -13,16 +12,16 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --blockProposalFee ${BLOCK_PROPOSAL_FEE}
     --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
 
-if [[ ! -z "$TXPOOL_LOCALS" ]]; then
+if [ -n "$TXPOOL_LOCALS" ]; then
     ARGS="${ARGS} --txpool.localsOnly"
     ARGS="${ARGS} --txpool.locals ${TXPOOL_LOCALS}"
 fi
 
-if [[ ! -z "$PROPOSE_BLOCK_TX_GAS_LIMIT" ]]; then
+if [ -n "$PROPOSE_BLOCK_TX_GAS_LIMIT" ]; then
     ARGS="${ARGS} --proposeBlockTxGasLimit ${PROPOSE_BLOCK_TX_GAS_LIMIT}"
 fi
 
-if [[ ! -z "$PROPOSE_BLOCK_TX_GAS_TIP_CAP" ]]; then
+if [ -n "$PROPOSE_BLOCK_TX_GAS_TIP_CAP" ]; then
     ARGS="${ARGS} --proposeBlockTxGasTipCap ${PROPOSE_BLOCK_TX_GAS_TIP_CAP}"
 fi
 
