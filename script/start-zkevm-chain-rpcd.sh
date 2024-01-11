@@ -1,13 +1,11 @@
-#!/bin/sh
+#!/bin/bash
 
 set -eou pipefail
 
 if [ "$ENABLE_PROVER" = "true" ]; then
     mkdir -p /data
 
-    if [ ! -f "/data/kzg_bn254_22.srs" ];then
-        wget https://storage.googleapis.com/zkevm-circuits-keys/kzg_bn254_22.srs -P /data
-    fi
+    wget https://storage.googleapis.com/zkevm-circuits-keys/kzg_bn254_22.srs -P /data
 
     /prover_rpcd \
         --bind 0.0.0.0:9000 \
