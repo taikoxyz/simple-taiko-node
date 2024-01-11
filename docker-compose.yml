@@ -110,7 +110,7 @@ services:
     <<: *logging
 
   zkevm_chain_prover_rpcd:
-    image: gcr.io/evmchain/internal-devnet-proverd:latest
+    image: gcr.io/evmchain/katla-proverd:latest
     restart: unless-stopped
     pull_policy: always
     env_file:
