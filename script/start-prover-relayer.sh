@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" == "true" ]; then
+if [ "$ENABLE_PROVER" = "true" ]; then
     if [ ! -f "./wait" ];then
         wget https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait
         chmod +x ./wait
@@ -27,15 +27,15 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --minTierFee.pseZKEvm ${MIN_ACCEPTABLE_PROOF_FEE}
         --prover.capacity ${ZKEVM_CHAIN_INSTANCES_NUM}"
 
-    if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
+    if [ -n "$PROVE_BLOCK_TX_GAS_LIMIT" ]; then
         ARGS="${ARGS} --tx.gasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
     fi
 
-    if [[ ! -z "$TOKEN_ALLOWANCE" ]]; then
+    if [ -n "$TOKEN_ALLOWANCE" ]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
     fi
 
-    if [[ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]]; then
+    if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
 
