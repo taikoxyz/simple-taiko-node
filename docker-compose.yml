@@ -7,7 +7,7 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: gcr.dockerproxy.com/evmchain/taiko-geth:katla
+    image: gcr.io/evmchain/taiko-geth:katla
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
@@ -56,7 +56,7 @@ services:
     <<: *logging
 
   taiko_client_driver:
-    image: gcr.dockerproxy.com/evmchain/taiko-client:katla
+    image: gcr.io/evmchain/taiko-client:katla
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -73,7 +73,7 @@ services:
     <<: *logging
 
   taiko_client_prover_relayer:
-    image: gcr.dockerproxy.com/evmchain/taiko-client:katla
+    image: gcr.io/evmchain/taiko-client:katla
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -93,7 +93,7 @@ services:
     <<: *logging
 
   taiko_client_proposer:
-    image: gcr.dockerproxy.com/evmchain/taiko-client:katla
+    image: gcr.io/evmchain/taiko-client:katla
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -110,7 +110,7 @@ services:
     <<: *logging
 
   zkevm_chain_prover_rpcd:
-    image: gcr.dockerproxy.com/evmchain/katla-proverd:latest
+    image: gcr.io/evmchain/katla-proverd:latest
     restart: unless-stopped
     pull_policy: always
     env_file:
