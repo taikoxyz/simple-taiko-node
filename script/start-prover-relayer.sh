@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" == "true" ]; then
+if [ "$ENABLE_PROVER" = "true" ]; then
     if [ ! -f "./wait" ];then
         wget https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait
         chmod +x ./wait
@@ -17,18 +17,25 @@ if [ "$ENABLE_PROVER" == "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
-        --zkevmRpcdEndpoint http://zkevm_chain_prover_rpcd:9000
-        --zkevmRpcdParamsPath /data
+        --assignmentHook ${ASSIGNMENT_HOOK_L1_ADDRESS}
+        --zkevm.rpcdEndpoint http://zkevm_chain_prover_rpcd:9000
+        --zkevm.rpcdParamsPath /data
+        --raiko.hostEndpoint ${SGX_RAIKO_HOST}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
-        --prover.minProofFee ${MIN_ACCEPTABLE_PROOF_FEE}
-        --prover.capacity ${ZKEVM_CHAIN_INSTANCES_NUM}
-        --maxConcurrentProvingJobs ${ZKEVM_CHAIN_INSTANCES_NUM}"
+        --minTierFee.optimistic ${MIN_ACCEPTABLE_PROOF_FEE}
+        --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
+        --minTierFee.pseZKEvm ${MIN_ACCEPTABLE_PROOF_FEE}
+        --prover.capacity ${ZKEVM_CHAIN_INSTANCES_NUM}"
 
-    if [[ ! -z "$PROVE_BLOCK_TX_GAS_LIMIT" ]]; then
-        ARGS="${ARGS} --prover.proveBlockTxGasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
+    if [ -n "$PROVE_BLOCK_TX_GAS_LIMIT" ]; then
+        ARGS="${ARGS} --tx.gasLimit ${PROVE_BLOCK_TX_GAS_LIMIT}"
     fi
 
-    if [[ "$PROVE_UNASSIGNED_BLOCKS" == "true" ]]; then
+    if [ -n "$TOKEN_ALLOWANCE" ]; then
+        ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
+    fi
+
+    if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
 
