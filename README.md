@@ -1,3 +1,3 @@
 # simple-taiko-node
 
-Get started with the [guide](https://taiko.xyz/docs/guides/run-a-node).
+Get started with the [guide](https://docs.taiko.xyz/guides/run-a-taiko-node).
