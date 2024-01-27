@@ -155,41 +155,69 @@ To enable a proposer, follow these steps:
 ## Full simple-taiko-node CLI Reference
 
 ### Start node: 
-`docker compose up -d`
+```bash
+docker compose up -d
+```
 ### Stop node: 
-`docker compose down`
+```bash
+docker compose down
+```
 ### Restart node: 
-`docker compose down && docker compose up -d`
+```bash
+docker compose down && docker compose up -d
+```
 ### Update node: 
-`git pull origin main && docker compose pull`
+```bash
+git pull origin main && docker compose pull
+```
 ### Remove node: 
-`docker compose down -v`
+```bash
+docker compose down -v
+```
 ### Start and remove orphan containers:
 This command will start and remove containers that are not part of the current docker compose file.
-
- `docker compose up -d --remove-orphans`
+```bash
+ docker compose up -d --remove-orphans
+ ```
 
 ## View Logs and Dashboards
 
 ### View Grafana dashboard: 
-`open http://localhost:3001/d/L2ExecutionEngine/l2-execution-engine-overview`
+```bash
+open http://localhost:3001/d/L2ExecutionEngine/l2-execution-engine-overview
+```
 ### View all logs: 
-`docker compose logs -f`
+```bash
+docker compose logs -f
+```
 ### View execution logs: 
-`docker compose logs -f l2_execution_engine`
+```bash
+docker compose logs -f l2_execution_engine
+```
 ### View client driver logs: 
-`docker compose logs -f taiko_client_driver`
+```bash
+docker compose logs -f taiko_client_driver
+```
 ### View client proposer logs: 
-`docker compose logs -f taiko_client_proposer`
+```bash
+docker compose logs -f taiko_client_proposer
+```
 ### View client prover relayer logs: 
-`docker compose logs -f taiko_client_prover_relayer`
+```bash
+docker compose logs -f taiko_client_prover_relayer
+```
 ### View ZK-EVM prover logs: 
-`docker compose logs -f zkevm_chain_prover_rpcd`
+```bash
+docker compose logs -f zkevm_chain_prover_rpcd
+```
 ### View system resource usage stats: 
-`docker stats`
+```bash
+docker stats
+```
 ### Compare .env and .env.sample: 
-`sdiff .env .env.sample`
-
+```bash
+sdiff .env .env.sample
+```
 ## Troubleshooting
 
 - Visit the [Discord](https://discord.gg/taikoxyz) for help on any common error codes/issues.
