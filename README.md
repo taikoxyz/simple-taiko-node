@@ -1,6 +1,6 @@
 # Simple Taiko Node
 
-This guide is the same [guide](https://docs.taiko.xyz/guides/run-a-taiko-node) provided in the website. 
+This guide is the same [guide](https://docs.taiko.xyz/guides/run-a-taiko-node) provided in our website. You can use both.
 
 # Run a Taiko Node
 
