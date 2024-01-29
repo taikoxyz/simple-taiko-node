@@ -4,7 +4,10 @@ set -eou pipefail
 
 if [ "$ENABLE_PROVER" = "true" ]; then
     if [ ! -f "./wait" ];then
-        wget https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait
+       wget https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait -O ./wait || {
+            echo "Error: Failed to download wait utility."
+            exit 1
+        }
         chmod +x ./wait
     fi
 
