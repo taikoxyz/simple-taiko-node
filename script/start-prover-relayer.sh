@@ -41,5 +41,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
 
     taiko-client prover ${ARGS}
 else
+    echo "PROVER IS DISABLED"
     sleep infinity
 fi
