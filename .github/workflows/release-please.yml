@@ -1,0 +1,17 @@
+name: release-please
+on:
+    push:
+      branches:
+        - katla-guardian-prover
+
+jobs:
+    release-please:
+      runs-on: ubuntu-latest
+      steps:
+        - name: Run release-please action
+          id: release
+          uses: google-github-actions/release-please-action@v3
+          with:
+            command: manifest
+            token: ${{ secrets.GITHUB_TOKEN }}
+            default-branch: katla-guardian-prover

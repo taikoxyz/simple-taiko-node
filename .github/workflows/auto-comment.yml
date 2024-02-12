@@ -1,0 +1,34 @@
+name: auto-comment
+on:
+    pull_request:
+        types: [closed, labeled]
+        branches:
+        - katla-guardian-prover
+    
+jobs:
+    comment:
+        runs-on: ubuntu-latest
+        steps:
+        - name: Check if PR is labeled with auto
+          id: check_label
+          if:  ${{ github.event.pull_request.merged }} 
+          uses: actions/github-script@v7
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+                const labels = context.payload.pull_request.labels.map(label => label.name);
+                const isReleasePleasePR = labels.includes("autorelease: pending");
+                console.log(`Is Release Please PR: ${isReleasePleasePR}`);
+                return isReleasePleasePR
+        - name: Mention Users if Major Release
+          if:  steps.check_label.outputs.result == 'true'
+          uses: actions/github-script@v7
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+              github.rest.issues.createComment({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: 'New Guardian Prover release has been merged! @dantaik @davidtaikocha @cyberhorsey @d1onys1us @mratsim @Brechtpd @smtmfft'
+              })
