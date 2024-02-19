@@ -17,8 +17,8 @@ services:
       - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
       - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
       - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
-      - "${PORT_L2_EXECUTION_ENGINE_P2P}:30303"
-      - "${PORT_L2_EXECUTION_ENGINE_P2P}:30303/udp"
+      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
+      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
     command:
       - --taiko
       - --networkid
@@ -53,6 +53,10 @@ services:
       - "0.0.0.0"
       - --ws.origins
       - "*"
+      - --port
+      - ${PORT_L2_EXECUTION_ENGINE_P2P}
+      - --discovery.port
+      - ${PORT_L2_EXECUTION_ENGINE_P2P}
     <<: *logging
 
   taiko_client_driver:
