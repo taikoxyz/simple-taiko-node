@@ -13,6 +13,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --bind 0.0.0.0:9000 \
         --lookup zkevm_chain_prover_rpcd:9000
 else
-    echo "PROVER IS DISABLED"
     sleep infinity
 fi
+
