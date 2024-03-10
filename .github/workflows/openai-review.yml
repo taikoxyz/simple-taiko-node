@@ -1,11 +1,18 @@
-on: [pull_request]
+on:
+  pull_request:
+     types:
+       - opened
+       - synchronize
+       - reopened
+       - labeled
+       - unlabeled
 
 jobs:
   add_pr_comment:
     permissions: write-all
     runs-on: ubuntu-latest
     name: OpenAI PR Comment
-    if: "contains(github.event.pull_request.labels.*.name, 'option.review-by-ai')"
+    if: contains(github.event.pull_request.labels.*.name, 'my_label')
     steps:
       - uses: actions/checkout@v3
         with:
