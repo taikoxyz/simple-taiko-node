@@ -9,10 +9,11 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
     --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}
     --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
+    --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
     --proverEndpoints ${PROVER_ENDPOINTS}
     --tierFee.optimistic ${BLOCK_PROPOSAL_FEE}
     --tierFee.sgx ${BLOCK_PROPOSAL_FEE}
-    --tierFee.pseZKEvm ${BLOCK_PROPOSAL_FEE}"
+    --tierFee.sgxAndZkvm ${BLOCK_PROPOSAL_FEE}"
 
 if [ -n "$TXPOOL_LOCALS" ]; then
     ARGS="${ARGS} --txpool.localsOnly"
