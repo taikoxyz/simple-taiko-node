@@ -3,13 +3,6 @@
 set -eou pipefail
 
 if [ "$ENABLE_PROVER" = "true" ]; then
-    if [ ! -f "./wait" ];then
-        wget https://github.com/ufoscout/docker-compose-wait/releases/download/2.9.0/wait
-        chmod +x ./wait
-    fi
-
-    WAIT_HOSTS=zkevm_chain_prover_rpcd:9000 WAIT_TIMEOUT=360 ./wait
-
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.ws ws://l2_execution_engine:8546
         --l1.http ${L1_ENDPOINT_HTTP}
