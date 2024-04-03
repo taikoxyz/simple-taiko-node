@@ -54,6 +54,10 @@ services:
       - --ws.origins
       - "*"
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
   taiko_client_driver:
     image: gcr.io/evmchain/taiko-client:katla
@@ -71,6 +75,10 @@ services:
       - -c
       - "/script/start-driver.sh"
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
   taiko_client_prover_relayer:
     image: gcr.io/evmchain/taiko-client:katla
@@ -91,6 +99,8 @@ services:
       - -c
       - "/script/start-prover-relayer.sh"
     <<: *logging
+    profiles:
+      - prover
 
   taiko_client_proposer:
     image: gcr.io/evmchain/taiko-client:katla
@@ -108,6 +118,8 @@ services:
       - -c
       - "/script/start-proposer.sh"
     <<: *logging
+    profiles:
+      - proposer
 
   zkevm_chain_prover_rpcd:
     image: gcr.io/evmchain/katla-proverd:latest
@@ -128,6 +140,8 @@ services:
         limits:
           memory: 32G
     <<: *logging
+    profiles:
+      - prover
 
   prometheus:
     image: prom/prometheus:latest
@@ -144,6 +158,10 @@ services:
       - --log.level=debug
       - --config.file=/etc/prometheus/prometheus.yml
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
   grafana:
     image: grafana/grafana:latest
@@ -163,6 +181,10 @@ services:
       - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
       - grafana_data:/var/lib/grafana
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
 volumes:
   l2_execution_engine_data:
