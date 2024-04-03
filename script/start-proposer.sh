@@ -13,7 +13,7 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --proverEndpoints ${PROVER_ENDPOINTS}
     --tierFee.optimistic ${BLOCK_PROPOSAL_FEE}
     --tierFee.sgx ${BLOCK_PROPOSAL_FEE}
-    --tierFee.sgxAndZkvm ${BLOCK_PROPOSAL_FEE}"
+    --l1.blockBuilderTip ${BLOCK_BUILDER_TIP}"
 
 if [ -n "$TXPOOL_LOCALS" ]; then
     ARGS="${ARGS} --txpool.localsOnly"
@@ -26,6 +26,10 @@ fi
 
 if [ -n "$PROPOSE_BLOCK_TX_GAS_TIP_CAP" ]; then
     ARGS="${ARGS} --tx.gasTipCap ${PROPOSE_BLOCK_TX_GAS_TIP_CAP}"
+fi
+
+if [ "$BLOB_ALLOWED" == "true" ]; then
+    ARGS="${ARGS} --l1.blobAllowed"
 fi
 
 if [ "$ENABLE_PROPOSER" == "true" ]; then
