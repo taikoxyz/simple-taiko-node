@@ -79,7 +79,6 @@ services:
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
-      - zkevm_chain_prover_rpcd
     ports:
       - "${PORT_PROVER_SERVER}:9876"
     env_file:
