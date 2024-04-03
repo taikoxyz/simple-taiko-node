@@ -13,7 +13,7 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --assignmentHook ${ASSIGNMENT_HOOK_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
-        --prover.capacity ${ZKEVM_CHAIN_INSTANCES_NUM}
+        --prover.capacity ${PROVER_CAPACITY}
         --raiko.hostEndpoint ${SGX_RAIKO_HOST}
         --minTierFee.optimistic ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
