@@ -54,6 +54,10 @@ services:
       - --ws.origins
       - "*"
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
   taiko_client_driver:
     image: gcr.io/evmchain/taiko-client:hekla
@@ -71,6 +75,10 @@ services:
       - -c
       - "/script/start-driver.sh"
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
   taiko_client_prover_relayer:
     image: gcr.io/evmchain/taiko-client:hekla
@@ -90,6 +98,8 @@ services:
       - -c
       - "/script/start-prover-relayer.sh"
     <<: *logging
+    profiles:
+      - prover
 
   taiko_client_proposer:
     image: gcr.io/evmchain/taiko-client:hekla
@@ -101,12 +111,15 @@ services:
     env_file:
       - .env
     volumes:
+      - l2_execution_engine_data:/data/taiko-geth
       - ./script:/script
     entrypoint:
       - /bin/sh
       - -c
       - "/script/start-proposer.sh"
     <<: *logging
+    profiles:
+      - proposer
 
   prometheus:
     image: prom/prometheus:latest
@@ -123,6 +136,10 @@ services:
       - --log.level=debug
       - --config.file=/etc/prometheus/prometheus.yml
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
   grafana:
     image: grafana/grafana:latest
@@ -142,6 +159,10 @@ services:
       - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
       - grafana_data:/var/lib/grafana
     <<: *logging
+    profiles:
+      - driver
+      - prover
+      - proposer
 
 volumes:
   l2_execution_engine_data:
