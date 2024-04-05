@@ -4,10 +4,12 @@ set -eou pipefail
 
 ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --l2.http http://l2_execution_engine:8545
+    --l2.auth http://l2_execution_engine:8551
     --taikoL1 ${TAIKO_L1_ADDRESS}
     --taikoL2 ${TAIKO_L2_ADDRESS}
     --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
     --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}
+    --jwtSecret /data/taiko-geth/geth/jwtsecret
     --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
     --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
     --proverEndpoints ${PROVER_ENDPOINTS}
