@@ -21,6 +21,10 @@ if [ -n "$TXPOOL_LOCALS" ]; then
     ARGS="${ARGS} --txpool.locals ${TXPOOL_LOCALS}"
 fi
 
+if [ -n "$MAX_TIER_FEE" ]; then
+    ARGS="${ARGS} --tierFee.max ${MAX_TIER_FEE}"
+fi
+
 if [ -n "$BLOCK_BUILDER_TIP" ]; then
     ARGS="${ARGS} --l1.blockBuilderTip ${BLOCK_BUILDER_TIP}"
 fi
