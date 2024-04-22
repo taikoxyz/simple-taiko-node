@@ -41,11 +41,11 @@ fi
 if [ -n "$TX_FEE_LIMIT_THRESHOLD" ]; then
     ARGS="${ARGS} --tx.feeLimitThreshold ${TX_FEE_LIMIT_THRESHOLD}"
 fi
-    
+
 if [ -n "$TX_GAS_LIMIT" ]; then
     ARGS="${ARGS} --tx.gasLimit ${TX_GAS_LIMIT}"
 fi
-    
+
 if [ -n "$TX_MIN_BASEFEE" ]; then
     ARGS="${ARGS} --tx.minBaseFee ${TX_MIN_BASEFEE}"
 fi

@@ -30,11 +30,11 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     if [ -n "$MIN_TKO_BALANCE" ]; then
         ARGS="${ARGS} --prover.minTaikoTokenBalance ${MIN_TKO_BALANCE}"
     fi
-    
+
     if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
-    
+
     # TXMGR Settings
     if [ -n "$TX_FEE_LIMIT_MULTIPLIER" ]; then
         ARGS="${ARGS} --tx.feeLimitMultiplier ${TX_FEE_LIMIT_MULTIPLIER}"
@@ -43,11 +43,11 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     if [ -n "$TX_FEE_LIMIT_THRESHOLD" ]; then
         ARGS="${ARGS} --tx.feeLimitThreshold ${TX_FEE_LIMIT_THRESHOLD}"
     fi
-    
+
     if [ -n "$TX_GAS_LIMIT" ]; then
         ARGS="${ARGS} --tx.gasLimit ${TX_GAS_LIMIT}"
     fi
-    
+
     if [ -n "$TX_MIN_BASEFEE" ]; then
         ARGS="${ARGS} --tx.minBaseFee ${TX_MIN_BASEFEE}"
     fi
