@@ -11,10 +11,10 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
-        --assignmentHook ${ASSIGNMENT_HOOK_L1_ADDRESS}
+        --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
-        --raiko.hostEndpoint ${SGX_RAIKO_HOST}
+        --raiko.host ${SGX_RAIKO_HOST}
         --minTierFee.optimistic ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgxAndZkvm ${MIN_ACCEPTABLE_PROOF_FEE}"

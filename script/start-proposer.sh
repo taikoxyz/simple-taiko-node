@@ -17,12 +17,12 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --tierFee.sgx ${BLOCK_PROPOSAL_FEE}"
 
 if [ -n "$TXPOOL_LOCALS" ]; then
-    ARGS="${ARGS} --txpool.localsOnly"
-    ARGS="${ARGS} --txpool.locals ${TXPOOL_LOCALS}"
+    ARGS="${ARGS} --txPool.localsOnly"
+    ARGS="${ARGS} --txPool.locals ${TXPOOL_LOCALS}"
 fi
 
-if [ -n "$MAX_TIER_FEE" ]; then
-    ARGS="${ARGS} --tierFee.max ${MAX_TIER_FEE}"
+if [ -n "$MAX_TIER_FEE_BUMPS" ]; then
+    ARGS="${ARGS} --tierFee.maxPriceBumps ${MAX_TIER_FEE_BUMPS}"
 fi
 
 if [ -n "$BLOCK_BUILDER_TIP" ]; then
