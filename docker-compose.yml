@@ -1,4 +1,3 @@
-version: "3.4"
 x-logging: &logging
   logging:
     options:
@@ -7,7 +6,7 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: gcr.io/evmchain/taiko-geth:katla
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-geth:hekla
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
@@ -23,8 +22,6 @@ services:
       - --taiko
       - --networkid
       - "${CHAIN_ID}"
-      - --syncmode
-      - full
       - --gcmode
       - archive
       - --datadir
@@ -54,9 +51,13 @@ services:
       - --ws.origins
       - "*"
     <<: *logging
+    profiles:
+      - l2_execution_engine
+      - prover
+      - proposer
 
   taiko_client_driver:
-    image: gcr.io/evmchain/taiko-client:katla
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-client:hekla
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -71,15 +72,18 @@ services:
       - -c
       - "/script/start-driver.sh"
     <<: *logging
+    profiles:
+      - l2_execution_engine
+      - prover
+      - proposer
 
   taiko_client_prover_relayer:
-    image: gcr.io/evmchain/taiko-client:katla
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-client:hekla
     restart: unless-stopped
     pull_policy: always
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
-      - zkevm_chain_prover_rpcd
     ports:
       - "${PORT_PROVER_SERVER}:9876"
     env_file:
@@ -91,9 +95,11 @@ services:
       - -c
       - "/script/start-prover-relayer.sh"
     <<: *logging
+    profiles:
+      - prover
 
   taiko_client_proposer:
-    image: gcr.io/evmchain/taiko-client:katla
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-client:hekla
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -102,32 +108,15 @@ services:
     env_file:
       - .env
     volumes:
+      - l2_execution_engine_data:/data/taiko-geth
       - ./script:/script
     entrypoint:
       - /bin/sh
       - -c
       - "/script/start-proposer.sh"
     <<: *logging
-
-  zkevm_chain_prover_rpcd:
-    image: gcr.io/evmchain/katla-proverd:latest
-    restart: unless-stopped
-    pull_policy: always
-    env_file:
-      - .env
-    volumes:
-      - ./script:/script
-      - zkevm_chain_prover_rpcd_data:/data
-    entrypoint:
-      - /bin/sh
-      - -c
-      - "/script/start-zkevm-chain-rpcd.sh"
-    deploy:
-      replicas: ${ZKEVM_CHAIN_INSTANCES_NUM:-1}
-      resources:
-        limits:
-          memory: 32G
-    <<: *logging
+    profiles:
+      - proposer
 
   prometheus:
     image: prom/prometheus:latest
@@ -144,6 +133,10 @@ services:
       - --log.level=debug
       - --config.file=/etc/prometheus/prometheus.yml
     <<: *logging
+    profiles:
+      - l2_execution_engine
+      - prover
+      - proposer
 
   grafana:
     image: grafana/grafana:latest
@@ -163,9 +156,12 @@ services:
       - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
       - grafana_data:/var/lib/grafana
     <<: *logging
+    profiles:
+      - l2_execution_engine
+      - prover
+      - proposer
 
 volumes:
   l2_execution_engine_data:
-  zkevm_chain_prover_rpcd_data:
   prometheus_data:
   grafana_data:
