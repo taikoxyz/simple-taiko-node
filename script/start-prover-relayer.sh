@@ -15,11 +15,16 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
         --raiko.host ${SGX_RAIKO_HOST}
-        --raiko.l2 ${TAIKO_NODE_IP}:${PORT_L2_EXECUTION_ENGINE_HTTP}
         --minTierFee.optimistic ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgxAndZkvm ${MIN_ACCEPTABLE_PROOF_FEE}"
 
+    if [ -n "$TAIKO_NODE_IP" ]; then 
+        ARGS="${ARGS} --raiko.l2 ${TAIKO_NODE_IP}:${PORT_L2_EXECUTION_ENGINE_HTTP}"
+    else
+        ARGS="${ARGS} --raiko.l2 http://l2_execution_engine:${PORT_L2_EXECUTION_ENGINE_HTTP}"
+    fi
+    
     if [ -n "$TOKEN_ALLOWANCE" ]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
     fi
