@@ -94,8 +94,23 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
     fi
 
-    exec taiko-client proposer ${ARGS}
-else
-    echo "PROPOSER IS DISABLED"
-    sleep infinity
-fi
+# Function to handle errors and exit
+handle_error() {
+  echo "[$(date +"%Y-%m-%dT%H:%M:%S")] ERROR: $*" >&2  # Log error to stderr
+  exit 1
+}
+
+# Retry logic parameters
+MAX_RETRIES=3
+RETRY_DELAY=5
+
+# Run the proposer with retries and handle error errors
+for i in $(seq 1 $MAX_RETRIES); do
+  taiko-client proposer ${ARGS} && break  # Exit loop on success
+  echo "[$(date +"%Y-%m-%dT%H:%M:%S")] ERROR: Proposer failed to start (attempt $i/$MAX_RETRIES). Retrying in $RETRY_DELAY seconds..." >&2
+  sleep $RETRY_DELAY
+  RETRY_DELAY=$((RETRY_DELAY * 2))  # Exponential backoff
+done
+
+# If all retries fail, handle the error
+handle_error "Failed to start proposer after $MAX_RETRIES retries. Check the logs for details."
