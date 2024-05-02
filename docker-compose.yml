@@ -18,38 +18,25 @@ services:
       - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:30303"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:30303/udp"
-    command:
-      - --taiko
-      - --networkid
-      - "${CHAIN_ID}"
-      - --gcmode
-      - archive
-      - --datadir
-      - /data/taiko-geth
-      - --metrics
-      - --metrics.expensive
-      - --metrics.addr
-      - "0.0.0.0"
-      - --bootnodes
-      - ${BOOT_NODES}
-      - --authrpc.addr
-      - "0.0.0.0"
-      - --authrpc.vhosts
-      - "*"
-      - --http
-      - --http.api
-      - debug,eth,net,web3,txpool,taiko
-      - --http.addr
-      - "0.0.0.0"
-      - --http.vhosts
-      - "*"
-      - --ws
-      - --ws.api
-      - debug,eth,net,web3,txpool,taiko
-      - --ws.addr
-      - "0.0.0.0"
-      - --ws.origins
-      - "*"
+    command: |
+      --taiko
+      --networkid "${CHAIN_ID}"
+      --gcmode archive
+      --datadir /data/taiko-geth
+      --metrics
+      --metrics.expensive
+      --metrics.addr "0.0.0.0"
+      --bootnodes ${BOOT_NODES}
+      --authrpc.addr "0.0.0.0"
+      --authrpc.vhosts "*"
+      --http
+      --http.api debug,eth,net,web3,txpool,taiko
+      --http.addr "0.0.0.0"
+      --http.vhosts "*"
+      --ws
+      --ws.api debug,eth,net,web3,txpool,taiko
+      --ws.addr "0.0.0.0"
+      --ws.origins "*"
     <<: *logging
     profiles:
       - l2_execution_engine
@@ -67,7 +54,7 @@ services:
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
       - ./script:/script
-    entrypoint:
+    entrypoint: |
       - /bin/sh
       - -c
       - "/script/start-driver.sh"
