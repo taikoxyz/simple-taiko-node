@@ -54,7 +54,7 @@ services:
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
       - ./script:/script
-    entrypoint: |
+    entrypoint:
       - /bin/sh
       - -c
       - "/script/start-driver.sh"
