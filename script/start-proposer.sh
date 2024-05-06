@@ -79,7 +79,7 @@ if [ -n "$TX_SEND_TIMEOUT" ]; then
 fi
 
 if [ "$ENABLE_PROPOSER" == "true" ]; then
-    taiko-client proposer ${ARGS}
+    exec taiko-client proposer ${ARGS}
 else
     echo "PROPOSER IS DISABLED"
     sleep infinity
