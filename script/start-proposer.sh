@@ -2,6 +2,8 @@
 
 set -eou pipefail
 
+. ./util/error_handling.sh
+
 if [ "$ENABLE_PROPOSER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.http http://l2_execution_engine:8545

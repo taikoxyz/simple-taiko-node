@@ -2,11 +2,7 @@
 
 set -eou pipefail
 
-# Function to handle errors and exit
-handle_error() {
-  echo "[$(date +"%Y-%m-%dT%H:%M:%S")] ERROR: $*" >&2  # Log error to stderr
-  exit 1
-}
+. ./util/error_handling.sh
 
 if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
@@ -118,9 +114,8 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     fi
 
     # Run the prover with error handling
-    if [ "$ENABLE_PROVER" = "true" ]; then
-        exec taiko-client prover ${ARGS} || handle_error "Failed to start prover. Check the logs for details."
-    else
-        echo "PROVER IS DISABLED"
-        sleep infinity
-    fi
+    exec taiko-client prover ${ARGS} || handle_error "Failed to start prover. Check the logs for details."
+else
+    echo "PROVER IS DISABLED"
+    sleep infinity
+fi
