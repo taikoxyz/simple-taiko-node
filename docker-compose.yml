@@ -37,6 +37,7 @@ services:
       --ws.api debug,eth,net,web3,txpool,taiko
       --ws.addr "0.0.0.0"
       --ws.origins "*"
+      --gpo.ignoreprice "100000000"
     <<: *logging
     profiles:
       - l2_execution_engine
