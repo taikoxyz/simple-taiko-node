@@ -108,7 +108,7 @@ RETRY_DELAY=5
 
 # Run the proposer with retries and handle error errors
 for i in $(seq 1 $MAX_RETRIES); do
-  taiko-client proposer ${ARGS} && break  # Exit loop on success
+  exec taiko-client proposer ${ARGS} && break  # Exit loop on success
   echo "[$(date +"%Y-%m-%dT%H:%M:%S")] ERROR: Proposer failed to start (attempt $i/$MAX_RETRIES). Retrying in $RETRY_DELAY seconds..." >&2
   sleep $RETRY_DELAY
   RETRY_DELAY=$((RETRY_DELAY * 2))  # Exponential backoff
