@@ -19,13 +19,38 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgxAndZkvm ${MIN_ACCEPTABLE_PROOF_FEE}"
 
-    if [ -z "$TAIKO_NODE_IP" ]; then 
+    if [ -z "$TAIKO_NODE_IP" ]; then
         echo "TAIKO_NODE_IP must be non-empty"
         exit 1
     else
         ARGS="${ARGS} --raiko.l2 ${TAIKO_NODE_IP}:${PORT_L2_EXECUTION_ENGINE_HTTP}"
     fi
-    
+
+    if [ -z "$SGX_RAIKO_HOST" ]; then
+        echo "Error: SGX_RAIKO_HOST must be non-empty"
+        exit 1
+    fi
+
+    if [ -z "$L1_ENDPOINT_WS" ]; then
+        echo "Error: L1_ENDPOINT_WS must be non-empty"
+        exit 1
+    fi
+
+    if [ -z "$L1_ENDPOINT_HTTP" ]; then
+        echo "Error: L1_ENDPOINT_HTTP must be non-empty"
+        exit 1
+    fi
+
+    if [ -z "$L1_BEACON_HTTP" ]; then
+        echo "Error: L1_BEACON_HTTP must be non-empty"
+        exit 1
+    fi
+
+    if [ -z "$L1_PROVER_PRIVATE_KEY" ]; then
+        echo "Error: L1_PROVER_PRIVATE_KEY must be non-empty"
+        exit 1
+    fi
+
     if [ -n "$TOKEN_ALLOWANCE" ]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
     fi

@@ -16,6 +16,21 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS}
     --tierFee.optimistic ${BLOCK_PROPOSAL_FEE}
     --tierFee.sgx ${BLOCK_PROPOSAL_FEE}"
 
+if [ -z "$L1_ENDPOINT_WS" ]; then
+    echo "Error: L1_ENDPOINT_WS must be non-empty"
+    exit 1
+fi
+
+if [ -z "$L1_PROPOSER_PRIVATE_KEY" ]; then
+    echo "Error: L1_PROPOSER_PRIVATE_KEY must be non-empty"
+    exit 1
+fi
+
+if [ -z "$PROVER_ENDPOINTS" ]; then
+    echo "Warning: PROVER_ENDPOINTS must be non-empty"
+    exit 1
+fi
+
 if [ -n "$TXPOOL_LOCALS" ]; then
     ARGS="${ARGS} --txPool.localsOnly"
     ARGS="${ARGS} --txPool.locals ${TXPOOL_LOCALS}"
