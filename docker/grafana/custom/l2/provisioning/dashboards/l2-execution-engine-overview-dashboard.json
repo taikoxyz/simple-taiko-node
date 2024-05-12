@@ -727,6 +727,7 @@
         {
           "expr": "chain_head_header{instance=~\"$instance\", job=~\"$job\"}",
           "format": "time_series",
+          "instant": true,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1097,6 +1098,7 @@
         {
           "expr": "chain_head_receipt{instance=~\"$instance\", job=~\"$job\"}",
           "format": "time_series",
+          "instant": true,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
@@ -1237,6 +1239,7 @@
         {
           "expr": "chain_head_block{instance=~\"$instance\", job=~\"$job\"}",
           "format": "time_series",
+          "instant": true,
           "interval": "",
           "intervalFactor": 1,
           "legendFormat": "",
