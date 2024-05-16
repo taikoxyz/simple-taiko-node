@@ -2,7 +2,7 @@
 
 set -eou pipefail
 
-if [ "$ENABLE_PROVER" = "true" ]; then
+if [ "$ENABLE_PROPOSER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.http http://l2_execution_engine:8545
         --l2.auth http://l2_execution_engine:8551
