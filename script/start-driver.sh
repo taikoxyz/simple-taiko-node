@@ -12,7 +12,7 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
         --taikoL2 "${TAIKO_L2_ADDRESS}" \
         --jwtSecret /data/taiko-geth/geth/jwtsecret \
         --p2p.sync \
-        --p2p.checkPointSyncUrl https://rpc.hekla.taiko.xyz
+        --p2p.checkPointSyncUrl https://rpc.mainnet.taiko.xyz
 else
     exec taiko-client driver \
         --l1.ws "${L1_ENDPOINT_WS}" \
