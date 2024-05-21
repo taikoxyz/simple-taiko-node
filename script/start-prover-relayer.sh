@@ -2,7 +2,11 @@
 
 set -eou pipefail
 
-. ./util/error_handling.sh
+# Get the directory of the current script
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Source the error_handling.sh script from the util directory
+. "$SCRIPT_DIR/util/error_handling.sh"
 
 if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
