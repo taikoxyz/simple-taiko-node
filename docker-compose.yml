@@ -42,7 +42,7 @@ services:
       --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
       --maxpeers ${MAXPEERS:-50}
       --maxpendpeers ${MAXPENDPEERS:-0}
-      ${GETH_ADDITIONAL_ARGS}
+      ${GETH_ADDITIONAL_ARGS:-}
     <<: *logging
     profiles:
       - l2_execution_engine
