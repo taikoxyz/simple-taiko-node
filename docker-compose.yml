@@ -6,7 +6,7 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:sha-ac9ccc8
+    image: us-docker.pkg.dev/evmchain/images/taiko-geth:sha-7874437
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
@@ -49,7 +49,7 @@ services:
       - proposer
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-5a9b0ec
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-c09d548
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -70,7 +70,7 @@ services:
       - proposer
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-5a9b0ec
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-c09d548
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -91,7 +91,7 @@ services:
       - prover
 
   taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-5a9b0ec
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-c09d548
     restart: unless-stopped
     pull_policy: always
     depends_on:
