@@ -19,11 +19,11 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgxAndZkvm ${MIN_ACCEPTABLE_PROOF_FEE}"
 
-    if [ -z "$TAIKO_NODE_IP" ]; then
-        echo "TAIKO_NODE_IP must be non-empty"
+    if [ -z "$RAIKO_JWT_PATH" ]; then
+        echo "RAIKO_JWT_PATH must be non-empty"
         exit 1
     else
-        ARGS="${ARGS} --raiko.l2 ${TAIKO_NODE_IP}:${PORT_L2_EXECUTION_ENGINE_HTTP}"
+        ARGS="${ARGS} --raiko.jwtPath ${RAIKO_JWT_PATH}"
     fi
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
