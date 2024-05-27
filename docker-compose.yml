@@ -36,7 +36,7 @@ services:
       --ws.api debug,eth,net,web3,txpool,taiko
       --ws.addr "0.0.0.0"
       --ws.origins "*"
-      --gpo.ignoreprice "100000000"
+      --gpo.defaultprice "10000000"
       --port ${PORT_L2_EXECUTION_ENGINE_P2P}
       --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
       --maxpeers ${MAXPEERS:-50}
