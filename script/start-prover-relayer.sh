@@ -22,8 +22,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     if [ -z "$TAIKO_NODE_IP" ]; then
         echo "TAIKO_NODE_IP must be non-empty"
         exit 1
-    else
-        ARGS="${ARGS} --raiko.l2 ${TAIKO_NODE_IP}:${PORT_L2_EXECUTION_ENGINE_HTTP}"
     fi
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
