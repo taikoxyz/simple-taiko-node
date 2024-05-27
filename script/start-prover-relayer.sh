@@ -19,11 +19,8 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
         --minTierFee.sgxAndZkvm ${MIN_ACCEPTABLE_PROOF_FEE}"
 
-    if [ -z "$RAIKO_JWT_PATH" ]; then
-        echo "RAIKO_JWT_PATH must be non-empty"
-        exit 1
-    else
-        ARGS="${ARGS} --raiko.jwtPath ${RAIKO_JWT_PATH}"
+    if [ ! -z "$RAIKO_JWT" ]; then
+        ARGS="${ARGS} --raiko.jwtPath ${RAIKO_JWT}"
     fi
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
