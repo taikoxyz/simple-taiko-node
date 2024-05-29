@@ -52,8 +52,8 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --prover.minEthBalance ${MIN_ETH_BALANCE}"
     fi
 
-    if [ -n "$MIN_TKO_BALANCE" ]; then
-        ARGS="${ARGS} --prover.minTaikoTokenBalance ${MIN_TKO_BALANCE}"
+    if [ -n "$MIN_TAIKO_BALANCE" ]; then
+        ARGS="${ARGS} --prover.minTaikoTokenBalance ${MIN_TAIKO_BALANCE}"
     fi
 
     if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
