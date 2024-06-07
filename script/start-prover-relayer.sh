@@ -6,7 +6,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.ws ws://l2_execution_engine:8546
         --l1.http ${L1_ENDPOINT_HTTP}
-        --l1.beacon ${L1_BEACON_HTTP}
         --l2.http http://l2_execution_engine:8545
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
@@ -31,11 +30,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
 
     if [ -z "$L1_ENDPOINT_HTTP" ]; then
         echo "Error: L1_ENDPOINT_HTTP must be non-empty"
-        exit 1
-    fi
-
-    if [ -z "$L1_BEACON_HTTP" ]; then
-        echo "Error: L1_BEACON_HTTP must be non-empty"
         exit 1
     fi
 
