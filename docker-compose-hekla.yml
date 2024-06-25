@@ -86,7 +86,7 @@ services:
     entrypoint:
       - /bin/sh
       - -c
-      - "/script/start-prover-relayer.sh"
+      - "/script/start-prover-relayer-hekla.sh"
     <<: *logging
     profiles:
       - prover
@@ -106,7 +106,7 @@ services:
     entrypoint:
       - /bin/sh
       - -c
-      - "/script/start-proposer.sh"
+      - "/script/start-proposer-hekla.sh"
     <<: *logging
     profiles:
       - proposer
