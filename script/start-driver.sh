@@ -1,6 +1,7 @@
 #!/bin/sh
 
 set -eou pipefail
+VERBOSITY=4  # Set your desired verbosity level here
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     exec taiko-client driver \
@@ -12,7 +13,8 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
         --taikoL2 "${TAIKO_L2_ADDRESS}" \
         --jwtSecret /data/taiko-geth/geth/jwtsecret \
         --p2p.sync \
-        --p2p.checkPointSyncUrl https://rpc.hekla.taiko.xyz
+        --p2p.checkPointSyncUrl https://rpc.hekla.taiko.xyz \
+        --verbosity "${VERBOSITY}"
 else
     exec taiko-client driver \
         --l1.ws "${L1_ENDPOINT_WS}" \
@@ -21,5 +23,6 @@ else
         --l2.auth http://l2_execution_engine:8551 \
         --taikoL1 "${TAIKO_L1_ADDRESS}" \
         --taikoL2 "${TAIKO_L2_ADDRESS}" \
-        --jwtSecret /data/taiko-geth/geth/jwtsecret
+        --jwtSecret /data/taiko-geth/geth/jwtsecret \
+        --verbosity "${VERBOSITY}"
 fi
