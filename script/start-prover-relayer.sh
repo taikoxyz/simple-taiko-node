@@ -10,7 +10,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
-        --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
         --raiko.host ${SGX_RAIKO_HOST}
@@ -97,6 +96,10 @@ if [ "$ENABLE_PROVER" = "true" ]; then
 
     if [ -n "$TX_SEND_TIMEOUT" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
+    fi
+
+    if [ -n "$ASSIGNMENT_HOOK_L1_ADDRESS" ]; then
+        ARGS="${ARGS} --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}"
     fi
 
     exec taiko-client prover ${ARGS}

@@ -9,7 +9,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
-        --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}
         --jwtSecret /data/taiko-geth/geth/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
         --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
@@ -92,6 +91,10 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
 
     if [ -n "$TX_SEND_TIMEOUT" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
+    fi
+
+    if [ -n "$ASSIGNMENT_HOOK_L1_ADDRESS" ]; then
+        ARGS="${ARGS} --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}"
     fi
 
     exec taiko-client proposer ${ARGS}
