@@ -31,6 +31,10 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         exit 1
     fi
 
+    if [ -n "$PROVER_SET" ]; then
+        ARGS="${ARGS} --proverSet ${PROVER_SET}"
+    fi
+
     if [ -n "$TXPOOL_LOCALS" ]; then
         ARGS="${ARGS} --txPool.localsOnly"
         ARGS="${ARGS} --txPool.locals ${TXPOOL_LOCALS}"
