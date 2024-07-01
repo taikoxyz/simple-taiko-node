@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.2.0...v1.3.0) (2024-07-01)
+
+
+### Features
+
+* remove unused configs ([#305](https://github.com/taikoxyz/simple-taiko-node/issues/305)) ([073bf24](https://github.com/taikoxyz/simple-taiko-node/commit/073bf24be6557fcc80968b3ff24bd94de17f91c7))
+
 ## [1.2.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.1.0...v1.2.0) (2024-07-01)
 
 
