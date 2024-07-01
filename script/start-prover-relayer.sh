@@ -98,10 +98,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
     fi
 
-    if [ -n "$ASSIGNMENT_HOOK_L1_ADDRESS" ]; then
-        ARGS="${ARGS} --assignmentHookAddress ${ASSIGNMENT_HOOK_L1_ADDRESS}"
-    fi
-
     exec taiko-client prover ${ARGS}
 else
     echo "PROVER IS DISABLED"
