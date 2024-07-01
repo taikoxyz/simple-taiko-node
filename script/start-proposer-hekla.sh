@@ -30,6 +30,10 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         echo "Warning: PROVER_ENDPOINTS must be non-empty"
         exit 1
     fi
+    
+    if [ -n "$PROVER_SET" ]; then
+        ARGS="${ARGS} --proverSet ${PROVER_SET}"
+    fi
 
     if [ -n "$TXPOOL_LOCALS" ]; then
         ARGS="${ARGS} --txPool.localsOnly"
