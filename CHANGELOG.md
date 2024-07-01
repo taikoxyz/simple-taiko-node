@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.2.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.1.0...v1.2.0) (2024-07-01)
+
+
+### Features
+
+* apply assignmenthook update for hekla  ([#301](https://github.com/taikoxyz/simple-taiko-node/issues/301)) ([db01c11](https://github.com/taikoxyz/simple-taiko-node/commit/db01c113d8952c888d8031afc50d8d9bf2969493))
+* **mainnet:** bump client version ([#304](https://github.com/taikoxyz/simple-taiko-node/issues/304)) ([67bcff0](https://github.com/taikoxyz/simple-taiko-node/commit/67bcff0fb5abb3a00ac6abea07b2d18e8874c618))
+
 ## 1.0.0 (2024-05-30)
 
 
