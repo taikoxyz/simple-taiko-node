@@ -11,18 +11,24 @@ services:
     pull_policy: if_not_present
     stop_grace_period: 3m
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - ./l2_execution_engine_data:/data/taiko-neth
+      - ./jwtsecret:/data/jwtsecret
     ports:
       - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
       - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
-      - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
+      - "${PORT_L2_EXECUTION_ENGINE_WS}:8545"
+      - "8551:8551"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
     command: |
       -c taiko-hekla
+      -dd /data/taiko-neth
+      --Sync.FastSync=false
+      --Sync.SnapSync=false
       --JsonRpc.Host=0.0.0.0
-      --JsonRpc.EnabledModules=debug,eth,net,web3,txpool,taiko
-      --JsonRpc.AdditionalRpcUrls=http://0.0.0.0:${PORT_L2_EXECUTION_ENGINE_WS}|http;ws|net;eth;subscribe;engine;web3;client;taiko"
+      --JsonRpc.JwtSecretFile=/data/jwtsecret
+      --JsonRpc.EnabledModules=debug,eth,subscribe,net,web3,txpool,taiko
+      --JsonRpc.AdditionalRpcUrls="[http://0.0.0.0:8551|http;ws|net;eth;subscribe;engine;web3;client;taiko]"
       --Network.P2PPort=${PORT_L2_EXECUTION_ENGINE_P2P}
       --Network.DiscoveryPort=${PORT_L2_EXECUTION_ENGINE_P2P}
       ${EL2_ADDITIONAL_ARGS:-}
@@ -41,7 +47,8 @@ services:
     env_file:
       - .env
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - ./l2_execution_engine_data:/data/taiko-neth
+      - ./jwtsecret:/data/jwtsecret
       - ./script:/script
     entrypoint:
       - /bin/sh
@@ -84,7 +91,7 @@ services:
     env_file:
       - .env
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - ./l2_execution_engine_data:/data/taiko-geth
       - ./script:/script
     entrypoint:
       - /bin/sh
@@ -94,50 +101,49 @@ services:
     profiles:
       - proposer
 
-  prometheus:
-    image: prom/prometheus:latest
-    restart: unless-stopped
-    ports:
-      - ${PORT_PROMETHEUS}:9090
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-    volumes:
-      - ./docker/prometheus/l2:/etc/prometheus
-      - prometheus_data:/prometheus
-    command:
-      - --log.level=debug
-      - --config.file=/etc/prometheus/prometheus.yml
-    <<: *logging
-    profiles:
-      - l2_execution_engine
-      - prover
-      - proposer
-
-  grafana:
-    image: grafana/grafana:latest
-    restart: unless-stopped
-    ports:
-      - ${PORT_GRAFANA}:3000
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-      - prometheus
-    environment:
-      - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
-      - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
-      - GF_LOG_LEVEL=WARN
-    volumes:
-      - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
-      - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
-      - grafana_data:/var/lib/grafana
-    <<: *logging
-    profiles:
-      - l2_execution_engine
-      - prover
-      - proposer
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - ${PORT_PROMETHEUS}:9090
+  #   depends_on:
+  #     - l2_execution_engine
+  #     - taiko_client_driver
+  #   volumes:
+  #     - ./docker/prometheus/l2:/etc/prometheus
+  #     - prometheus_data:/prometheus
+  #   command:
+  #     - --log.level=debug
+  #     - --config.file=/etc/prometheus/prometheus.yml
+  #   <<: *logging
+  #   profiles:
+  #     - l2_execution_engine
+  #     - prover
+  #     - proposer
+  #
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - ${PORT_GRAFANA}:3000
+  #   depends_on:
+  #     - l2_execution_engine
+  #     - taiko_client_driver
+  #     - prometheus
+  #   environment:
+  #     - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
+  #     - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
+  #     - GF_LOG_LEVEL=WARN
+  #   volumes:
+  #     - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
+  #     - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
+  #     - grafana_data:/var/lib/grafana
+  #   <<: *logging
+  #   profiles:
+  #     - l2_execution_engine
+  #     - prover
+  #     - proposer
 
 volumes:
-  l2_execution_engine_data:
   prometheus_data:
   grafana_data:
