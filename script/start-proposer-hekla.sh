@@ -44,10 +44,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --tierFee.maxPriceBumps ${MAX_TIER_FEE_BUMPS}"
     fi
 
-    if [ -n "$BLOCK_BUILDER_TIP" ]; then
-        ARGS="${ARGS} --l1.blockBuilderTip ${BLOCK_BUILDER_TIP}"
-    fi
-
     if [ "$BLOB_ALLOWED" == "true" ]; then
         ARGS="${ARGS} --l1.blobAllowed"
     fi
