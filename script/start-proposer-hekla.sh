@@ -12,7 +12,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --jwtSecret /data/taiko-geth/geth/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
         --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
-        --proverEndpoints ${PROVER_ENDPOINTS}
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
         echo "Error: L1_ENDPOINT_WS must be non-empty"
@@ -21,11 +20,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
 
     if [ -z "$L1_PROPOSER_PRIVATE_KEY" ]; then
         echo "Error: L1_PROPOSER_PRIVATE_KEY must be non-empty"
-        exit 1
-    fi
-
-    if [ -z "$PROVER_ENDPOINTS" ]; then
-        echo "Warning: PROVER_ENDPOINTS must be non-empty"
         exit 1
     fi
     
