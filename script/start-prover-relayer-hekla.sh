@@ -13,9 +13,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
         --raiko.host ${SGX_RAIKO_HOST}
-        --minTierFee.optimistic ${MIN_ACCEPTABLE_PROOF_FEE}
-        --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
-        --minTierFee.sgxAndZkvm ${MIN_ACCEPTABLE_PROOF_FEE}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
         echo "Error: SGX_RAIKO_HOST must be non-empty"
