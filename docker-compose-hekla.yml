@@ -6,11 +6,9 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.3.0
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-geth:hekla
     restart: unless-stopped
     pull_policy: always
-    env_file:
-      - .env
     stop_grace_period: 3m
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
@@ -26,6 +24,7 @@ services:
       --gcmode archive
       --datadir /data/taiko-geth
       --metrics
+      --metrics.expensive
       --metrics.addr "0.0.0.0"
       --bootnodes ${BOOT_NODES}
       --authrpc.addr "0.0.0.0"
@@ -38,7 +37,7 @@ services:
       --ws.api debug,eth,net,web3,txpool,taiko
       --ws.addr "0.0.0.0"
       --ws.origins "*"
-      --gpo.defaultprice "10000000"
+      --gpo.ignoreprice "100000000"
       --port ${PORT_L2_EXECUTION_ENGINE_P2P}
       --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
       --maxpeers ${MAXPEERS:-50}
@@ -49,13 +48,11 @@ services:
       - l2_execution_engine
       - prover
       - proposer
-    extra_hosts: # for linux hosts since version 20.10
-      - host.docker.internal:host-gateway
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.28.0
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-client:hekla
     restart: unless-stopped
-    pull_policy: never
+    pull_policy: always
     depends_on:
       - l2_execution_engine
     env_file:
@@ -72,15 +69,11 @@ services:
       - l2_execution_engine
       - prover
       - proposer
-    extra_hosts: # for linux hosts since version 20.10
-      - host.docker.internal:host-gateway
-    ports:
-      - "1235:1235"
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.28.0
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-client:hekla
     restart: unless-stopped
-    pull_policy: never
+    pull_policy: always
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
@@ -93,17 +86,15 @@ services:
     entrypoint:
       - /bin/sh
       - -c
-      - "/script/start-prover-relayer.sh"
+      - "/script/start-prover-relayer-hekla.sh"
     <<: *logging
     profiles:
       - prover
-    extra_hosts: # for linux hosts since version 20.10
-      - host.docker.internal:host-gateway
 
   taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.28.0
+    image: us-docker.pkg.dev/evmchain/hekla/taiko-client:hekla
     restart: unless-stopped
-    pull_policy: never
+    pull_policy: always
     depends_on:
       - l2_execution_engine
       - taiko_client_driver
@@ -115,14 +106,10 @@ services:
     entrypoint:
       - /bin/sh
       - -c
-      - "/script/start-proposer.sh"
-    ports:
-      - "1234:1234"  # Add this line to open port 1234
+      - "/script/start-proposer-hekla.sh"
     <<: *logging
     profiles:
       - proposer
-    extra_hosts: # for linux hosts since version 20.10
-      - host.docker.internal:host-gateway
 
   prometheus:
     image: prom/prometheus:latest

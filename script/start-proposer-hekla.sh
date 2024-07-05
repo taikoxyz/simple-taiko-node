@@ -30,7 +30,7 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         echo "Warning: PROVER_ENDPOINTS must be non-empty"
         exit 1
     fi
-
+    
     if [ -n "$PROVER_SET" ]; then
         ARGS="${ARGS} --proverSet ${PROVER_SET}"
     fi
@@ -96,7 +96,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
     if [ -n "$TX_SEND_TIMEOUT" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
     fi
-
 
     exec taiko-client proposer ${ARGS}
 else
