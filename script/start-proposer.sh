@@ -13,8 +13,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
         --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
         --proverEndpoints ${PROVER_ENDPOINTS}
-        --tierFee.optimistic ${BLOCK_PROPOSAL_FEE}
-        --tierFee.sgx ${BLOCK_PROPOSAL_FEE}"
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
         echo "Error: L1_ENDPOINT_WS must be non-empty"
@@ -38,10 +36,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
     if [ -n "$TXPOOL_LOCALS" ]; then
         ARGS="${ARGS} --txPool.localsOnly"
         ARGS="${ARGS} --txPool.locals ${TXPOOL_LOCALS}"
-    fi
-
-    if [ -n "$MAX_TIER_FEE_BUMPS" ]; then
-        ARGS="${ARGS} --tierFee.maxPriceBumps ${MAX_TIER_FEE_BUMPS}"
     fi
 
     if [ "$BLOB_ALLOWED" == "true" ]; then
