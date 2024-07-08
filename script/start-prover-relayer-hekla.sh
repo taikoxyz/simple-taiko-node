@@ -12,7 +12,7 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
-        --raiko.host ${SGX_RAIKO_HOST}
+        --raiko.host ${SGX_RAIKO_HOST}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
         echo "Error: SGX_RAIKO_HOST must be non-empty"
