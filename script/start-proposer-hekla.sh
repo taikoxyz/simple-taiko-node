@@ -22,6 +22,10 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         echo "Error: L1_PROPOSER_PRIVATE_KEY must be non-empty"
         exit 1
     fi
+
+    if [ -n "$EPOCH_MIN_TIP" ]; then
+        ARGS="${ARGS} --epoch.minTip ${EPOCH_MIN_TIP}"
+    fi
     
     if [ -n "$PROVER_SET" ]; then
         ARGS="${ARGS} --proverSet ${PROVER_SET}"
