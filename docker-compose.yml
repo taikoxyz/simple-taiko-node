@@ -6,7 +6,7 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.4.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.5.0
     restart: unless-stopped
     pull_policy: always
     env_file:
