@@ -71,7 +71,7 @@ services:
       - proposer
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:main
+    image: us-docker.pkg.dev/evmchain/images/taiko-client-v0.30.0
     restart: unless-stopped
     pull_policy: always
     depends_on:
