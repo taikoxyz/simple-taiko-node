@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.5.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.4.0...v1.5.0) (2024-09-11)
+
+
+### Features
+
+* **hekla:** bump client and l2ee version ([#326](https://github.com/taikoxyz/simple-taiko-node/issues/326)) ([2f6c06e](https://github.com/taikoxyz/simple-taiko-node/commit/2f6c06e0384f9bc7127795146d0d026558a4020e))
+* **prover,proposer,driver:** bump l2ee and driver versions ([#329](https://github.com/taikoxyz/simple-taiko-node/issues/329)) ([6cfd9f1](https://github.com/taikoxyz/simple-taiko-node/commit/6cfd9f11197500b304038e8acd10ac4008e9379f))
+* **prover:** remove unnecesary env in hekla .env.sample and fix ([#325](https://github.com/taikoxyz/simple-taiko-node/issues/325)) ([0db06a8](https://github.com/taikoxyz/simple-taiko-node/commit/0db06a8835bd7ca720865c709ee0e711c3350cb2))
+* **prover:** update version of prover in hekla ([#323](https://github.com/taikoxyz/simple-taiko-node/issues/323)) ([8ecd3bc](https://github.com/taikoxyz/simple-taiko-node/commit/8ecd3bc7f9f9591fe448e044f7a48ca85a45d28c))
+
+
+### Chores
+
+* **hekla:** bump client & taiko-geth image version ([#327](https://github.com/taikoxyz/simple-taiko-node/issues/327)) ([09d77eb](https://github.com/taikoxyz/simple-taiko-node/commit/09d77ebc61506cf6fb67fd60b7ffba4325ee8c6f))
+* **hekla:** bump client & taiko-geth image version ([#328](https://github.com/taikoxyz/simple-taiko-node/issues/328)) ([807926f](https://github.com/taikoxyz/simple-taiko-node/commit/807926fb9f0c27a9dbc756d345ceb65a81fcfdf0))
+
 ## [1.4.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.3.0...v1.4.0) (2024-07-18)
 
 
