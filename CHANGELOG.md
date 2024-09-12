@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.6.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.5.0...v1.6.0) (2024-09-12)
+
+
+### Features
+
+* **prover,proposer,driver:** bump  client version ([#330](https://github.com/taikoxyz/simple-taiko-node/issues/330)) ([ce53ce2](https://github.com/taikoxyz/simple-taiko-node/commit/ce53ce22a63069adf5c84c01769117127b7e5403))
+
 ## [1.5.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.4.0...v1.5.0) (2024-09-11)
 
 
