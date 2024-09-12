@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.7.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.6.0...v1.7.0) (2024-09-12)
+
+
+### Features
+
+* **env:** update Hekla && mainnet bootnodes ([#332](https://github.com/taikoxyz/simple-taiko-node/issues/332)) ([0955f43](https://github.com/taikoxyz/simple-taiko-node/commit/0955f43191fa62175d89a911b6d3085424b15d85))
+
 ## [1.6.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.5.0...v1.6.0) (2024-09-12)
 
 
