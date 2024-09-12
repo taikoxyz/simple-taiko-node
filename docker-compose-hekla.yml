@@ -50,7 +50,7 @@ services:
       - proposer
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.35.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.36.0
     restart: unless-stopped
     pull_policy: always
     depends_on:
