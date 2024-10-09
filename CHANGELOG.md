@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.8.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.7.0...v1.8.0) (2024-10-09)
+
+
+### Features
+
+* **env:** add TxMgr flag annotations ([#334](https://github.com/taikoxyz/simple-taiko-node/issues/334)) ([dd9322f](https://github.com/taikoxyz/simple-taiko-node/commit/dd9322f10f4d1fa7bc4e46daed9a5accb0581486))
+* **hekla:** bump Hekla client tag ([#337](https://github.com/taikoxyz/simple-taiko-node/issues/337)) ([b575679](https://github.com/taikoxyz/simple-taiko-node/commit/b575679af1262f72426ada160596b586cf3cff99))
+* **mainnet:** bump client version ([#336](https://github.com/taikoxyz/simple-taiko-node/issues/336)) ([9166881](https://github.com/taikoxyz/simple-taiko-node/commit/9166881fb0e9bb6025910f861143cc0720eba76e))
+
+
+### Chores
+
+* **docker:** bump Hekla tags ([#338](https://github.com/taikoxyz/simple-taiko-node/issues/338)) ([6abe049](https://github.com/taikoxyz/simple-taiko-node/commit/6abe0490faae82aa6783df41ad668d42f0fc74a2))
+
 ## [1.7.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.6.0...v1.7.0) (2024-09-12)
 
 
