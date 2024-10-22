@@ -1,0 +1,17 @@
+name: Release Please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    if: '!contains(github.event.head_commit.message, "chore(main): release")'
+    runs-on: [arc-runner-set]
+    steps:
+      - uses: googleapis/release-please-action@v4
