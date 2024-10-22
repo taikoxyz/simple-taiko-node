@@ -2,6 +2,8 @@
 
 set -eou pipefail
 
+echo "abcd"
+
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     exec taiko-client driver \
         --l1.ws "${L1_ENDPOINT_WS}" \
