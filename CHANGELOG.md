@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.8.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.8.0...v1.8.1) (2024-10-24)
+
+
+### Bug Fixes
+
+* **proposer,driver,prover:** bump version ([#343](https://github.com/taikoxyz/simple-taiko-node/issues/343)) ([254fb8e](https://github.com/taikoxyz/simple-taiko-node/commit/254fb8ef10bec85ec467dada37dc3b8b9968a003))
+
 ## [1.8.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.7.0...v1.8.0) (2024-10-23)
 
 
