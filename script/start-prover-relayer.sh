@@ -5,17 +5,13 @@ set -eou pipefail
 if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.ws ws://l2_execution_engine:8546
-        --l1.http ${L1_ENDPOINT_HTTP}
         --l2.http http://l2_execution_engine:8545
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
-        --raiko.host ${SGX_RAIKO_HOST}
-        --minTierFee.optimistic ${MIN_ACCEPTABLE_PROOF_FEE}
-        --minTierFee.sgx ${MIN_ACCEPTABLE_PROOF_FEE}
-        --minTierFee.sgxAndZkvm ${MIN_ACCEPTABLE_PROOF_FEE}"
+        --raiko.host ${SGX_RAIKO_HOST}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
         echo "Error: SGX_RAIKO_HOST must be non-empty"
@@ -35,6 +31,10 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     if [ -z "$L1_PROVER_PRIVATE_KEY" ]; then
         echo "Error: L1_PROVER_PRIVATE_KEY must be non-empty"
         exit 1
+    fi
+
+    if [ -n "$PROVER_SET" ]; then
+        ARGS="${ARGS} --proverSet ${PROVER_SET}"
     fi
 
     if [ -n "$TOKEN_ALLOWANCE" ]; then
