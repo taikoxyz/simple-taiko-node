@@ -1,161 +1,227 @@
-x-logging: &logging
-  logging:
-    options:
-      max-size: 10m
-      max-file: "3"
-
 services:
-  l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.11.1
+  nethermind_execution_l2:
+    image: nethermindeth/nethermind:surge-18bae71
+    container_name: execution-taiko-l2-client
     restart: unless-stopped
     pull_policy: always
-    env_file:
-      - .env
     stop_grace_period: 3m
+    tty: true
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - ./execution-data-taiko:/data/taiko-geth
+      - ./jwtsecret:/tmp/jwt/jwtsecret
+      - ./chainspec.json:/chainspec.json
+    networks:
+      - surge
     ports:
-      - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
-      - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
-      - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
-      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
-      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
-    command: |
-      --taiko
-      --networkid "${CHAIN_ID}"
-      --gcmode archive
-      --datadir /data/taiko-geth
-      --metrics
-      --metrics.addr "0.0.0.0"
-      --bootnodes ${BOOT_NODES}
-      --authrpc.addr "0.0.0.0"
-      --authrpc.vhosts "*"
-      --http
-      --http.api debug,eth,net,web3,txpool,taiko
-      --http.addr "0.0.0.0"
-      --http.vhosts "*"
-      --ws
-      --ws.api debug,eth,net,web3,txpool,taiko
-      --ws.addr "0.0.0.0"
-      --ws.origins "*"
-      --gpo.defaultprice "10000000"
-      --port ${PORT_L2_EXECUTION_ENGINE_P2P}
-      --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
-      --maxpeers ${MAXPEERS:-50}
-      --maxpendpeers ${MAXPENDPEERS:-0}
-      ${GETH_ADDITIONAL_ARGS:-}
-    <<: *logging
+      - 30313:30313/tcp
+      - 30313:30313/udp
+      - 8018:8018
+      - 8547:8547
+      - 8548:8548
+      - 8552:8552
+    command:
+      - --config=none
+      - --datadir=/data/taiko-geth
+      - --Init.ChainSpecPath=/chainspec.json
+      - --Init.GenesisHash=0xb0d3df0b42c7f41100b85fef8454dd29c4d6d6f7d1eda963b3839a0ebaa168cd
+      - --Init.DiscoveryEnabled=false
+      - --Metrics.Enabled=true
+      - --Metrics.ExposePort=8018
+      # - --Network.Bootnodes=${BOOT_NODES}
+      - --JsonRpc.Enabled=true
+      - --JsonRpc.EnabledModules=[debug,eth,net,web3,txpool,rpc,subscribe,trace,personal,proof,parity,health]
+      - --JsonRpc.Host=0.0.0.0
+      - --JsonRpc.Port=8547
+      - --JsonRpc.WebSocketsPort=8548
+      - --JsonRpc.JwtSecretFile=/tmp/jwt/jwtsecret
+      - --JsonRpc.EngineHost=0.0.0.0
+      - --JsonRpc.EnginePort=8552
+      - --Network.DiscoveryPort=30313
+      - --Network.P2PPort=30313
+      - --Sync.FastSync=false
+      - --Sync.SnapSync=false
+      - --HealthChecks.Enabled=true
+      - --log=${NETHERMIND_OP_LOG_LEVEL}
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8547'"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+      start_period: 10s
     profiles:
-      - l2_execution_engine
+      - nethermind_execution_l2
       - prover
       - proposer
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.39.2
+    image: nethsurge/taiko-client:error-standard
+    container_name: consensus-taiko-l2-client
     restart: unless-stopped
     pull_policy: always
     depends_on:
-      - l2_execution_engine
-    env_file:
-      - .env
+      - nethermind_execution_l2
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
-      - ./script:/script
+      - ./execution-data-taiko:/data/taiko-geth
+      - ./jwtsecret:/tmp/jwt/jwtsecret
+    networks:
+      - surge
     entrypoint:
-      - /bin/sh
-      - -c
-      - "/script/start-driver.sh"
-    <<: *logging
+      - taiko-client
+    command:
+      - driver
+      - --l1.ws=${L1_ENDPOINT_WS}
+      - --l2.ws=ws://execution-taiko-l2-client:8548
+      - --l1.beacon=${L1_BEACON_HTTP}
+      - --l2.auth=http://execution-taiko-l2-client:8552
+      - --taikoL1=${TAIKO_L1_ADDRESS}
+      - --taikoL2=${TAIKO_L2_ADDRESS}
+      - --jwtSecret=/tmp/jwt/jwtsecret
+      # - --verbosity=4
+      # - --p2p.sync
+      # - --p2p.checkPointSyncUrl=${P2P_SYNC_URL}
     profiles:
-      - l2_execution_engine
+      - nethermind_execution_l2
       - prover
       - proposer
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.39.2
+    image: nethsurge/taiko-client:error-standard
     restart: unless-stopped
     pull_policy: always
     depends_on:
-      - l2_execution_engine
+      - nethermind_execution_l2
       - taiko_client_driver
+    networks:
+      - surge
     ports:
       - "${PORT_PROVER_SERVER}:9876"
-    env_file:
-      - .env
-    volumes:
-      - ./script:/script
     entrypoint:
-      - /bin/sh
-      - -c
-      - "/script/start-prover-relayer.sh"
-    <<: *logging
+      - taiko-client
+    command:
+      - prover
+      - --l1.ws=${L1_ENDPOINT_WS}
+      - --l2.ws=ws://execution-taiko-l2-client:8548
+      - --l2.http=http://execution-taiko-l2-client:8547
+      - --taikoL1=${TAIKO_L1_ADDRESS}
+      - --taikoL2=${TAIKO_L2_ADDRESS}
+      - --l1.proverPrivKey=${L1_PROVER_PRIVATE_KEY}
+      - --prover.capacity=${PROVER_CAPACITY}
+      - --raiko.host=${SGX_RAIKO_HOST}
+      # - --raiko.requestTimeout=${RAIKO_REQUEST_TIMEOUT}
+      # conditioned
+      # - --proverSet ${PROVER_SET}
+      # - --prover.allowance ${TOKEN_ALLOWANCE}
+      # - --prover.minEthBalance ${MIN_ETH_BALANCE}
+      # - --prover.minTaikoTokenBalance ${MIN_TAIKO_BALANCE}
+      # - --prover.proveUnassignedBlocks
+      # - --tx.feeLimitMultiplier ${TX_FEE_LIMIT_MULTIPLIER}
+      # - --tx.feeLimitThreshold ${TX_FEE_LIMIT_THRESHOLD}
+      # - --tx.gasLimit ${TX_GAS_LIMIT}
+      # - --tx.minBaseFee ${TX_MIN_BASEFEE}
+      # - --tx.minTipCap ${TX_MIN_TIP_CAP}
+      # - --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL}
+      # - --tx.numConfirmations ${TX_NUM_CONFIRMATIONS}
+      # - --tx.receiptQueryInterval ${TX_RECEIPT_QUERY}
+      # - --tx.resubmissionTimeout ${TX_RESUBMISSION}
+      # - --tx.safeAbortNonceTooLowCount ${TX_SAFE_ABORT_NONCE_TOO_LOW}
+      # - --tx.sendTimeout ${TX_SEND_TIMEOUT}
     profiles:
       - prover
 
   taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.39.2
+    image: nethsurge/taiko-client:error-standard
     restart: unless-stopped
     pull_policy: always
     depends_on:
-      - l2_execution_engine
+      - nethermind_execution_l2
       - taiko_client_driver
-    env_file:
-      - .env
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
-      - ./script:/script
+      - ./execution-data-taiko:/data/taiko-geth
+      - ./jwtsecret:/tmp/jwt/jwtsecret
+    networks:
+      - surge
     entrypoint:
-      - /bin/sh
-      - -c
-      - "/script/start-proposer.sh"
-    <<: *logging
-    profiles:
-      - proposer
-
-  prometheus:
-    image: prom/prometheus:latest
-    restart: unless-stopped
-    ports:
-      - ${PORT_PROMETHEUS}:9090
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-    volumes:
-      - ./docker/prometheus/l2:/etc/prometheus
-      - prometheus_data:/prometheus
+      - taiko-client
     command:
-      - --log.level=debug
-      - --config.file=/etc/prometheus/prometheus.yml
-    <<: *logging
+      - proposer
+      - --l1.ws=${L1_ENDPOINT_WS}
+      - --l2.http=http://execution-taiko-l2-client:8547
+      - --l2.auth=http://execution-taiko-l2-client:8552
+      - --taikoL1=${TAIKO_L1_ADDRESS}
+      - --taikoL2=${TAIKO_L2_ADDRESS}
+      - --jwtSecret=/tmp/jwt/jwtsecret
+      - --l1.proposerPrivKey=${L1_PROPOSER_PRIVATE_KEY}
+      - --l2.suggestedFeeRecipient=${L2_SUGGESTED_FEE_RECIPIENT}
+      # - --surge.gasNeededForProposingBlock=165000
+      # - --surge.gasNeededForProvingBlock=100000
+      # - --surge.offChainCosts=50000000000000
+      # - --surge.priceFluctuationModifier=15
+      # - --verbosity=4
+      # conditioned
+      # - --epoch.minTip ${EPOCH_MIN_TIP}
+      # - --proverSet ${PROVER_SET}
+      # - --txPool.localsOnly
+      # - --txPool.locals ${TXPOOL_LOCALS}
+      # - --l1.blobAllowed
+      # - --tx.feeLimitMultiplier ${TX_FEE_LIMIT_MULTIPLIER}
+      # - --tx.feeLimitThreshold ${TX_FEE_LIMIT_THRESHOLD}
+      # - --tx.gasLimit ${TX_GAS_LIMIT}
+      # - --tx.minBaseFee ${TX_MIN_BASEFEE}
+      # - --tx.minTipCap ${TX_MIN_TIP_CAP}
+      # - --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL}
+      # - --tx.numConfirmations ${TX_NUM_CONFIRMATIONS}
+      # - --tx.receiptQueryInterval ${TX_RECEIPT_QUERY}
+      # - --tx.resubmissionTimeout ${TX_RESUBMISSION}
+      # - --tx.safeAbortNonceTooLowCount ${TX_SAFE_ABORT_NONCE_TOO_LOW}
+      # - --tx.sendTimeout ${TX_SEND_TIMEOUT}
     profiles:
-      - l2_execution_engine
-      - prover
       - proposer
 
-  grafana:
-    image: grafana/grafana:latest
-    restart: unless-stopped
-    ports:
-      - ${PORT_GRAFANA}:3000
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-      - prometheus
-    environment:
-      - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
-      - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
-      - GF_LOG_LEVEL=WARN
-    volumes:
-      - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
-      - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
-      - grafana_data:/var/lib/grafana
-    <<: *logging
-    profiles:
-      - l2_execution_engine
-      - prover
-      - proposer
+  # prometheus:
+  #   image: prom/prometheus:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - ${PORT_PROMETHEUS}:9090
+  #   depends_on:
+  #     - nethermind_execution_l2
+  #     - taiko_client_driver
+  #   volumes:
+  #     - ./docker/prometheus/l2:/etc/prometheus
+  #     - prometheus_data:/prometheus
+  #   command:
+  #     - --log.level=debug
+  #     - --config.file=/etc/prometheus/prometheus.yml
+  #   profiles:
+  #     - nethermind_execution_l2
+  #     - prover
+  #     - proposer
+
+  # grafana:
+  #   image: grafana/grafana:latest
+  #   restart: unless-stopped
+  #   ports:
+  #     - ${PORT_GRAFANA}:3000
+  #   depends_on:
+  #     - nethermind_execution_l2
+  #     - taiko_client_driver
+  #     - prometheus
+  #   environment:
+  #     - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
+  #     - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
+  #     - GF_LOG_LEVEL=WARN
+  #   volumes:
+  #     - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
+  #     - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
+  #     - grafana_data:/var/lib/grafana
+  #   profiles:
+  #     - nethermind_execution_l2
+  #     - prover
+  #     - proposer
 
 volumes:
-  l2_execution_engine_data:
   prometheus_data:
   grafana_data:
+
+networks:
+  surge:
+    name: surge-network
