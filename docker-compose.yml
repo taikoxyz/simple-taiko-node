@@ -54,7 +54,7 @@ services:
       - proposer
 
   taiko_client_driver:
-    image: nethsurge/taiko-client:error-standard
+    image: nethsurge/taiko-client:f042ca8
     container_name: consensus-taiko-l2-client
     restart: unless-stopped
     pull_policy: always
@@ -85,7 +85,7 @@ services:
       - proposer
 
   taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:error-standard
+    image: nethsurge/taiko-client:f042ca8
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -104,7 +104,8 @@ services:
       - --l2.http=http://execution-taiko-l2-client:8547
       - --taikoL1=${TAIKO_L1_ADDRESS}
       - --taikoL2=${TAIKO_L2_ADDRESS}
-      - --l1.proverPrivKey=${L1_PROVER_PRIVATE_KEY}
+      # use the same private key as the proposer
+      - --l1.proverPrivKey=${L1_PROPOSER_PRIVATE_KEY}
       - --prover.capacity=${PROVER_CAPACITY}
       - --raiko.host=${SGX_RAIKO_HOST}
       # - --raiko.requestTimeout=${RAIKO_REQUEST_TIMEOUT}
@@ -129,7 +130,7 @@ services:
       - prover
 
   taiko_client_proposer:
-    image: nethsurge/taiko-client:error-standard
+    image: nethsurge/taiko-client:f042ca8
     restart: unless-stopped
     pull_policy: always
     depends_on:
