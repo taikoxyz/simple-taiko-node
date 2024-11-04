@@ -178,6 +178,96 @@ services:
     profiles:
       - proposer
 
+  taiko-blockscout-postgres:
+    image: postgres:alpine
+    container_name: taiko-blockscout-postgres
+    restart: unless-stopped
+    pull_policy: always
+    depends_on:
+      - nethermind_execution_l2
+      - taiko_client_driver
+    volumes:
+      - ./blockscout-postgres-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_DB: blockscout
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: MyPassword1!
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      GOSU_VERSION: 1.17
+      PG_MAJOR: 17
+      PG_VERSION: 17.0
+      PG_SHA256: 7e276131c0fdd6b62588dbad9b3bb24b8c3498d5009328dba59af16e819109de
+      DOCKER_PG_LLVM_DEPS: llvm15-dev \t\tclang15
+      PGDATA: /var/lib/postgresql/data
+    command:
+      - "-c"
+      - "max_connections=1000"
+    networks:
+      - surge
+    profiles:
+      - blockscout
+
+  taiko-blockscout-verif:
+    image: ghcr.io/blockscout/smart-contract-verifier:v1.6.0
+    container_name: taiko-blockscout-verif
+    restart: unless-stopped
+    pull_policy: always
+    depends_on:
+      - nethermind_execution_l2
+      - taiko_client_driver
+    ports:
+      - 8050:8050
+    environment:
+      SMART_CONTRACT_VERIFIER__SERVER__HTTP__ADDR: 0.0.0.0:8050
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      APP_USER: app
+    command:
+      - "./smart-contract-verifier-server"
+    networks:
+      - surge
+    profiles:
+      - blockscout
+
+  taiko-blockscout:
+    image: blockscout/blockscout:6.6.0
+    container_name: taiko-blockscout
+    restart: unless-stopped
+    pull_policy: always
+    depends_on:
+      - nethermind_execution_l2
+      - taiko_client_driver
+    ports:
+      - 4000:4000
+    environment:
+      DATABASE_URL: postgresql://postgres:MyPassword1!@taiko-blockscout-postgres:5432/blockscout
+      API_V2_ENABLED: true
+      ETHEREUM_JSONRPC_VARIANT: nethermind
+      MICROSERVICE_SC_VERIFIER_URL: http://taiko-blockscout-verif:8050/api
+      ETHEREUM_JSONRPC_HTTP_URL: http://execution-taiko-l2-client:8547/
+      INDEXER_DISABLE_PENDING_TRANSACTIONS_FETCHER: true
+      SUBNETWORK: Kurtosis
+      ETHEREUM_JSONRPC_TRACE_URL: http://execution-taiko-l2-client:8547/
+      COIN: ETH
+      MICROSERVICE_SC_VERIFIER_TYPE: sc_verifier
+      PORT: 4000
+      MICROSERVICE_SC_VERIFIER_ENABLED: true
+      ECTO_USE_SSL: false
+      SECRET_KEY_BASE: 56NtB48ear7+wMSf0IQuWDAAazhpb31qyc7GiyspBP2vh7t5zlCsF5QDv76chXeN
+      PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      RELEASE_VERSION: 6.6.0
+      CHAIN_TYPE:
+      BRIDGED_TOKENS_ENABLED:
+      BLOCKSCOUT_VERSION: v6.6.0-beta
+    command:
+      - "/bin/sh"
+      - "-c"
+      - "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
+    networks:
+      - surge
+    profiles:
+      - blockscout
   # prometheus:
   #   image: prom/prometheus:latest
   #   restart: unless-stopped
