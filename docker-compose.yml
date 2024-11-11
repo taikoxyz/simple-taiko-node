@@ -1,13 +1,12 @@
 services:
   nethermind_execution_l2:
-    image: nethermindeth/nethermind:surge-18bae71
+    image: nethermindeth/nethermind:surge-2b6ed5201
     container_name: execution-taiko-l2-client
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
     tty: true
     volumes:
-      - ./execution-data-taiko:/data/taiko-geth
       - ./jwtsecret:/tmp/jwt/jwtsecret
       - ./chainspec.json:/chainspec.json
     networks:
@@ -23,11 +22,10 @@ services:
       - --config=none
       - --datadir=/data/taiko-geth
       - --Init.ChainSpecPath=/chainspec.json
-      - --Init.GenesisHash=0xb0d3df0b42c7f41100b85fef8454dd29c4d6d6f7d1eda963b3839a0ebaa168cd
+      - --Init.GenesisHash=0xbeced3738f1246571cccabc82a1e6cbd9ed9d5f7ed2b6c7ded28f9722317bd9e
       - --Init.DiscoveryEnabled=false
       - --Metrics.Enabled=true
       - --Metrics.ExposePort=8018
-      # - --Network.Bootnodes=${BOOT_NODES}
       - --JsonRpc.Enabled=true
       - --JsonRpc.EnabledModules=[debug,eth,net,web3,txpool,rpc,subscribe,trace,personal,proof,parity,health]
       - --JsonRpc.Host=0.0.0.0
@@ -42,6 +40,8 @@ services:
       - --Sync.SnapSync=false
       - --HealthChecks.Enabled=true
       - --log=${NETHERMIND_OP_LOG_LEVEL}
+      - --JsonRpc.MaxBatchResponseBodySize=335544320
+      - --JsonRpc.MaxBatchSize=102400
     healthcheck:
       test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8547'"]
       interval: 2s
@@ -50,7 +50,6 @@ services:
       start_period: 10s
     profiles:
       - nethermind_execution_l2
-      - prover
       - proposer
 
   taiko_client_driver:
@@ -76,61 +75,13 @@ services:
       - --taikoL1=${TAIKO_L1_ADDRESS}
       - --taikoL2=${TAIKO_L2_ADDRESS}
       - --jwtSecret=/tmp/jwt/jwtsecret
-      # - --verbosity=4
-      # - --p2p.sync
-      # - --p2p.checkPointSyncUrl=${P2P_SYNC_URL}
     profiles:
       - nethermind_execution_l2
-      - prover
       - proposer
-
-  taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:f042ca8
-    restart: unless-stopped
-    pull_policy: always
-    depends_on:
-      - nethermind_execution_l2
-      - taiko_client_driver
-    networks:
-      - surge
-    ports:
-      - "${PORT_PROVER_SERVER}:9876"
-    entrypoint:
-      - taiko-client
-    command:
-      - prover
-      - --l1.ws=${L1_ENDPOINT_WS}
-      - --l2.ws=ws://execution-taiko-l2-client:8548
-      - --l2.http=http://execution-taiko-l2-client:8547
-      - --taikoL1=${TAIKO_L1_ADDRESS}
-      - --taikoL2=${TAIKO_L2_ADDRESS}
-      # use the same private key as the proposer
-      - --l1.proverPrivKey=${L1_PROPOSER_PRIVATE_KEY}
-      - --prover.capacity=${PROVER_CAPACITY}
-      - --raiko.host=${SGX_RAIKO_HOST}
-      # - --raiko.requestTimeout=${RAIKO_REQUEST_TIMEOUT}
-      # conditioned
-      # - --proverSet ${PROVER_SET}
-      # - --prover.allowance ${TOKEN_ALLOWANCE}
-      # - --prover.minEthBalance ${MIN_ETH_BALANCE}
-      # - --prover.minTaikoTokenBalance ${MIN_TAIKO_BALANCE}
-      # - --prover.proveUnassignedBlocks
-      # - --tx.feeLimitMultiplier ${TX_FEE_LIMIT_MULTIPLIER}
-      # - --tx.feeLimitThreshold ${TX_FEE_LIMIT_THRESHOLD}
-      # - --tx.gasLimit ${TX_GAS_LIMIT}
-      # - --tx.minBaseFee ${TX_MIN_BASEFEE}
-      # - --tx.minTipCap ${TX_MIN_TIP_CAP}
-      # - --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL}
-      # - --tx.numConfirmations ${TX_NUM_CONFIRMATIONS}
-      # - --tx.receiptQueryInterval ${TX_RECEIPT_QUERY}
-      # - --tx.resubmissionTimeout ${TX_RESUBMISSION}
-      # - --tx.safeAbortNonceTooLowCount ${TX_SAFE_ABORT_NONCE_TOO_LOW}
-      # - --tx.sendTimeout ${TX_SEND_TIMEOUT}
-    profiles:
-      - prover
 
   taiko_client_proposer:
     image: nethsurge/taiko-client:f042ca8
+    container_name: proposer-taiko-l2-client
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -153,6 +104,9 @@ services:
       - --jwtSecret=/tmp/jwt/jwtsecret
       - --l1.proposerPrivKey=${L1_PROPOSER_PRIVATE_KEY}
       - --l2.suggestedFeeRecipient=${L2_SUGGESTED_FEE_RECIPIENT}
+      - --tx.notInMempoolTimeout=30s
+      - --tx.resubmissionTimeout=10s
+      - --epoch.interval=5s
       # - --surge.gasNeededForProposingBlock=165000
       # - --surge.gasNeededForProvingBlock=100000
       # - --surge.offChainCosts=50000000000000
@@ -223,6 +177,8 @@ services:
       SMART_CONTRACT_VERIFIER__SERVER__HTTP__ADDR: 0.0.0.0:8050
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       APP_USER: app
+      SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED: true
+      SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/linux-amd64/list.json
     command:
       - "./smart-contract-verifier-server"
     networks:
@@ -255,11 +211,19 @@ services:
       MICROSERVICE_SC_VERIFIER_ENABLED: true
       ECTO_USE_SSL: false
       SECRET_KEY_BASE: 56NtB48ear7+wMSf0IQuWDAAazhpb31qyc7GiyspBP2vh7t5zlCsF5QDv76chXeN
+      CHAIN_ID: 763374
+      SHOW_TESTNET_LABEL: true
+      DISABLE_EXCHANGE_RATES: true
+      DISABLE_KNOWN_TOKENS: true
+      INDEXER_INTERNAL_TRANSACTIONS_BATCH_SIZE: 10000
+      INDEXER_HIDE_INDEXING_PROGRESS_ALERT: false
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
       RELEASE_VERSION: 6.6.0
       CHAIN_TYPE:
       BRIDGED_TOKENS_ENABLED:
       BLOCKSCOUT_VERSION: v6.6.0-beta
+      SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED: true
+      SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/linux-amd64/list.json
     command:
       - "/bin/sh"
       - "-c"
@@ -268,6 +232,7 @@ services:
       - surge
     profiles:
       - blockscout
+
   # prometheus:
   #   image: prom/prometheus:latest
   #   restart: unless-stopped
@@ -309,9 +274,9 @@ services:
   #     - prover
   #     - proposer
 
-volumes:
-  prometheus_data:
-  grafana_data:
+# volumes:
+#   prometheus_data:
+#   grafana_data:
 
 networks:
   surge:
