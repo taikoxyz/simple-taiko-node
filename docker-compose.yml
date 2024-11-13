@@ -5,6 +5,7 @@ services:
     pull_policy: always
     stop_grace_period: 3m
     tty: true
+    container_name: execution-taiko-l2-client
     volumes:
       - ./jwtsecret:/tmp/jwt/jwtsecret
       - ./chainspec.json:/chainspec.json
