@@ -82,8 +82,8 @@ services:
     command:
       - prover
       - --l1.ws=${L1_ENDPOINT_WS}
-      - --l2.ws=ws://execution-taiko-l2-client:8548
-      - --l2.http=http://execution-taiko-l2-client:8547
+      - --l2.ws=ws://l2_execution_engine:8548
+      - --l2.http=http://l2_execution_engine:8547
       - --taikoL1=${TAIKO_L1_ADDRESS}
       - --taikoL2=${TAIKO_L2_ADDRESS}
       - --l1.proverPrivKey=${L1_PROPOSER_PRIVATE_KEY}
