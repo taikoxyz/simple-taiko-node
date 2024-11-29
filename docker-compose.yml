@@ -131,7 +131,7 @@ services:
       - blockscout
 
   taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:multiprover
+    image: nethsurge/taiko-client:mptest
     container_name: l2-taiko-prover-relayer-client
     restart: unless-stopped
     pull_policy: always
