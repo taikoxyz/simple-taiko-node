@@ -131,7 +131,7 @@ services:
       - blockscout
 
   taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:mptest
+    image: nethsurge/taiko-client:composite-proof
     container_name: l2-taiko-prover-relayer-client
     restart: unless-stopped
     pull_policy: always
@@ -153,6 +153,10 @@ services:
       - --prover.capacity=${PROVER_CAPACITY}
       - --tx.notInMempoolTimeout=30s
       - --tx.resubmissionTimeout=10s
+      # Composite Proof
+      - --sgxVerifier=${SGX_VERIFIER}
+      - --sp1Verifier=${SP1_VERIFIER}
+      - --risc0Verifier=${RISC0_VERIFIER}
       - --raiko.host.zkvm=${RAIKO_HOST_ZKVM}
       - --raiko.host=${SGX_RAIKO_HOST}
       - --raiko.requestTimeout=${RAIKO_REQUEST_TIMEOUT}
@@ -176,6 +180,42 @@ services:
     profiles:
       - prover
       - blockscout
+
+  taiko-set-bridge-address:
+    image: nethsurge/protocol:composite-proof
+    environment:
+      FOUNDRY_PROFILE: layer1
+      DOMAIN: ${CHAIN_ID}
+      ADDRESS: 0x72bCbB3f339aF622c28a26488Eed9097a2977404
+      NAME: 0x6272696467650000000000000000000000000000000000000000000000000000
+      PROXY_ADDRESS: 0x7633740000000000000000000000000000000006
+      FORK_URL: http://l2-nethermind-execution-client:8547
+      PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
+    entrypoint:
+      - sh
+      - -c
+    command: >
+      'forge script ./script/shared/SetAddress.s.sol --fork-url http://l2-nethermind-execution-client:8547 --broadcast -vvv'
+    networks:
+      - surge
+
+  taiko-set-signal-service-address:
+    image: nethsurge/protocol:composite-proof
+    environment:
+      FOUNDRY_PROFILE: layer1
+      DOMAIN: ${CHAIN_ID}
+      ADDRESS: 0x00c042C4D5D913277CE16611a2ce6e9003554aD5
+      NAME: 0x7369676e616c5f73657276696365000000000000000000000000000000000000
+      PROXY_ADDRESS: 0x7633740000000000000000000000000000000006
+      FORK_URL: http://l2-nethermind-execution-client:8547
+      PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
+    entrypoint:
+      - sh
+      - -c
+    command: >
+      'forge script ./script/shared/SetAddress.s.sol --fork-url http://l2-nethermind-execution-client:8547 --broadcast -vvv'
+    networks:
+      - surge
 
   taiko-blockscout-postgres:
     image: postgres:alpine
