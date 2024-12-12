@@ -131,10 +131,10 @@ services:
       - blockscout
 
   taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:composite-proof
+    image: composite-proof-debug:latest
     container_name: l2-taiko-prover-relayer-client
     restart: unless-stopped
-    pull_policy: always
+    # pull_policy: always
     depends_on:
       - nethermind_execution_l2
       - taiko_client_driver
@@ -185,7 +185,7 @@ services:
     image: nethsurge/protocol:composite-proof
     environment:
       FOUNDRY_PROFILE: layer1
-      DOMAIN: ${CHAIN_ID}
+      DOMAIN: ${L1_CHAIN_ID}
       ADDRESS: 0x72bCbB3f339aF622c28a26488Eed9097a2977404
       NAME: 0x6272696467650000000000000000000000000000000000000000000000000000
       PROXY_ADDRESS: 0x7633740000000000000000000000000000000006
@@ -198,12 +198,14 @@ services:
       'forge script ./script/shared/SetAddress.s.sol --fork-url http://l2-nethermind-execution-client:8547 --broadcast -vvv'
     networks:
       - surge
+    profiles:
+      - set-bridge
 
   taiko-set-signal-service-address:
     image: nethsurge/protocol:composite-proof
     environment:
       FOUNDRY_PROFILE: layer1
-      DOMAIN: ${CHAIN_ID}
+      DOMAIN: ${L1_CHAIN_ID}
       ADDRESS: 0x00c042C4D5D913277CE16611a2ce6e9003554aD5
       NAME: 0x7369676e616c5f73657276696365000000000000000000000000000000000000
       PROXY_ADDRESS: 0x7633740000000000000000000000000000000006
@@ -216,6 +218,8 @@ services:
       'forge script ./script/shared/SetAddress.s.sol --fork-url http://l2-nethermind-execution-client:8547 --broadcast -vvv'
     networks:
       - surge
+    profiles:
+      - set-signal-service
 
   taiko-blockscout-postgres:
     image: postgres:alpine
