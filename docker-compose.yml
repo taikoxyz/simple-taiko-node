@@ -131,7 +131,7 @@ services:
       - blockscout
 
   taiko_client_prover_relayer:
-    image: composite-proof-debug:latest
+    image: nethsurge/taiko-client:composite-proof-debug
     container_name: l2-taiko-prover-relayer-client
     restart: unless-stopped
     # pull_policy: always
@@ -182,7 +182,7 @@ services:
       - blockscout
 
   taiko-set-bridge-address:
-    image: nethsurge/protocol:composite-proof
+    image: nethsurge/protocol:composite-proof-debug
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}
@@ -202,7 +202,7 @@ services:
       - set-bridge
 
   taiko-set-signal-service-address:
-    image: nethsurge/protocol:composite-proof
+    image: nethsurge/protocol:composite-proof-debug
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}
