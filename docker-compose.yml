@@ -5,17 +5,30 @@ x-logging: &logging
       max-file: "3"
 
 services:
+  jwt_init:
+    image: alpine
+    volumes:
+      - jwt_secret:/data/jwt
+    command: >
+      sh -c "mkdir -p /data/jwt && 
+             if [ ! -f /data/jwt/secret ]; then 
+               head -c 32 /dev/urandom | xxd -p -c 32 > /data/jwt/secret; 
+             fi"
+    profiles:
+      - l2_execution_engine
+
   l2_execution_engine:
     image: ${L2_EXECUTION_ENGINE_IMAGE}
     restart: unless-stopped
     pull_policy: always
+    depends_on:
+      - jwt_init
     env_file:
       - .env
     stop_grace_period: 3m
     volumes:
       - l2_execution_engine_data:/data
       - ./script:/script
-      - ./script/util/nethermind-config.json:/nethermind/config.json
       - jwt_secret:/data/jwt
     ports:
       - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
@@ -27,8 +40,6 @@ services:
       - /bin/sh
       - -c
       - "/script/start-l2-execution-engine.sh"
-    networks:
-      - taiko
     <<: *logging
     profiles:
       - l2_execution_engine
@@ -49,8 +60,6 @@ services:
       - /bin/sh
       - -c
       - "/script/start-driver.sh"
-    networks:
-      - taiko
     <<: *logging
     profiles:
       - l2_execution_engine
@@ -75,8 +84,6 @@ services:
       - /bin/sh
       - -c
       - "/script/start-prover-relayer.sh"
-    networks:
-      - taiko
     <<: *logging
     profiles:
       - prover
@@ -98,8 +105,6 @@ services:
       - /bin/sh
       - -c
       - "/script/start-proposer.sh"
-    networks:
-      - taiko
     <<: *logging
     profiles:
       - proposer
@@ -118,8 +123,6 @@ services:
     command:
       - --log.level=debug
       - --config.file=/etc/prometheus/prometheus.yml
-    networks:
-      - taiko
     <<: *logging
     profiles:
       - l2_execution_engine
@@ -143,8 +146,6 @@ services:
       - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
       - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
       - grafana_data:/var/lib/grafana
-    networks:
-      - taiko
     <<: *logging
     profiles:
       - l2_execution_engine
@@ -156,7 +157,3 @@ volumes:
   prometheus_data:
   grafana_data:
   jwt_secret:
-
-networks:
-  taiko:
-    name: taiko

@@ -2,12 +2,6 @@
 
 set -eou pipefail
 
-if [ "$L2_EXECUTION_ENGINE" = "nethermind" ]; then
-    JWT="/data/jwt/secret"
-else
-    JWT="/data/jwt/secret"
-fi
-
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     exec taiko-client driver \
         --l1.ws "${L1_ENDPOINT_WS}" \

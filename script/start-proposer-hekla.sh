@@ -2,12 +2,6 @@
 
 set -eou pipefail
 
-if [ "$L2_EXECUTION_ENGINE" = "nethermind" ]; then
-    JWT="/nethermind/keystores/jwt-secret"
-else
-    JWT="/taiko-geth/geth/jwtsecret"
-fi
-
 if [ "$ENABLE_PROPOSER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.http http://l2_execution_engine:8545

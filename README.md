@@ -2,33 +2,55 @@
 
 Get started with the [guide](https://docs.taiko.xyz/guides/node-operators/run-a-taiko-node-with-docker/).
 
-## Execution Engine Options
-
-This repository supports two L2 execution engine options:
-
-1. **Taiko-Geth (Default)**
-   - Use the default `docker-compose.yml` and `.env.sample`
-   - Command: `docker compose up`
-
-2. **Nethermind**
-   - Use `docker-compose-nethermind.yml` and `.env.sample.nethermind`
-   - Command: `docker compose -f docker-compose-nethermind.yml up`
-
-For Hekla testnet:
-- Taiko-Geth: Use `docker-compose-hekla.yml`
-- Nethermind: Use `docker-compose-nethermind-hekla.yml`
-
-## Configuration
+## Setup Instructions
 
 1. Copy the appropriate .env sample file:
    ```bash
-   # For Taiko-Geth
+   # For regular setup
    cp .env.sample .env
 
-   # For Nethermind
-   cp .env.sample.nethermind .env
+   # For Hekla testnet
+   cp .env.sample.hekla .env
    ```
 
-2. Configure your environment variables in the `.env` file.
+2. Configure the required L1 endpoints in your `.env` file:
+   ```env
+   # L1 endpoints (required)
+   L1_ENDPOINT_HTTP=        # Your L1 HTTP endpoint
+   L1_ENDPOINT_WS=         # Your L1 WebSocket endpoint
+   L1_BEACON_HTTP=         # Your L1 Beacon node HTTP endpoint
+   ```
 
-3. Start the node with the appropriate docker-compose file for your chosen execution engine.
+   For the L1 Beacon endpoint:
+   - Local node example: `http://host.docker.internal:5052`
+   - Remote node example: `http://82.168.1.15:5052`
+
+3. Choose your L2 execution engine in the `.env` file:
+
+   **Taiko-Geth**
+   ```env
+   L2_EXECUTION_ENGINE=taiko-geth
+   L2_EXECUTION_ENGINE_IMAGE=us-docker.pkg.dev/evmchain/images/taiko-geth:v1.11.1
+   ```
+
+   **Nethermind**
+   ```env
+   L2_EXECUTION_ENGINE=nethermind
+   L2_EXECUTION_ENGINE_IMAGE=nethermind/nethermind:1.30.1
+   ```
+
+4. Start the node with docker-compose:
+   ```bash
+   # For regular setup
+   docker compose up
+
+   # For Hekla testnet
+   docker compose -f docker-compose-hekla.yml up
+   ```
+
+## Important Notes
+
+- The docker-compose configuration is unified for both execution engines
+- The JWT secret for the execution engine is automatically managed by a dedicated initialization service
+- The L1 beacon node endpoint should be configured with the correct protocol (http/https) and port
+- All required endpoints must be properly configured in the `.env` file before starting the node

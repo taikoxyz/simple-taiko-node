@@ -1,11 +1,5 @@
 #!/bin/sh
 
-# Create JWT directory and secret if they don't exist
-mkdir -p /data/jwt
-if [ ! -f "/data/jwt/secret" ]; then
-    openssl rand -hex 32 > /data/jwt/secret
-fi
-
 if [ "$L2_EXECUTION_ENGINE" = "nethermind" ]; then
     exec /nethermind/nethermind \
         --config ${NETWORK} \
@@ -25,7 +19,7 @@ if [ "$L2_EXECUTION_ENGINE" = "nethermind" ]; then
         --Metrics.ExposePort 6060 \
         --JsonRpc.JwtSecretFile /data/jwt/secret
 else
-    exec taiko-geth \
+    exec geth \
       --taiko \
       --networkid "${CHAIN_ID}" \
       --gcmode archive \
@@ -43,6 +37,7 @@ else
       --ws \
       --ws.api debug,eth,net,web3,txpool,taiko \
       --ws.addr "0.0.0.0" \
+      --ws.port ${PORT_L2_EXECUTION_ENGINE_WS} \
       --ws.origins "*" \
       --gpo.defaultprice "10000000" \
       --port ${PORT_L2_EXECUTION_ENGINE_P2P} \
