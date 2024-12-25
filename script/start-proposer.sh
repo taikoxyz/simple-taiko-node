@@ -10,7 +10,13 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --jwtSecret /tmp/jwt/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
-        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
+        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
+        --checkProfitability ${CHECK_PROFITABILITY}
+        --allowEmptyBlocks ${ALLOW_EMPTY_BLOCKS}
+        --surge.gasNeededForProposingBlock ${PROPOSING_BLOCK_GAS}
+        --surge.gasNeededForProvingBlock ${PROVING_BLOCK_GAS}
+        --surge.offChainCosts ${OFF_CHAIN_COSTS}
+        --surge.priceFluctuationModifier ${PRICE_FLUCTUATION_MODIFIER}"
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
         echo "Error: L1_ENDPOINT_WS must be non-empty"
