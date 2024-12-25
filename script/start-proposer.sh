@@ -12,11 +12,7 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
         --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
         --checkProfitability ${CHECK_PROFITABILITY}
-        --allowEmptyBlocks ${ALLOW_EMPTY_BLOCKS}
-        --surge.gasNeededForProposingBlock ${PROPOSING_BLOCK_GAS}
-        --surge.gasNeededForProvingBlock ${PROVING_BLOCK_GAS}
-        --surge.offChainCosts ${OFF_CHAIN_COSTS}
-        --surge.priceFluctuationModifier ${PRICE_FLUCTUATION_MODIFIER}"
+        --allowEmptyBlocks ${ALLOW_EMPTY_BLOCKS}"
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
         echo "Error: L1_ENDPOINT_WS must be non-empty"
@@ -26,6 +22,22 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
     if [ -z "$L1_PROPOSER_PRIVATE_KEY" ]; then
         echo "Error: L1_PROPOSER_PRIVATE_KEY must be non-empty"
         exit 1
+    fi
+    
+    if [ -n "$PROPOSING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProposingBlock ${PROPOSING_BLOCK_GAS}"
+    fi
+
+    if [ -n "$PROVING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProvingBlock ${PROVING_BLOCK_GAS}"
+    fi
+
+    if [ -n "$OFF_CHAIN_COSTS" ]; then
+        ARGS="${ARGS} --surge.offChainCosts ${OFF_CHAIN_COSTS}"
+    fi
+
+    if [ -n "$PRICE_FLUCTUATION_MODIFIER" ]; then
+        ARGS="${ARGS} --surge.priceFluctuationModifier ${PRICE_FLUCTUATION_MODIFIER}"
     fi
 
     if [ -n "$CHECK_PROFITABILITY" ]; then
