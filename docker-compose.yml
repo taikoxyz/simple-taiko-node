@@ -127,7 +127,6 @@ services:
       - surge
     profiles:
       - proposer
-      - prover
       - blockscout
 
   taiko-blockscout-postgres:
