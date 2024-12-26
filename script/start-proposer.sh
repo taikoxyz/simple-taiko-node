@@ -24,20 +24,20 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         exit 1
     fi
     
-    if [ -n "$PROPOSING_BLOCK_GAS" ]; then
-        ARGS="${ARGS} --surge.gasNeededForProposingBlock ${PROPOSING_BLOCK_GAS}"
+    if [ -n "$SURGE_PROPOSING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProposingBlock ${SURGE_PROPOSING_BLOCK_GAS}"
     fi
 
-    if [ -n "$PROVING_BLOCK_GAS" ]; then
-        ARGS="${ARGS} --surge.gasNeededForProvingBlock ${PROVING_BLOCK_GAS}"
+    if [ -n "$SURGE_PROVING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProvingBlock ${SURGE_PROVING_BLOCK_GAS}"
     fi
 
-    if [ -n "$OFF_CHAIN_COSTS" ]; then
-        ARGS="${ARGS} --surge.offChainCosts ${OFF_CHAIN_COSTS}"
+    if [ -n "$SURGE_OFF_CHAIN_COSTS" ]; then
+        ARGS="${ARGS} --surge.offChainCosts ${SURGE_OFF_CHAIN_COSTS}"
     fi
 
-    if [ -n "$PRICE_FLUCTUATION_MODIFIER" ]; then
-        ARGS="${ARGS} --surge.priceFluctuationModifier ${PRICE_FLUCTUATION_MODIFIER}"
+    if [ -n "$SURGE_PRICE_FLUCTUATION_MODIFIER" ]; then
+        ARGS="${ARGS} --surge.priceFluctuationModifier ${SURGE_PRICE_FLUCTUATION_MODIFIER}"
     fi
 
     if [ -n "$CHECK_PROFITABILITY" ]; then
