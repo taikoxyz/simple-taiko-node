@@ -23,11 +23,11 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
     fi
 
     if [ -n "$CHECK_PROFITABILITY" ]; then
-        ARGS="${ARGS} --checkProfitability ${CHECK_PROFITABILITY}"
+        ARGS="${ARGS} --checkProfitability=${CHECK_PROFITABILITY}"
     fi
 
     if [ -n "$ALLOW_EMPTY_BLOCKS" ]; then
-        ARGS="${ARGS} --allowEmptyBlocks ${ALLOW_EMPTY_BLOCKS}"
+        ARGS="${ARGS} --allowEmptyBlocks=${ALLOW_EMPTY_BLOCKS}"
     fi
 
     if [ -n "$SURGE_PROPOSING_BLOCK_GAS" ]; then
