@@ -6,8 +6,6 @@ services:
     pull_policy: always
     stop_grace_period: 3m
     tty: true
-    depends_on:
-      - pushgateway
     volumes:
       - ./execution-data-taiko:/data/taiko-geth
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
@@ -29,7 +27,6 @@ services:
       - --Init.DiscoveryEnabled=false
       - --Metrics.Enabled=true
       - --Metrics.ExposePort=${L2_METRICS_PORT}
-      - --Metrics.PushGatewayUrl=http://pushgateway:9091
       - --JsonRpc.Enabled=true
       - --JsonRpc.EnabledModules=[debug,eth,net,web3,txpool,rpc,subscribe,trace,personal,proof,parity,health]
       - --JsonRpc.Host=0.0.0.0
