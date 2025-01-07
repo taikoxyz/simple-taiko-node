@@ -10,7 +10,8 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --jwtSecret /tmp/jwt/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
-        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
+        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
+        --verbosity 4"
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
         echo "Error: L1_ENDPOINT_WS must be non-empty"

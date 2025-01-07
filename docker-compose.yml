@@ -106,7 +106,7 @@ services:
       - blockscout
 
   taiko_client_proposer:
-    image: nethsurge/taiko-client:surge-docs
+    image: nethsurge/taiko-client:surge-docs-test
     container_name: l2-taiko-proposer-client
     restart: unless-stopped
     pull_policy: always
