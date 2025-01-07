@@ -4,12 +4,11 @@ set -eou pipefail
 
 if [ "$ENABLE_PROPOSER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
-        --l2.http http://l2_execution_engine:8545
-        --l2.auth http://l2_execution_engine:8551
+        --l2.http http://l2-nethermind-execution-client:${L2_HTTP_PORT}
+        --l2.auth http://l2-nethermind-execution-client:${L2_ENGINE_API_PORT}
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
-        --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
-        --jwtSecret /data/taiko-geth/geth/jwtsecret
+        --jwtSecret /tmp/jwt/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
         --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
 
@@ -21,6 +20,34 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
     if [ -z "$L1_PROPOSER_PRIVATE_KEY" ]; then
         echo "Error: L1_PROPOSER_PRIVATE_KEY must be non-empty"
         exit 1
+    fi
+
+    if [ -n "$CHECK_PROFITABILITY" ]; then
+        ARGS="${ARGS} --checkProfitability=${CHECK_PROFITABILITY}"
+    fi
+
+    if [ -n "$ALLOW_EMPTY_BLOCKS" ]; then
+        ARGS="${ARGS} --allowEmptyBlocks=${ALLOW_EMPTY_BLOCKS}"
+    fi
+
+    if [ -n "$SURGE_PROPOSING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProposingBlock ${SURGE_PROPOSING_BLOCK_GAS}"
+    fi
+
+    if [ -n "$SURGE_PROVING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProvingBlock ${SURGE_PROVING_BLOCK_GAS}"
+    fi
+
+    if [ -n "$SURGE_OFF_CHAIN_COSTS" ]; then
+        ARGS="${ARGS} --surge.offChainCosts ${SURGE_OFF_CHAIN_COSTS}"
+    fi
+
+    if [ -n "$SURGE_PRICE_FLUCTUATION_MODIFIER" ]; then
+        ARGS="${ARGS} --surge.priceFluctuationModifier ${SURGE_PRICE_FLUCTUATION_MODIFIER}"
+    fi
+
+    if [ -n "$EPOCH_INTERVAL" ]; then
+        ARGS="${ARGS} --epoch.interval ${EPOCH_INTERVAL}"
     fi
 
     if [ -n "$EPOCH_MIN_TIP" ]; then
@@ -61,16 +88,16 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --tx.minTipCap ${TX_MIN_TIP_CAP}"
     fi
 
-    if [ -n "$TX_NOT_IN_MEMPOOL" ]; then
-        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL}"
+    if [ -n "$TX_NOT_IN_MEMPOOL_TIMEOUT" ]; then
+        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL_TIMEOUT}"
     fi
 
     if [ -n "$TX_NUM_CONFIRMATIONS" ]; then
         ARGS="${ARGS} --tx.numConfirmations ${TX_NUM_CONFIRMATIONS}"
     fi
 
-    if [ -n "$TX_RECEIPT_QUERY" ]; then
-        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY}"
+    if [ -n "$TX_RECEIPT_QUERY_INTERVAL" ]; then
+        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY_INTERVAL}"
     fi
 
     if [ -n "$TX_RESUBMISSION" ]; then
@@ -85,7 +112,7 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
     fi
 
-
+    echo "Executing command: taiko-client proposer ${ARGS}"
     exec taiko-client proposer ${ARGS}
 else
     echo "PROPOSER IS DISABLED"

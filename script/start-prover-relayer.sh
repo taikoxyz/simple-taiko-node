@@ -4,13 +4,15 @@ set -eou pipefail
 
 if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
-        --l2.ws ws://l2_execution_engine:8546
-        --l2.http http://l2_execution_engine:8545
+        --l2.ws ws://l2-nethermind-execution-client:${L2_WS_PORT}
+        --l2.http http://l2-nethermind-execution-client:${L2_HTTP_PORT}
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
-        --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --prover.capacity ${PROVER_CAPACITY}
+        --sgxVerifier ${SGX_VERIFIER}
+        --sp1Verifier ${SP1_VERIFIER}
+        --risc0Verifier ${RISC0_VERIFIER}
         --raiko.host ${SGX_RAIKO_HOST}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
@@ -31,6 +33,14 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     if [ -z "$L1_PROVER_PRIVATE_KEY" ]; then
         echo "Error: L1_PROVER_PRIVATE_KEY must be non-empty"
         exit 1
+    fi
+
+    if [ -n "$RAIKO_HOST_ZKVM" ]; then
+        ARGS="${ARGS} --raiko.host.zkvm ${RAIKO_HOST_ZKVM}"
+    fi
+
+    if [ -n "$RAIKO_REQUEST_TIMEOUT" ]; then
+        ARGS="${ARGS} --raiko.requestTimeout ${RAIKO_REQUEST_TIMEOUT}"
     fi
 
     if [ -n "$PROVER_SET" ]; then
@@ -74,16 +84,16 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --tx.minTipCap ${TX_MIN_TIP_CAP}"
     fi
 
-    if [ -n "$TX_NOT_IN_MEMPOOL" ]; then
-        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL}"
+    if [ -n "$TX_NOT_IN_MEMPOOL_TIMEOUT" ]; then
+        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL_TIMEOUT}"
     fi
 
     if [ -n "$TX_NUM_CONFIRMATIONS" ]; then
         ARGS="${ARGS} --tx.numConfirmations ${TX_NUM_CONFIRMATIONS}"
     fi
 
-    if [ -n "$TX_RECEIPT_QUERY" ]; then
-        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY}"
+    if [ -n "$TX_RECEIPT_QUERY_INTERVAL" ]; then
+        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY_INTERVAL}"
     fi
 
     if [ -n "$TX_RESUBMISSION" ]; then

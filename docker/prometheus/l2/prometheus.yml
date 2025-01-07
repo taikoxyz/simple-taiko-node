@@ -16,4 +16,4 @@ scrape_configs:
     scheme: http
     static_configs:
       - targets:
-          - l2_execution_engine:6060
+          - nethermind_execution_l2:8018
