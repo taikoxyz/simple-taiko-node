@@ -56,7 +56,7 @@ services:
       - blockscout
 
   taiko_client_driver:
-    image: nethsurge/taiko-client:surge-docs
+    image: nethsurge/taiko-client:surge-prep
     container_name: l2-taiko-consensus-client
     restart: unless-stopped
     pull_policy: always
@@ -83,7 +83,7 @@ services:
       - blockscout
 
   taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:surge-docs
+    image: nethsurge/taiko-client:surge-prep
     container_name: l2-taiko-prover-relayer-client
     restart: unless-stopped
     pull_policy: always
@@ -106,7 +106,7 @@ services:
       - blockscout
 
   taiko_client_proposer:
-    image: nethsurge/taiko-client:surge-docs-test
+    image: nethsurge/taiko-client:surge-prep
     container_name: l2-taiko-proposer-client
     restart: unless-stopped
     pull_policy: always
