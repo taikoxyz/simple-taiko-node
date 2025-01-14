@@ -43,6 +43,30 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --raiko.requestTimeout ${RAIKO_REQUEST_TIMEOUT}"
     fi
 
+    if [ -n "$RAIKO_SP1_RECURSION" ]; then
+        ARGS="${ARGS} --raiko.sp1Recursion ${RAIKO_SP1_RECURSION}"
+    fi
+
+    if [ -n "$RAIKO_SP1_PROVER" ]; then
+        ARGS="${ARGS} --raiko.sp1Prover ${RAIKO_SP1_PROVER}"
+    fi
+
+    if [ -n "$RAIKO_RISC0_BONSAI" ]; then
+        ARGS="${ARGS} --raiko.risc0Bonsai ${RAIKO_RISC0_BONSAI}"
+    fi
+
+    if [ -n "$RAIKO_RISC0_SNARK" ]; then
+        ARGS="${ARGS} --raiko.risc0Snark ${RAIKO_RISC0_SNARK}"
+    fi
+
+    if [ -n "$RAIKO_RISC0_PROFILE" ]; then
+        ARGS="${ARGS} --raiko.risc0Profile ${RAIKO_RISC0_PROFILE}"
+    fi
+
+    if [ -n "$RAIKO_RISC0_EXECUTION_PO2" ]; then
+        ARGS="${ARGS} --raiko.risc0ExecutionPo2 ${RAIKO_RISC0_EXECUTION_PO2}"
+    fi
+
     if [ -n "$PROVER_SET" ]; then
         ARGS="${ARGS} --proverSet ${PROVER_SET}"
     fi
