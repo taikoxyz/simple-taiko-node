@@ -40,13 +40,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --l1.blobAllowed"
     fi
 
-    if [ "$FALLBACK_TO_CALLDATA" == "true" ]; then
-        ARGS="${ARGS} --l1.fallbackToCalldata"
-    fi
-
-    if [ "$REVERT_PROTECTION" == "true" ]; then
-        ARGS="${ARGS} --l1.revertProtection"
-    fi
 
     # TXMGR Settings
     if [ -n "$TX_FEE_LIMIT_MULTIPLIER" ]; then

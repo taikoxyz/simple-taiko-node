@@ -50,13 +50,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
     fi
 
-    if [ -n "$SGX_BATCH_SIZE" ]; then
-        ARGS="${ARGS} --prover.sgx.batchSize ${SGX_BATCH_SIZE}"
-    fi
-
-    if [ -n "$FORCE_BATCH_PROVING_INTERVAL" ]; then
-        ARGS="${ARGS} --prover.forceBatchProvingInterval ${FORCE_BATCH_PROVING_INTERVAL}"
-    fi
 
     # TXMGR Settings
     if [ -n "$TX_FEE_LIMIT_MULTIPLIER" ]; then
