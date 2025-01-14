@@ -10,7 +10,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
-        --prover.capacity ${PROVER_CAPACITY}
         --raiko.host ${SGX_RAIKO_HOST}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
@@ -34,14 +33,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
 
     if [ -n "$TOKEN_ALLOWANCE" ]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
-    fi
-
-    if [ -n "$MIN_ETH_BALANCE" ]; then
-        ARGS="${ARGS} --prover.minEthBalance ${MIN_ETH_BALANCE}"
-    fi
-
-    if [ -n "$MIN_TAIKO_BALANCE" ]; then
-        ARGS="${ARGS} --prover.minTaikoTokenBalance ${MIN_TAIKO_BALANCE}"
     fi
 
     if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
