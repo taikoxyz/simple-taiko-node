@@ -50,7 +50,7 @@ services:
       - proposer
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.39.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.43.0
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -71,7 +71,7 @@ services:
       - proposer
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.39.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.43.0
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -92,7 +92,7 @@ services:
       - prover
 
   taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.39.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-client-v0.43.0
     restart: unless-stopped
     pull_policy: always
     depends_on:
