@@ -22,11 +22,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         exit 1
     fi
 
-    if [ -z "$L1_ENDPOINT_HTTP" ]; then
-        echo "Error: L1_ENDPOINT_HTTP must be non-empty"
-        exit 1
-    fi
-
     if [ -z "$L1_PROVER_PRIVATE_KEY" ]; then
         echo "Error: L1_PROVER_PRIVATE_KEY must be non-empty"
         exit 1
@@ -50,6 +45,14 @@ if [ "$ENABLE_PROVER" = "true" ]; then
 
     if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
+    fi
+
+    if [ -n "$SGX_BATCH_SIZE" ]; then
+        ARGS="${ARGS} --prover.sgx.batchSize ${SGX_BATCH_SIZE}"
+    fi
+
+    if [ -n "$FORCE_BATCH_PROVING_INTERVAL" ]; then
+        ARGS="${ARGS} --prover.forceBatchProvingInterval ${FORCE_BATCH_PROVING_INTERVAL}"
     fi
 
     # TXMGR Settings
