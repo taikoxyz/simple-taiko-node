@@ -40,7 +40,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --l1.blobAllowed"
     fi
 
-
     # TXMGR Settings
     if [ -n "$TX_FEE_LIMIT_MULTIPLIER" ]; then
             ARGS="${ARGS} --tx.feeLimitMultiplier ${TX_FEE_LIMIT_MULTIPLIER}"
