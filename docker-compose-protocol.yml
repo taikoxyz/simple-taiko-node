@@ -59,7 +59,7 @@ services:
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}
-      ADDRESS: ${L2_SIGNAL_SERVICE_ADDRESS}
+      ADDRESS: ${L1_SIGNAL_SERVICE_ADDRESS}
       NAME: ${SIGNAL_SERVICE_32_BYTES}
       PROXY_ADDRESS: ${L2_SHARED_ADDRESS_MANAGER}
       FORK_URL: http://l2-nethermind-execution-client:${L2_HTTP_PORT}
