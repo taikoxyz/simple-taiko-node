@@ -23,11 +23,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         exit 1
     fi
 
-    if [ -z "$L1_ENDPOINT_HTTP" ]; then
-        echo "Error: L1_ENDPOINT_HTTP must be non-empty"
-        exit 1
-    fi
-
     if [ -z "$L1_PROVER_PRIVATE_KEY" ]; then
         echo "Error: L1_PROVER_PRIVATE_KEY must be non-empty"
         exit 1
@@ -41,10 +36,12 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
     fi
 
+    # Deprecated after version 0.43.0 of taiko-client
     if [ -n "$MIN_ETH_BALANCE" ]; then
         ARGS="${ARGS} --prover.minEthBalance ${MIN_ETH_BALANCE}"
     fi
 
+    # Deprecated after version 0.43.0 of taiko-client
     if [ -n "$MIN_TAIKO_BALANCE" ]; then
         ARGS="${ARGS} --prover.minTaikoTokenBalance ${MIN_TAIKO_BALANCE}"
     fi
