@@ -40,7 +40,7 @@
     "eip3855TransitionTimestamp": "0x0",
     "eip3860TransitionTimestamp": "0x0",
     "eip4895TransitionTimestamp": "0x0",
-    "feeCollector": "0x7633740000000000000000000000000000010001",
+    "feeCollector": "0x0000000000000000000000000000000000000000",
     "eip1559FeeCollectorTransition": "0x0",
     "networkID": "0xba5ee",
     "chainID": "0xba5ee",
@@ -59,13 +59,7 @@
   },
   "accounts": {
     "0x8943545177806ED17B9F23F0a21ee5948eCaa776": {
-      "balance": "0x3635c9adc5dea00000"
-    },
-    "0x79fcdef22feed20eddacbb2587640e45491b757f": {
-      "balance": "0x3635c9adc5dea00000"
-    },
-    "0xE25583099BA105D9ec0A67f5Ae86D90e50036425": {
-      "balance": "0x3635c9adc5dea00000"
+      "balance": "0x16345785d8a0000"
     },
     "0x0763374000000000000000000000000000000006": {
       "contractName": "SharedAddressManagerImpl",
