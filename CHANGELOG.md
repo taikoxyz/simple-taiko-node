@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.8.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.8.1...v1.8.2) (2025-01-15)
+
+
+### Chores
+
+* **env:** update `.env.sample.hekla` ([4bd0a2a](https://github.com/taikoxyz/simple-taiko-node/commit/4bd0a2a4cc1ff818fdbf75a8e4614cfdf77c5632))
+* **prover,proposer,driver:** upgrade client version to `0.43.0` on Hekla ([#351](https://github.com/taikoxyz/simple-taiko-node/issues/351)) ([ff47aaf](https://github.com/taikoxyz/simple-taiko-node/commit/ff47aafee80e06d674e3bcb977bdfd5f45bd1e7d))
+
 ## [1.8.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.8.0...v1.8.1) (2024-10-24)
 
 
