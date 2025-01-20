@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.9.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.8.2...v1.9.0) (2025-01-20)
+
+
+### Features
+
+* **driver,prover,proposer:** bump  client version ([#353](https://github.com/taikoxyz/simple-taiko-node/issues/353)) ([02fa9b6](https://github.com/taikoxyz/simple-taiko-node/commit/02fa9b6aafde655a5db56b656e7d60a9a85bdd88))
+
 ## [1.8.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.8.1...v1.8.2) (2025-01-15)
 
 
