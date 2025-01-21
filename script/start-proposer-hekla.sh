@@ -69,8 +69,8 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --tx.minTipCap ${TX_MIN_TIP_CAP}"
     fi
 
-    if [ -n "$TX_NOT_IN_MEMPOOL" ]; then
-        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL}"
+    if [ -n "$TX_NOT_IN_MEMPOOL_TIMEOUT" ]; then
+        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL_TIMEOUT}"
     fi
 
     if [ -n "$TX_NUM_CONFIRMATIONS" ]; then
