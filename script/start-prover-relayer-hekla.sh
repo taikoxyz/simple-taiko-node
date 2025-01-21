@@ -67,16 +67,16 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --tx.minTipCap ${TX_MIN_TIP_CAP}"
     fi
 
-    if [ -n "$TX_NOT_IN_MEMPOOL" ]; then
-        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL}"
+    if [ -n "$TX_NOT_IN_MEMPOOL_TIMEOUT" ]; then
+        ARGS="${ARGS} --tx.notInMempoolTimeout ${TX_NOT_IN_MEMPOOL_TIMEOUT}"
     fi
 
     if [ -n "$TX_NUM_CONFIRMATIONS" ]; then
         ARGS="${ARGS} --tx.numConfirmations ${TX_NUM_CONFIRMATIONS}"
     fi
 
-    if [ -n "$TX_RECEIPT_QUERY" ]; then
-        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY}"
+    if [ -n "$TX_RECEIPT_QUERY_INTERVAL" ]; then
+        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY_INTEERVAL}"
     fi
 
     if [ -n "$TX_RESUBMISSION" ]; then
