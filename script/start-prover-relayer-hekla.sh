@@ -76,7 +76,7 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     fi
 
     if [ -n "$TX_RECEIPT_QUERY_INTERVAL" ]; then
-        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY_INTEERVAL}"
+        ARGS="${ARGS} --tx.receiptQueryInterval ${TX_RECEIPT_QUERY_INTERVAL}"
     fi
 
     if [ -n "$TX_RESUBMISSION" ]; then
