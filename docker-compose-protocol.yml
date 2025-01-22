@@ -1,6 +1,6 @@
 services:
   set-bridge-address-l1:
-    image: nethsurge/protocol:surge-prep-v2
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L2_CHAIN_ID}
@@ -16,7 +16,7 @@ services:
       'forge script ./script/shared/SetAddress.s.sol --fork-url "${L1_ENDPOINT_HTTP}" --broadcast -vvv'
   
   set-signal-service-address-l1:
-    image: nethsurge/protocol:surge-prep-v2
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L2_CHAIN_ID}
@@ -36,7 +36,7 @@ services:
       - set-signal-service
   
   set-erc20-vault-address-l1:
-    image: nethsurge/protocol:surge-prep-v2
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L2_CHAIN_ID}
@@ -56,7 +56,7 @@ services:
       - set-erc20-vault
 
   set-bridge-address-l2:
-    image: nethsurge/protocol:surge-prep-v2
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}
@@ -76,7 +76,7 @@ services:
       - set-bridge
 
   set-signal-service-address-l2:
-    image: nethsurge/protocol:surge-prep-v2
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}
@@ -96,7 +96,7 @@ services:
       - set-signal-service
 
   set-erc20-vault-address-l2:
-    image: nethsurge/protocol:surge-prep-v2
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}

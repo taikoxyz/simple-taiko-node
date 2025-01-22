@@ -7,7 +7,6 @@ services:
     stop_grace_period: 3m
     tty: true
     volumes:
-      - ./execution-data-taiko:/data/taiko-geth
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./static/chainspec.json:/chainspec.json
     networks:
@@ -21,19 +20,15 @@ services:
       - ${L2_ENGINE_API_PORT}:${L2_ENGINE_API_PORT}
     command:
       - --config=none
-      - --datadir=/data/taiko-geth
       - --Init.ChainSpecPath=/chainspec.json
       - --Init.GenesisHash=${L2_GENESIS_HASH}
       - --Init.DiscoveryEnabled=false
       - --Metrics.Enabled=true
       - --Metrics.ExposePort=${L2_METRICS_PORT}
       - --JsonRpc.Enabled=true
-      - --JsonRpc.EnabledModules=[debug,eth,net,web3,txpool,rpc,subscribe,trace,personal,proof,parity,health]
-      - --JsonRpc.Host=0.0.0.0
       - --JsonRpc.Port=${L2_HTTP_PORT}
       - --JsonRpc.WebSocketsPort=${L2_WS_PORT}
       - --JsonRpc.JwtSecretFile=/tmp/jwt/jwtsecret
-      - --JsonRpc.EngineHost=0.0.0.0
       - --JsonRpc.EnginePort=${L2_ENGINE_API_PORT}
       - --Network.DiscoveryPort=${L2_NETWORK_DISCOVERY_PORT}
       - --Network.P2PPort=${L2_NETWORK_DISCOVERY_PORT}
@@ -41,8 +36,6 @@ services:
       - --Sync.SnapSync=false
       - --HealthChecks.Enabled=true
       - --log=${NETHERMIND_LOG_LEVEL}
-      - --JsonRpc.MaxBatchResponseBodySize=335544320
-      - --JsonRpc.MaxBatchSize=102400
     healthcheck:
       test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8547'"]
       interval: 2s
@@ -56,14 +49,13 @@ services:
       - blockscout
 
   taiko_client_driver:
-    image: nethsurge/taiko-client:surge-prep-v2
+    image: nethsurge/taiko-client:surge-testnet
     container_name: l2-taiko-consensus-client
     restart: unless-stopped
     pull_policy: always
     depends_on:
       - nethermind_execution_l2
     volumes:
-      - ./execution-data-taiko:/data/taiko-geth
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./script:/script
     ports:
@@ -83,7 +75,7 @@ services:
       - blockscout
 
   taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:surge-prep-v2
+    image: nethsurge/taiko-client:surge-testnet
     container_name: l2-taiko-prover-relayer-client
     restart: unless-stopped
     pull_policy: always
@@ -106,7 +98,7 @@ services:
       - blockscout
 
   taiko_client_proposer:
-    image: nethsurge/taiko-client:surge-prep-v2
+    image: nethsurge/taiko-client:surge-testnet
     container_name: l2-taiko-proposer-client
     restart: unless-stopped
     pull_policy: always
@@ -114,7 +106,6 @@ services:
       - nethermind_execution_l2
       - taiko_client_driver
     volumes:
-      - ./execution-data-taiko:/data/taiko-geth
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./script:/script
     env_file:
@@ -173,6 +164,8 @@ services:
     environment:
       SMART_CONTRACT_VERIFIER__SERVER__HTTP__ADDR: 0.0.0.0:${VERIFIER_PORT}
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      SMART_CONTRACT_VERIFIER__SOLIDITY__COMPILERS_DIR: /tmp/solidity-compilers
+      SMART_CONTRACT_VERIFIER__SOLIDITY__REFRESH_VERSIONS_SCHEDULE: 0 0 * * * * *
       APP_USER: app
       SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED: true
       SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/linux-amd64/list.json
