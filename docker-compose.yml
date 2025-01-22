@@ -41,8 +41,6 @@ services:
       - --Sync.SnapSync=false
       - --HealthChecks.Enabled=true
       - --log=${NETHERMIND_LOG_LEVEL}
-      - --JsonRpc.MaxBatchResponseBodySize=335544320
-      - --JsonRpc.MaxBatchSize=102400
     healthcheck:
       test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8547'"]
       interval: 2s
@@ -56,7 +54,7 @@ services:
       - blockscout
 
   taiko_client_driver:
-    image: nethsurge/taiko-client:surge-docs
+    image: nethsurge/taiko-client:surge-testnet
     container_name: l2-taiko-consensus-client
     restart: unless-stopped
     pull_policy: always
@@ -83,7 +81,7 @@ services:
       - blockscout
 
   taiko_client_prover_relayer:
-    image: nethsurge/taiko-client:surge-docs
+    image: nethsurge/taiko-client:surge-testnet
     container_name: l2-taiko-prover-relayer-client
     restart: unless-stopped
     pull_policy: always
@@ -106,7 +104,7 @@ services:
       - blockscout
 
   taiko_client_proposer:
-    image: nethsurge/taiko-client:surge-docs
+    image: nethsurge/taiko-client:surge-testnet
     container_name: l2-taiko-proposer-client
     restart: unless-stopped
     pull_policy: always
@@ -173,6 +171,8 @@ services:
     environment:
       SMART_CONTRACT_VERIFIER__SERVER__HTTP__ADDR: 0.0.0.0:${VERIFIER_PORT}
       PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+      SMART_CONTRACT_VERIFIER__SOLIDITY__COMPILERS_DIR: /tmp/solidity-compilers
+      SMART_CONTRACT_VERIFIER__SOLIDITY__REFRESH_VERSIONS_SCHEDULE: 0 0 * * * * *
       APP_USER: app
       SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED: true
       SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/linux-amd64/list.json

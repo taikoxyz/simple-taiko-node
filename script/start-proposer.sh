@@ -46,6 +46,30 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --surge.priceFluctuationModifier ${SURGE_PRICE_FLUCTUATION_MODIFIER}"
     fi
 
+    if [ -n "$CHECK_PROFITABILITY" ]; then
+        ARGS="${ARGS} --checkProfitability=${CHECK_PROFITABILITY}"
+    fi
+
+    if [ -n "$ALLOW_EMPTY_BLOCKS" ]; then
+        ARGS="${ARGS} --allowEmptyBlocks=${ALLOW_EMPTY_BLOCKS}"
+    fi
+
+    if [ -n "$SURGE_PROPOSING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProposingBlock ${SURGE_PROPOSING_BLOCK_GAS}"
+    fi
+
+    if [ -n "$SURGE_PROVING_BLOCK_GAS" ]; then
+        ARGS="${ARGS} --surge.gasNeededForProvingBlock ${SURGE_PROVING_BLOCK_GAS}"
+    fi
+
+    if [ -n "$SURGE_OFF_CHAIN_COSTS" ]; then
+        ARGS="${ARGS} --surge.offChainCosts ${SURGE_OFF_CHAIN_COSTS}"
+    fi
+
+    if [ -n "$SURGE_PRICE_FLUCTUATION_MODIFIER" ]; then
+        ARGS="${ARGS} --surge.priceFluctuationModifier ${SURGE_PRICE_FLUCTUATION_MODIFIER}"
+    fi
+
     if [ -n "$EPOCH_INTERVAL" ]; then
         ARGS="${ARGS} --epoch.interval ${EPOCH_INTERVAL}"
     fi
@@ -112,7 +136,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
     fi
 
-    echo "Executing command: taiko-client proposer ${ARGS}"
     exec taiko-client proposer ${ARGS}
 else
     echo "PROPOSER IS DISABLED"

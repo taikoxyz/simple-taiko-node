@@ -1,6 +1,6 @@
 services:
   set-bridge-address-l1:
-    image: nethsurge/protocol:surge-docs
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L2_CHAIN_ID}
@@ -14,8 +14,9 @@ services:
       - -c
     command: >
       'forge script ./script/shared/SetAddress.s.sol --fork-url "${L1_ENDPOINT_HTTP}" --broadcast -vvv'
+  
   set-signal-service-address-l1:
-    image: nethsurge/protocol:surge-docs
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L2_CHAIN_ID}
@@ -33,9 +34,29 @@ services:
       - surge
     profiles:
       - set-signal-service
+  
+  set-erc20-vault-address-l1:
+    image: nethsurge/protocol:surge-testnet
+    environment:
+      FOUNDRY_PROFILE: layer1
+      DOMAIN: ${L2_CHAIN_ID}
+      ADDRESS: ${L2_ERC20_VAULT_ADDRESS}
+      NAME: ${ERC20_VAULT_32_BYTES}
+      PROXY_ADDRESS: ${L1_SHARED_ADDRESS_MANAGER}
+      FORK_URL: ${L1_ENDPOINT_HTTP}
+      PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
+    entrypoint:
+      - sh
+      - -c
+    command: >
+      'forge script ./script/shared/SetAddress.s.sol --fork-url "${L1_ENDPOINT_HTTP}" --broadcast -vvv'
+    networks:
+      - surge
+    profiles:
+      - set-erc20-vault
 
   set-bridge-address-l2:
-    image: nethsurge/protocol:surge-docs
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}
@@ -55,11 +76,11 @@ services:
       - set-bridge
 
   set-signal-service-address-l2:
-    image: nethsurge/protocol:surge-docs
+    image: nethsurge/protocol:surge-testnet
     environment:
       FOUNDRY_PROFILE: layer1
       DOMAIN: ${L1_CHAIN_ID}
-      ADDRESS: ${L2_SIGNAL_SERVICE_ADDRESS}
+      ADDRESS: ${L1_SIGNAL_SERVICE_ADDRESS}
       NAME: ${SIGNAL_SERVICE_32_BYTES}
       PROXY_ADDRESS: ${L2_SHARED_ADDRESS_MANAGER}
       FORK_URL: http://l2-nethermind-execution-client:${L2_HTTP_PORT}
@@ -73,6 +94,26 @@ services:
       - surge
     profiles:
       - set-signal-service
+
+  set-erc20-vault-address-l2:
+    image: nethsurge/protocol:surge-testnet
+    environment:
+      FOUNDRY_PROFILE: layer1
+      DOMAIN: ${L1_CHAIN_ID}
+      ADDRESS: ${L1_ERC20_VAULT_ADDRESS}
+      NAME: ${ERC20_VAULT_32_BYTES}
+      PROXY_ADDRESS: ${L2_SHARED_ADDRESS_MANAGER}
+      FORK_URL: http://l2-nethermind-execution-client:${L2_HTTP_PORT}
+      PRIVATE_KEY: ${OWNER_PRIVATE_KEY}
+    entrypoint:
+      - sh
+      - -c
+    command: >
+      'forge script ./script/shared/SetAddress.s.sol --fork-url http://l2-nethermind-execution-client:${L2_HTTP_PORT} --broadcast -vvv'
+    networks:
+      - surge
+    profiles:
+      - set-erc20-vault
 
 networks:
   surge:
