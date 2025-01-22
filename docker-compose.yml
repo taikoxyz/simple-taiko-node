@@ -7,6 +7,7 @@ services:
     stop_grace_period: 3m
     tty: true
     volumes:
+      - ./execution-data-taiko:/data/taiko-geth
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./static/chainspec.json:/chainspec.json
     networks:
@@ -20,15 +21,19 @@ services:
       - ${L2_ENGINE_API_PORT}:${L2_ENGINE_API_PORT}
     command:
       - --config=none
+      - --datadir=/data/taiko-geth
       - --Init.ChainSpecPath=/chainspec.json
       - --Init.GenesisHash=${L2_GENESIS_HASH}
       - --Init.DiscoveryEnabled=false
       - --Metrics.Enabled=true
       - --Metrics.ExposePort=${L2_METRICS_PORT}
       - --JsonRpc.Enabled=true
+      - --JsonRpc.EnabledModules=[debug,eth,net,web3,txpool,rpc,subscribe,trace,personal,proof,parity,health]
+      - --JsonRpc.Host=0.0.0.0
       - --JsonRpc.Port=${L2_HTTP_PORT}
       - --JsonRpc.WebSocketsPort=${L2_WS_PORT}
       - --JsonRpc.JwtSecretFile=/tmp/jwt/jwtsecret
+      - --JsonRpc.EngineHost=0.0.0.0
       - --JsonRpc.EnginePort=${L2_ENGINE_API_PORT}
       - --Network.DiscoveryPort=${L2_NETWORK_DISCOVERY_PORT}
       - --Network.P2PPort=${L2_NETWORK_DISCOVERY_PORT}
@@ -56,6 +61,7 @@ services:
     depends_on:
       - nethermind_execution_l2
     volumes:
+      - ./execution-data-taiko:/data/taiko-geth
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./script:/script
     ports:
@@ -106,6 +112,7 @@ services:
       - nethermind_execution_l2
       - taiko_client_driver
     volumes:
+      - ./execution-data-taiko:/data/taiko-geth
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./script:/script
     env_file:
