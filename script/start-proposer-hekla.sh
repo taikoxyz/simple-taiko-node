@@ -9,7 +9,7 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --taikoL1 ${TAIKO_L1_ADDRESS}
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
-        --jwtSecret /data/taiko-geth/geth/jwtsecret
+        --jwtSecret ${JWT}
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
         --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
 

@@ -10,7 +10,7 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
         --l2.auth http://l2_execution_engine:8551 \
         --taikoL1 "${TAIKO_L1_ADDRESS}" \
         --taikoL2 "${TAIKO_L2_ADDRESS}" \
-        --jwtSecret /data/taiko-geth/geth/jwtsecret \
+        --jwtSecret ${JWT} \
         --p2p.sync \
         --p2p.checkPointSyncUrl "${P2P_SYNC_URL}"
 else
@@ -21,5 +21,5 @@ else
         --l2.auth http://l2_execution_engine:8551 \
         --taikoL1 "${TAIKO_L1_ADDRESS}" \
         --taikoL2 "${TAIKO_L2_ADDRESS}" \
-        --jwtSecret /data/taiko-geth/geth/jwtsecret
+        --jwtSecret ${JWT}
 fi

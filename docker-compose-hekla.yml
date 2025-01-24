@@ -5,44 +5,41 @@ x-logging: &logging
       max-file: "3"
 
 services:
+  jwt_init:
+    image: alpine
+    volumes:
+      - jwt_secret:/data/jwt
+    command: >
+      sh -c "mkdir -p /data/jwt && 
+             if [ ! -f /data/jwt/secret ]; then 
+               head -c 32 /dev/urandom | xxd -p -c 32 > /data/jwt/secret; 
+             fi"
+    profiles:
+      - l2_execution_engine
+
   l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.11.1
+    image: ${L2_EXECUTION_ENGINE_IMAGE}
     restart: unless-stopped
     pull_policy: always
+    depends_on:
+      - jwt_init
+    env_file:
+      - .env
     stop_grace_period: 3m
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - l2_execution_engine_data:/data
+      - ./script:/script
+      - jwt_secret:/data/jwt
     ports:
       - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
       - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
       - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
-    command: |
-      --taiko
-      --networkid "${CHAIN_ID}"
-      --gcmode archive
-      --datadir /data/taiko-geth
-      --metrics
-      --metrics.expensive
-      --metrics.addr "0.0.0.0"
-      --bootnodes ${BOOT_NODES}
-      --authrpc.addr "0.0.0.0"
-      --authrpc.vhosts "*"
-      --http
-      --http.api debug,eth,net,web3,txpool,taiko
-      --http.addr "0.0.0.0"
-      --http.vhosts "*"
-      --ws
-      --ws.api debug,eth,net,web3,txpool,taiko
-      --ws.addr "0.0.0.0"
-      --ws.origins "*"
-      --gpo.ignoreprice "100000000"
-      --port ${PORT_L2_EXECUTION_ENGINE_P2P}
-      --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
-      --maxpeers ${MAXPEERS:-50}
-      --maxpendpeers ${MAXPENDPEERS:-0}
-      ${GETH_ADDITIONAL_ARGS:-}
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "/script/start-l2-execution-engine.sh"
     <<: *logging
     profiles:
       - l2_execution_engine
@@ -58,8 +55,9 @@ services:
     env_file:
       - .env
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - l2_execution_engine_data:/data
       - ./script:/script
+      - jwt_secret:/data/jwt
     entrypoint:
       - /bin/sh
       - -c
@@ -83,6 +81,7 @@ services:
       - .env
     volumes:
       - ./script:/script
+      - jwt_secret:/data/jwt
     entrypoint:
       - /bin/sh
       - -c
@@ -101,8 +100,9 @@ services:
     env_file:
       - .env
     volumes:
-      - l2_execution_engine_data:/data/taiko-geth
+      - l2_execution_engine_data:/data
       - ./script:/script
+      - jwt_secret:/data/jwt
     entrypoint:
       - /bin/sh
       - -c
@@ -158,3 +158,4 @@ volumes:
   l2_execution_engine_data:
   prometheus_data:
   grafana_data:
+  jwt_secret:
