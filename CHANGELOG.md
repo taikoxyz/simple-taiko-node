@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.9.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.9.0...v1.9.1) (2025-01-31)
+
+
+### Bug Fixes
+
+* **prover,proposer:** script fixes ([#358](https://github.com/taikoxyz/simple-taiko-node/issues/358)) ([6d06a90](https://github.com/taikoxyz/simple-taiko-node/commit/6d06a9096e0ecdb4b169c18b3c690a7b71615bea))
+
+
+### Chores
+
+* **env:** add disclaimer for revert protection ([#356](https://github.com/taikoxyz/simple-taiko-node/issues/356)) ([5da07b3](https://github.com/taikoxyz/simple-taiko-node/commit/5da07b387b72c4ec62a0157187fa2339b842c97d))
+* **l2ee:** upgrade geth version ([#359](https://github.com/taikoxyz/simple-taiko-node/issues/359)) ([7fd1b29](https://github.com/taikoxyz/simple-taiko-node/commit/7fd1b2913730828e827347b9bbd6fd90abd7d2b0))
+
 ## [1.9.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.8.2...v1.9.0) (2025-01-20)
 
 
