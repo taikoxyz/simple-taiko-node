@@ -36,18 +36,16 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
     fi
 
-    # Deprecated after version 0.43.0 of taiko-client
-    if [ -n "$MIN_ETH_BALANCE" ]; then
-        ARGS="${ARGS} --prover.minEthBalance ${MIN_ETH_BALANCE}"
-    fi
-
-    # Deprecated after version 0.43.0 of taiko-client
-    if [ -n "$MIN_TAIKO_BALANCE" ]; then
-        ARGS="${ARGS} --prover.minTaikoTokenBalance ${MIN_TAIKO_BALANCE}"
-    fi
-
     if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
+    fi
+
+    if [ -n "$SGX_BATCH_SIZE" ]; then
+        ARGS="${ARGS} --prover.sgx.batchSize ${SGX_BATCH_SIZE}"
+    fi
+
+    if [ -n "$FORCE_BATCH_PROVING_INTERVAL" ]; then
+        ARGS="${ARGS} --prover.forceBatchProvingInterval ${FORCE_BATCH_PROVING_INTERVAL}"
     fi
 
     # TXMGR Settings
