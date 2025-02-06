@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.0...v1.10.1) (2025-02-06)
+
+
+### Bug Fixes
+
+* **driver:** fix image tag ([#362](https://github.com/taikoxyz/simple-taiko-node/issues/362)) ([8671583](https://github.com/taikoxyz/simple-taiko-node/commit/86715839fcb38e7338165b5f43298b842861239d))
+
 ## [1.10.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.9.1...v1.10.0) (2025-02-04)
 
 
