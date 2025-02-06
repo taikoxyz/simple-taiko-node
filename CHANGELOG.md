@@ -1,12 +1,5 @@
 # Changelog
 
-## [1.10.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.9.1...v1.10.0) (2025-02-04)
-
-
-### Features
-
-* **repo:** bump client version ([#360](https://github.com/taikoxyz/simple-taiko-node/issues/360)) ([317b66f](https://github.com/taikoxyz/simple-taiko-node/commit/317b66facb1dbbcf544842e10434e50f1cab0d13))
-
 ## [1.9.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.9.0...v1.9.1) (2025-01-31)
 
 
