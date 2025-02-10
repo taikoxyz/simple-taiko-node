@@ -41,6 +41,8 @@ services:
       - --Sync.SnapSync=false
       - --HealthChecks.Enabled=true
       - --log=${NETHERMIND_LOG_LEVEL}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     healthcheck:
       test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/localhost/8547'"]
       interval: 2s
@@ -68,6 +70,8 @@ services:
       - 6060:6060
     env_file:
       - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     entrypoint:
       - /bin/sh
       - -c
@@ -93,6 +97,8 @@ services:
       - ./script:/script
     env_file:
       - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     entrypoint:
       - /bin/sh
       - -c
@@ -117,6 +123,8 @@ services:
       - ./script:/script
     env_file:
       - .env
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     entrypoint:
       - /bin/sh
       - -c
@@ -150,6 +158,8 @@ services:
       PG_SHA256: 7e276131c0fdd6b62588dbad9b3bb24b8c3498d5009328dba59af16e819109de
       DOCKER_PG_LLVM_DEPS: llvm15-dev \t\tclang15
       PGDATA: /var/lib/postgresql/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command:
       - "-c"
       - "max_connections=1000"
@@ -176,6 +186,8 @@ services:
       APP_USER: app
       SMART_CONTRACT_VERIFIER__SOLIDITY__ENABLED: true
       SMART_CONTRACT_VERIFIER__SOLIDITY__FETCHER__LIST__LIST_URL: https://solc-bin.ethereum.org/linux-amd64/list.json
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     command:
       - "./smart-contract-verifier-server"
     networks:
@@ -225,6 +237,8 @@ services:
       - "/bin/sh"
       - "-c"
       - "bin/blockscout eval \"Elixir.Explorer.ReleaseTasks.create_and_migrate()\" && bin/blockscout start"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     networks:
       - surge
     profiles:
@@ -244,6 +258,8 @@ services:
       - "--storage.tsdb.retention.time=200h"
       - "--web.enable-lifecycle"
     restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     ports:
       - 9090:9090
     networks:
@@ -257,6 +273,8 @@ services:
     restart: unless-stopped
     ports:
       - 3001:3000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./grafana/config.ini:/etc/grafana/config.ini
       - ./grafana/provisioning/:/etc/grafana/provisioning/
