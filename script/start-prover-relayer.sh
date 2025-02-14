@@ -10,7 +10,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
-        --prover.capacity ${PROVER_CAPACITY}
         --raiko.host ${SGX_RAIKO_HOST}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
