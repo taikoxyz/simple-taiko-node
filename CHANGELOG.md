@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.10.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.1...v1.10.2) (2025-02-14)
+
+
+### Bug Fixes
+
+* **prover:** remove deprecated flag ([#366](https://github.com/taikoxyz/simple-taiko-node/issues/366)) ([ce0354f](https://github.com/taikoxyz/simple-taiko-node/commit/ce0354f7b22b06d8cc30589f2887ddd7b66db3e0))
+* **repo:** fix link in readme ([#364](https://github.com/taikoxyz/simple-taiko-node/issues/364)) ([f6871ae](https://github.com/taikoxyz/simple-taiko-node/commit/f6871aeebd518999949dd74e848efa526fa24f45))
+
 ## [1.10.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.0...v1.10.1) (2025-02-06)
 
 
