@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.10.3](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.2...v1.10.3) (2025-02-25)
+
+
+### Chores
+
+* **docker:** update Hekla `taiko-client` tags ([#367](https://github.com/taikoxyz/simple-taiko-node/issues/367)) ([a4ac24f](https://github.com/taikoxyz/simple-taiko-node/commit/a4ac24ffb273e0458203c54e14859684a688c996))
+
 ## [1.10.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.1...v1.10.2) (2025-02-14)
 
 
