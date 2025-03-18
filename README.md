@@ -1,3 +1,3 @@
-# simple-taiko-node
+# simple-surge-node
 
-Get started with the [guide](https://docs.taiko.xyz/guides/node-operators/run-a-taiko-node-with-docker/).
+Get started with the [guide](https://docs.surge.wtf/docs/Guides/running-surge).
