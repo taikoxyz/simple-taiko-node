@@ -11,7 +11,9 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --jwtSecret /data/taiko-geth/geth/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
-        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}"
+        --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
+        --taikoWrapper ${TAIKO_WARPPER}
+        --forcedInclusionStore ${FORCED_INCLUSION_STORE}"
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
         echo "Error: L1_ENDPOINT_WS must be non-empty"
@@ -26,7 +28,7 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
     if [ -n "$EPOCH_MIN_TIP" ]; then
         ARGS="${ARGS} --epoch.minTip ${EPOCH_MIN_TIP}"
     fi
-    
+
     if [ -n "$PROVER_SET" ]; then
         ARGS="${ARGS} --proverSet ${PROVER_SET}"
     fi
