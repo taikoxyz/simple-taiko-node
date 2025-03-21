@@ -10,7 +10,9 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
-        --raiko.host ${SGX_RAIKO_HOST}"
+        --raiko.host ${SGX_RAIKO_HOST}
+        --prover.sgx.batchSize ${SGX_BATCH_SIZE}
+        --prover.zkvm.batchSize ${ZKVM_BATCH_SIZE}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
         echo "Error: SGX_RAIKO_HOST must be non-empty"
@@ -37,9 +39,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
 
     if [ "$PROVE_UNASSIGNED_BLOCKS" = "true" ]; then
         ARGS="${ARGS} --prover.proveUnassignedBlocks"
-    fi
-    if [ -n "$SGX_BATCH_SIZE" ]; then
-        ARGS="${ARGS} --prover.sgx.batchSize ${SGX_BATCH_SIZE}"
     fi
 
     if [ -n "$FORCE_BATCH_PROVING_INTERVAL" ]; then
