@@ -12,7 +12,7 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
         --jwtSecret /data/taiko-geth/geth/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
         --l2.suggestedFeeRecipient ${L2_SUGGESTED_FEE_RECIPIENT}
-        --taikoWrapper ${TAIKO_WARPPER}
+        --taikoWrapper ${TAIKO_WRAPPER}
         --forcedInclusionStore ${FORCED_INCLUSION_STORE}"
 
     if [ -z "$L1_ENDPOINT_WS" ]; then
