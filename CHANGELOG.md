@@ -1,5 +1,19 @@
 # Changelog
 
+## [1.11.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.3...v1.11.0) (2025-03-24)
+
+
+### Features
+
+* **hekla:** bump client tags ([#373](https://github.com/taikoxyz/simple-taiko-node/issues/373)) ([451dab3](https://github.com/taikoxyz/simple-taiko-node/commit/451dab300b85f942bd58dc1aaf6fc290cd287332))
+* **hekla:** update tags for Hekla ([#371](https://github.com/taikoxyz/simple-taiko-node/issues/371)) ([f2a4af7](https://github.com/taikoxyz/simple-taiko-node/commit/f2a4af77a4b960ed1046aad1d53aed23717a8043))
+* **repo:** update Hekla image tags for Pacaya fork ([#369](https://github.com/taikoxyz/simple-taiko-node/issues/369)) ([0f1e3b1](https://github.com/taikoxyz/simple-taiko-node/commit/0f1e3b1bee713735e9f44469913fa6645f09de82))
+
+
+### Chores
+
+* **proposer:** fix env var name ([#372](https://github.com/taikoxyz/simple-taiko-node/issues/372)) ([cea04e4](https://github.com/taikoxyz/simple-taiko-node/commit/cea04e4a336b3da7f6edf5dd341e442a5a0a05ca))
+
 ## [1.10.3](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.2...v1.10.3) (2025-02-25)
 
 
