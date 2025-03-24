@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.12.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.11.0...v1.12.0) (2025-03-24)
+
+
+### Features
+
+* **repo:** update Hekla image tags for Pacaya fork ([#374](https://github.com/taikoxyz/simple-taiko-node/issues/374)) ([d1182fb](https://github.com/taikoxyz/simple-taiko-node/commit/d1182fbe148150350b5cef8cea59f0fc9e27ebcc))
+
 ## [1.11.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.10.3...v1.11.0) (2025-03-24)
 
 
