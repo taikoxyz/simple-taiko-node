@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.12.0...v1.13.0) (2025-03-27)
+
+
+### Features
+
+* **docker:** bump Hekla tags ([#376](https://github.com/taikoxyz/simple-taiko-node/issues/376)) ([62fd167](https://github.com/taikoxyz/simple-taiko-node/commit/62fd167afd462a2175d8d614d9ff3d9367d33528))
+
 ## [1.12.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.11.0...v1.12.0) (2025-03-24)
 
 
