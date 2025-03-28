@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.13.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.13.0...v1.13.1) (2025-03-28)
+
+
+### Bug Fixes
+
+* **hekla:** bump Hekla Pacaya tags ([#378](https://github.com/taikoxyz/simple-taiko-node/issues/378)) ([52a4ba2](https://github.com/taikoxyz/simple-taiko-node/commit/52a4ba2fdacb660feb8877b03e151739f57ba04a))
+
 ## [1.13.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.12.0...v1.13.0) (2025-03-27)
 
 
