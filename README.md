@@ -15,10 +15,13 @@ Get started with the [guide](https://docs.surge.wtf/docs/Guides/running-surge) o
 Create your environment configuration file (`.env`) by copying the provided sample:
 
 ```bash
-cp .env.sample .env
+# for devnet
+cp .env.devnet .env
+# for hoodi
+cp .env.hoodi .env
 ```
 
-> **Tip:** The `.env.sample` file includes default values devnet configuration. You can customize these values, such as L1 and L2 settings, genesis hashes, and addresses, as needed.
+> **Tip:** The `.env.devnet` file includes default values devnet configuration. You can customize these values, such as L1 and L2 settings, genesis hashes, and addresses, as needed.
 
 > **Note:** `host.docker.internal` values in the `.env` file might not work in all environments. If you encounter issues, replace `host.docker.internal` with your server's IP address or hostname.
 

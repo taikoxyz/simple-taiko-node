@@ -7,9 +7,9 @@ services:
     stop_grace_period: 3m
     tty: true
     volumes:
-      - ./execution-data-taiko:/data/taiko-geth
+      - ./execution-data-taiko:/data/taiko-nethermind
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
-      - ./static/chainspec.json:/chainspec.json
+      - ${CHAINSPEC_PATH_ON_HOST:-./static/hoodi/chainspec.json}:/chainspec.json
     networks:
       - surge
     ports:
@@ -21,7 +21,7 @@ services:
       - ${L2_ENGINE_API_PORT}:${L2_ENGINE_API_PORT}
     command:
       - --config=none
-      - --datadir=/data/taiko-geth
+      - --datadir=/data/taiko-nethermind
       - --Init.ChainSpecPath=/chainspec.json
       - --Init.GenesisHash=${L2_GENESIS_HASH}
       - --Init.DiscoveryEnabled=false
@@ -63,7 +63,7 @@ services:
     depends_on:
       - nethermind_execution_l2
     volumes:
-      - ./execution-data-taiko:/data/taiko-geth
+      - ./execution-data-taiko:/data/taiko-nethermind
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./script:/script
     ports:
@@ -118,7 +118,7 @@ services:
       - nethermind_execution_l2
       - taiko_client_driver
     volumes:
-      - ./execution-data-taiko:/data/taiko-geth
+      - ./execution-data-taiko:/data/taiko-nethermind
       - ./static/jwtsecret:/tmp/jwt/jwtsecret
       - ./script:/script
     env_file:
