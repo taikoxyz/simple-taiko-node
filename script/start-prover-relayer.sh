@@ -13,7 +13,8 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --sgxVerifier ${SGX_VERIFIER}
         --sp1Verifier ${SP1_VERIFIER}
         --risc0Verifier ${RISC0_VERIFIER}
-        --raiko.host ${SGX_RAIKO_HOST}"
+        --raiko.host ${SGX_RAIKO_HOST}
+        --verbosity 4" # logging debug level and above
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
         echo "Error: SGX_RAIKO_HOST must be non-empty"
