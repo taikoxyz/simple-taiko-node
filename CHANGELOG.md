@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.14.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.13.1...v1.14.0) (2025-04-11)
+
+
+### Features
+
+* **docker:** bump Hekla tags for `sgx_geth` ([#381](https://github.com/taikoxyz/simple-taiko-node/issues/381)) ([4ec6ccf](https://github.com/taikoxyz/simple-taiko-node/commit/4ec6ccfdf6fb276a08ae415ce6b7326a3adeb4ed))
+
 ## [1.13.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.13.0...v1.13.1) (2025-03-28)
 
 
