@@ -90,6 +90,10 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
     fi
 
+    if [ -n "$PROOF_POLLING_INTERVAL" ]; then
+            ARGS="${ARGS} --prover.proofPollingInterval ${PROOF_POLLING_INTERVAL}"
+    fi
+
     exec taiko-client prover ${ARGS}
 else
     echo "PROVER IS DISABLED"
