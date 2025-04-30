@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.15.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.14.0...v1.15.0) (2025-04-30)
+
+
+### Features
+
+* **docker:** update mainnet tags for Pectra fork ([#383](https://github.com/taikoxyz/simple-taiko-node/issues/383)) ([6821768](https://github.com/taikoxyz/simple-taiko-node/commit/6821768e2ee958b905bb567854edea6b174721f3))
+
 ## [1.14.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.13.1...v1.14.0) (2025-04-11)
 
 
