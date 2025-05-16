@@ -6,7 +6,7 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.12.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.15.1
     restart: unless-stopped
     pull_policy: always
     env_file:
@@ -51,7 +51,7 @@ services:
       - proposer
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v0.43.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.5.1
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -72,7 +72,7 @@ services:
       - proposer
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v0.43.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.5.1
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -93,7 +93,7 @@ services:
       - prover
 
   taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v0.43.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.5.1
     restart: unless-stopped
     pull_policy: always
     depends_on:

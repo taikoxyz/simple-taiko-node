@@ -10,7 +10,9 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         --taikoL2 ${TAIKO_L2_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
-        --raiko.host ${SGX_RAIKO_HOST}"
+        --raiko.host ${SGX_RAIKO_HOST}
+        --prover.sgx.batchSize ${SGX_BATCH_SIZE}
+        --prover.zkvm.batchSize ${ZKVM_BATCH_SIZE}"
 
     if [ -z "$SGX_RAIKO_HOST" ]; then
         echo "Error: SGX_RAIKO_HOST must be non-empty"
@@ -90,6 +92,10 @@ if [ "$ENABLE_PROVER" = "true" ]; then
 
     if [ -n "$TX_SEND_TIMEOUT" ]; then
         ARGS="${ARGS} --tx.sendTimeout ${TX_SEND_TIMEOUT}"
+    fi
+
+    if [ -n "$PROOF_POLLING_INTERVAL" ]; then
+        ARGS="${ARGS} --prover.proofPollingInterval ${PROOF_POLLING_INTERVAL}"
     fi
 
     exec taiko-client prover ${ARGS}
