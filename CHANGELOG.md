@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.15.0...v1.16.0) (2025-05-16)
+
+
+### Features
+
+* **docker:** updates for Mainnet `Pacaya` fork ([#385](https://github.com/taikoxyz/simple-taiko-node/issues/385)) ([171cec3](https://github.com/taikoxyz/simple-taiko-node/commit/171cec3afacbb3a923e5e1be8e684d7d9b0fe5d5))
+
 ## [1.15.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.14.0...v1.15.0) (2025-04-30)
 
 
