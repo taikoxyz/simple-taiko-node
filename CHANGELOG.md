@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.16.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.16.0...v1.16.1) (2025-05-21)
+
+
+### Bug Fixes
+
+* **docker:** hotfix image for mainnet ([#387](https://github.com/taikoxyz/simple-taiko-node/issues/387)) ([8358fae](https://github.com/taikoxyz/simple-taiko-node/commit/8358fae4cc417e6d6294e4bf84e4be228d967d7b))
+
 ## [1.16.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.15.0...v1.16.0) (2025-05-16)
 
 
