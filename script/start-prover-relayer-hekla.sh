@@ -45,6 +45,10 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         ARGS="${ARGS} --prover.forceBatchProvingInterval ${FORCE_BATCH_PROVING_INTERVAL}"
     fi
 
+    if [ -n "$STARTING_BATCH_ID" ]; then
+        ARGS="${ARGS} --prover.startingBatchId ${STARTING_BATCH_ID}"
+    fi
+
     if [ -n "$LOCAL_PROPOSER_ADDRESSES" ]; then
         ARGS="${ARGS} --prover.localProposerAddresses ${LOCAL_PROPOSER_ADDRESSES}"
     fi
