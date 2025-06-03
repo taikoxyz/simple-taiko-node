@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.16.1...v1.17.0) (2025-06-03)
+
+
+### Features
+
+* **docker:** update flags/script for preconfs ([#389](https://github.com/taikoxyz/simple-taiko-node/issues/389)) ([61886f2](https://github.com/taikoxyz/simple-taiko-node/commit/61886f2ed94fd2d69c0a6d3aa8e99c37aa0b500c))
+
 ## [1.16.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.16.0...v1.16.1) (2025-05-21)
 
 
