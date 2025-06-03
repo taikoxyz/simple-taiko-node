@@ -20,7 +20,7 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
         --p2p.listen.ip "0.0.0.0" \
         --p2p.disable false \
         --p2p.useragent "taiko" \
-        --p2p.listen.tcp 4001 \
+        --p2p.listen.tcp ${P2P_LISTEN_TCP_PORT} \
         --p2p.advertise.ip "${PUBLIC_IP}"
 
 else
@@ -37,6 +37,6 @@ else
         --p2p.listen.ip "0.0.0.0" \
         --p2p.disable false \
         --p2p.useragent "taiko" \
-        --p2p.listen.tcp 4001 \
+        --p2p.listen.tcp ${P2P_LISTEN_TCP_PORT} \
         --p2p.advertise.ip "${PUBLIC_IP}"
 fi
