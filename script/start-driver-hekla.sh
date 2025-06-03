@@ -16,12 +16,12 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
         --jwtSecret /data/taiko-geth/geth/jwtsecret \
         --p2p.sync \
         --p2p.checkPointSyncUrl "${P2P_SYNC_URL}" \
-        --p2p.bootnodes ${P2P_BOOTNODES} \
+        --p2p.bootnodes "${P2P_BOOTNODES}" \
         --p2p.listen.ip "0.0.0.0" \
         --p2p.disable false \
         --p2p.useragent "taiko" \
         --p2p.listen.tcp 4001 \
-        --p2p.advertise.ip "myExternalFacingIP"
+        --p2p.advertise.ip "${PUBLIC_IP}"
 
 else
     exec taiko-client driver \
@@ -38,5 +38,5 @@ else
         --p2p.disable false \
         --p2p.useragent "taiko" \
         --p2p.listen.tcp 4001 \
-        --p2p.advertise.ip "myExternalFacingIP"
+        --p2p.advertise.ip "${PUBLIC_IP}"
 fi
