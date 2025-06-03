@@ -6,8 +6,8 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.http http://l2_execution_engine:8545
         --l2.auth http://l2_execution_engine:8551
-        --taikoL1 ${TAIKO_L1_ADDRESS}
-        --taikoL2 ${TAIKO_L2_ADDRESS}
+        --taikoInbox ${TAIKO_INBOX_ADDRESS}
+        --taikoAnchor ${TAIKO_ANCHOR_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --jwtSecret /data/taiko-geth/geth/jwtsecret
         --l1.proposerPrivKey ${L1_PROPOSER_PRIVATE_KEY}
@@ -31,11 +31,6 @@ if [ "$ENABLE_PROPOSER" = "true" ]; then
 
     if [ -n "$PROVER_SET" ]; then
         ARGS="${ARGS} --proverSet ${PROVER_SET}"
-    fi
-
-    if [ -n "$TXPOOL_LOCALS" ]; then
-        ARGS="${ARGS} --txPool.localsOnly"
-        ARGS="${ARGS} --txPool.locals ${TXPOOL_LOCALS}"
     fi
 
     if [ "$BLOB_ALLOWED" == "true" ]; then
