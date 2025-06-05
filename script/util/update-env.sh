@@ -38,4 +38,4 @@ update_env() {
     mv "${env_path}.new" "$env_path"  # replace original .env file with the new one
 }
 
-update_env ".env" ".env.sample"
+update_env ".env" ".env.sample.hekla"
