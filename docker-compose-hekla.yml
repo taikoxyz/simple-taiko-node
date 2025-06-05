@@ -49,7 +49,7 @@ services:
       - prover
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.6.1
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.6.2
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -67,10 +67,9 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.6.1
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.6.2
     restart: unless-stopped
     pull_policy: always
     depends_on:
@@ -108,7 +107,6 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
   grafana:
     image: grafana/grafana:latest
@@ -131,7 +129,6 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
 volumes:
   l2_execution_engine_data:
