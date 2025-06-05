@@ -47,7 +47,6 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
   taiko_client_driver:
     image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.6.1
@@ -90,26 +89,6 @@ services:
     <<: *logging
     profiles:
       - prover
-
-  taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.6.1
-    restart: unless-stopped
-    pull_policy: always
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-    env_file:
-      - .env
-    volumes:
-      - l2_execution_engine_data:/data/taiko-geth
-      - ./script:/script
-    entrypoint:
-      - /bin/sh
-      - -c
-      - "/script/start-proposer-hekla.sh"
-    <<: *logging
-    profiles:
-      - proposer
 
   prometheus:
     image: prom/prometheus:latest
