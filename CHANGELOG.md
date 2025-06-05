@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.0...v1.17.1) (2025-06-05)
+
+
+### Chores
+
+* **docker:** remove hekla proposer profile ([#392](https://github.com/taikoxyz/simple-taiko-node/issues/392)) ([07a1da9](https://github.com/taikoxyz/simple-taiko-node/commit/07a1da9143955e4b633e1bae31104da19fe3c9db))
+
 ## [1.17.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.16.1...v1.17.0) (2025-06-03)
 
 
