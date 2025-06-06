@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.1...v1.17.2) (2025-06-06)
+
+
+### Chores
+
+* **docker:** update images and remove leftover proposer profile ([#394](https://github.com/taikoxyz/simple-taiko-node/issues/394)) ([fc89a0d](https://github.com/taikoxyz/simple-taiko-node/commit/fc89a0dad18f4916dbb30c8b2ada00e56e2c1814))
+
 ## [1.17.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.0...v1.17.1) (2025-06-05)
 
 
