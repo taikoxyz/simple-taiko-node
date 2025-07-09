@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.3](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.2...v1.17.3) (2025-07-09)
+
+
+### Chores
+
+* **docker:** bump client hotfix version ([#397](https://github.com/taikoxyz/simple-taiko-node/issues/397)) ([b420668](https://github.com/taikoxyz/simple-taiko-node/commit/b420668d0226e70db9a7822e79d891a44256916a))
+
 ## [1.17.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.1...v1.17.2) (2025-06-06)
 
 
