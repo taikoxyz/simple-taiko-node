@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.17.4](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.3...v1.17.4) (2025-07-19)
+
+
+### Chores
+
+* **driver, prover, :** update versions ([#399](https://github.com/taikoxyz/simple-taiko-node/issues/399)) ([d0a79df](https://github.com/taikoxyz/simple-taiko-node/commit/d0a79df92c6adab6c60e0888b970473f786f0a8a))
+
 ## [1.17.3](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.2...v1.17.3) (2025-07-09)
 
 
