@@ -51,6 +51,7 @@ services:
   l2_execution_engine_taiko_reth:
     image: ghcr.io/tatsujinlabs/taiko-reth:nightly
     restart: unless-stopped
+    platform: linux/amd64
     pull_policy: always
     stop_grace_period: 3m
     volumes:
@@ -67,6 +68,7 @@ services:
         --http.addr 0.0.0.0
         --ws
         --ws.addr 0.0.0.0
+        --authrpc.addr 0.0.0.0
         --chain hekla
         --bootnodes ${BOOT_NODES}
         --datadir /data/taiko-reth
@@ -87,12 +89,14 @@ services:
     image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.7.0
     restart: unless-stopped
     pull_policy: always
-    depends_on:
-      - l2_execution_engine
     env_file:
       - .env
+    environment:
+      JWT_PATH: /data/taiko-reth/jwt.hex
+      EXECUTION_ENGINE_ENDPOINT: l2_execution_engine_taiko_reth
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
+      - l2_execution_engine_data:/data/taiko-reth
       - ./script:/script
     entrypoint:
       - /bin/sh

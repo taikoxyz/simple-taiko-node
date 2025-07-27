@@ -54,6 +54,7 @@ services:
     image: ghcr.io/tatsujinlabs/taiko-reth:nightly
     restart: unless-stopped
     pull_policy: always
+    platform: linux/amd64
     stop_grace_period: 3m
     volumes:
       - l2_execution_engine_data:/data/taiko-reth
@@ -64,11 +65,12 @@ services:
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
       - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
     command: |
-      node
+      ./taiko-reth node
         --http
         --http.addr 0.0.0.0
         --ws
         --ws.addr 0.0.0.0
+        --authrpc.addr 0.0.0.0
         --chain mainnet
         --bootnodes ${BOOT_NODES}
         --datadir /data/taiko-reth
@@ -89,11 +91,13 @@ services:
     image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.5.2
     restart: unless-stopped
     pull_policy: always
-    depends_on:
-      - l2_execution_engine
     env_file:
       - .env
+    environment:
+      JWT_PATH: /data/taiko-reth/jwt.hex
+      EXECUTION_ENGINE_ENDPOINT: l2_execution_engine_taiko_reth
     volumes:
+      - l2_execution_engine_data:/data/taiko-reth
       - l2_execution_engine_data:/data/taiko-geth
       - ./script:/script
     entrypoint:
@@ -103,7 +107,7 @@ services:
     <<: *logging
     profiles:
       - l2_execution_engine
-      - l2_execution_engine_taiko_reth
+      - l2_execution_engine_reth
       - prover
       - proposer
 
