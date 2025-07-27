@@ -48,6 +48,41 @@ services:
       - l2_execution_engine
       - prover
 
+  l2_execution_engine_taiko_reth:
+    image: ghcr.io/tatsujinlabs/taiko-reth:nightly
+    restart: unless-stopped
+    pull_policy: always
+    stop_grace_period: 3m
+    volumes:
+      - l2_execution_engine_data:/data/taiko-reth
+    ports:
+      - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
+      - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
+      - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
+      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
+      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
+    command: |
+      node
+        --http
+        --http.addr 0.0.0.0
+        --ws
+        --ws.addr 0.0.0.0
+        --chain hekla
+        --bootnodes ${BOOT_NODES}
+        --datadir /data/taiko-reth
+        --log.file.directory /data/taiko-reth/logs
+        --metrics 0.0.0.0:6060
+        --color never
+        --enable-discv5-discovery
+        --port ${PORT_L2_EXECUTION_ENGINE_P2P}
+        --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
+        --max-inbound-peers ${MAXPEERS:-30}
+        --max-outbound-peers ${MAXPEERS:-100}
+        ${RETH_ADDITIONAL_ARGS:-}
+    <<: *logging
+    profiles:
+      - l2_execution_engine_reth
+
   taiko_client_driver:
     image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.7.0
     restart: unless-stopped
@@ -66,6 +101,7 @@ services:
     <<: *logging
     profiles:
       - l2_execution_engine
+      - l2_execution_engine_reth
       - prover
 
   taiko_client_prover_relayer:
