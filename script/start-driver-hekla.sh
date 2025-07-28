@@ -24,7 +24,8 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
 fi
 
 if [ -n "$PUBLIC_IP" ]; then
-    ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP}"
+    ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP} \
+    --p2p.advertise.udp ${P2P_UDP_PORT}"
 else
     ARGS="${ARGS} --p2p.nat"
 fi
