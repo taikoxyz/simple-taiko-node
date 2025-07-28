@@ -6,7 +6,7 @@ x-logging: &logging
 
 services:
   l2_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.15.1-hotfix
+    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.17.0
     restart: unless-stopped
     pull_policy: always
     env_file:
@@ -48,14 +48,11 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.5.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.8.0
     restart: unless-stopped
     pull_policy: always
-    depends_on:
-      - l2_execution_engine
     env_file:
       - .env
     volumes:
@@ -69,15 +66,11 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.5.2
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.8.0
     restart: unless-stopped
     pull_policy: always
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
     ports:
       - "${PORT_PROVER_SERVER}:9876"
     env_file:
@@ -92,34 +85,11 @@ services:
     profiles:
       - prover
 
-  taiko_client_proposer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.5.2
-    restart: unless-stopped
-    pull_policy: always
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-    env_file:
-      - .env
-    volumes:
-      - l2_execution_engine_data:/data/taiko-geth
-      - ./script:/script
-    entrypoint:
-      - /bin/sh
-      - -c
-      - "/script/start-proposer.sh"
-    <<: *logging
-    profiles:
-      - proposer
-
   prometheus:
     image: prom/prometheus:latest
     restart: unless-stopped
     ports:
       - ${PORT_PROMETHEUS}:9090
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
     volumes:
       - ./docker/prometheus/l2:/etc/prometheus
       - prometheus_data:/prometheus
@@ -130,17 +100,12 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
   grafana:
     image: grafana/grafana:latest
     restart: unless-stopped
     ports:
       - ${PORT_GRAFANA}:3000
-    depends_on:
-      - l2_execution_engine
-      - taiko_client_driver
-      - prometheus
     environment:
       - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
       - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
@@ -153,7 +118,6 @@ services:
     profiles:
       - l2_execution_engine
       - prover
-      - proposer
 
 volumes:
   l2_execution_engine_data:
