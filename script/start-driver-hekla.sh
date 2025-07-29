@@ -20,7 +20,7 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
-        --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
+    --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
 fi
 
 if [ -n "$PUBLIC_IP" ]; then
