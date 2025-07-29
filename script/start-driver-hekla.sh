@@ -20,12 +20,15 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
-    --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
+        --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
 fi
 
 if [ -n "$PUBLIC_IP" ]; then
     ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP} \
-    --p2p.advertise.udp ${P2P_UDP_PORT}"
+    --p2p.advertise.udp ${P2P_UDP_PORT} \
+    --p2p.listen.udp ${P2P_UDP_PORT} \
+    --p2p.advertise.tcp ${P2P_LISTEN_TCP_PORT} \
+    --p2p.listen.tcp ${P2P_LISTEN_TCP_PORT}"
 else
     ARGS="${ARGS} --p2p.nat"
 fi
