@@ -10,7 +10,7 @@ ARGS="--l1.ws "${L1_ENDPOINT_WS}" \
     --l2.auth http://l2_execution_engine:8551 \
     --taikoInbox "${TAIKO_INBOX_ADDRESS}" \
     --taikoAnchor "${TAIKO_ANCHOR_ADDRESS}" \
-    --verbosity 4 \
+    --verbosity ${VERBOSITY} \
     --preconfirmation.whitelist ${PRECONFIRMATION_WHITELIST} \
     --preconfirmation.serverPort 9871 \
     --jwtSecret /data/taiko-geth/geth/jwtsecret \
@@ -27,8 +27,8 @@ if [ -n "$PUBLIC_IP" ]; then
     ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP} \
     --p2p.advertise.udp ${P2P_UDP_PORT} \
     --p2p.listen.udp ${P2P_UDP_PORT} \
-    --p2p.advertise.tcp ${P2P_LISTEN_TCP_PORT} \
-    --p2p.listen.tcp ${P2P_LISTEN_TCP_PORT}"
+    --p2p.advertise.tcp ${P2P_TCP_PORT} \
+    --p2p.listen.tcp ${P2P_TCP_PORT}"
 else
     ARGS="${ARGS} --p2p.nat"
 fi
