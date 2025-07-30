@@ -23,14 +23,16 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
         --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
 fi
 
-if [ -n "$PUBLIC_IP" ]; then
-    ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP} \
-    --p2p.advertise.udp ${P2P_UDP_PORT} \
-    --p2p.listen.udp ${P2P_UDP_PORT} \
-    --p2p.advertise.tcp ${P2P_TCP_PORT} \
-    --p2p.listen.tcp ${P2P_TCP_PORT}"
-else
-    ARGS="${ARGS} --p2p.nat"
+if [ "$ENABLE_PRECONFS_P2P" = "true" ]; then
+  if [ -n "$PUBLIC_IP" ]; then
+      ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP} \
+      --p2p.advertise.udp ${P2P_UDP_PORT} \
+      --p2p.listen.udp ${P2P_UDP_PORT} \
+      --p2p.advertise.tcp ${P2P_TCP_PORT} \
+      --p2p.listen.tcp ${P2P_TCP_PORT}"
+  else
+      ARGS="${ARGS} --p2p.nat"
+  fi
 fi
 
 exec taiko-client driver ${ARGS}
