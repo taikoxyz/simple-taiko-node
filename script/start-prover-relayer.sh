@@ -6,8 +6,8 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.ws ws://l2_execution_engine:8546
         --l2.http http://l2_execution_engine:8545
-        --taikoL1 ${TAIKO_L1_ADDRESS}
-        --taikoL2 ${TAIKO_L2_ADDRESS}
+        --taikoInbox ${TAIKO_INBOX_ADDRESS}
+        --taikoAnchor ${TAIKO_ANCHOR_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
         --raiko.host ${SGX_RAIKO_HOST}
