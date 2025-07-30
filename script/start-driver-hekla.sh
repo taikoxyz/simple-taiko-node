@@ -16,7 +16,9 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
     --jwtSecret /data/taiko-geth/geth/jwtsecret \
     --p2p.bootnodes ${P2P_BOOTNODES} \
     --p2p.listen.ip 0.0.0.0 \
-    --p2p.useragent taiko"
+    --p2p.useragent taiko \
+    --p2p.peerstore.path /node-keys/peerstore \
+    --p2p.discovery.path /node-keys/discv5"
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
@@ -24,6 +26,18 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
 fi
 
 if [ "$ENABLE_PRECONFS_P2P" = "true" ]; then
+  # Check that either PRIV_PATH or PRIV_RAW is provided
+  if [ -z "$PRIV_PATH" ] && [ -z "$PRIV_RAW" ]; then
+      echo "Error: Either PRIV_PATH or PRIV_RAW must be provided" >&2
+      exit 1
+  fi
+
+  if [ -n "$PRIV_RAW" ]; then
+      ARGS="${ARGS} --p2p.priv.raw ${PRIV_RAW}"
+  else
+      ARGS="${ARGS} --p2p.priv.path ${PRIV_PATH}"
+  fi
+
   if [ -n "$PUBLIC_IP" ]; then
       ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP} \
       --p2p.advertise.udp ${P2P_UDP_PORT} \
