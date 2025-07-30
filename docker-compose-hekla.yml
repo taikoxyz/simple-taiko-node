@@ -49,11 +49,12 @@ services:
       - prover
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.7.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.8.0
     restart: unless-stopped
     pull_policy: always
-    depends_on:
-      - l2_execution_engine
+    ports:
+      - "${P2P_TCP_PORT}:${P2P_TCP_PORT}/tcp"
+      - "${P2P_UDP_PORT}:${P2P_UDP_PORT}/udp"
     env_file:
       - .env
     volumes:
@@ -69,7 +70,7 @@ services:
       - prover
 
   taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.7.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.8.0
     restart: unless-stopped
     pull_policy: always
     depends_on:
