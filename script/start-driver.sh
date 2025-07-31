@@ -26,16 +26,26 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
 fi
 
 if [ "$ENABLE_PRECONFS_P2P" = "true" ]; then
-  # Check that either PRIV_PATH or PRIV_RAW is provided
-  if [ -z "$PRIV_PATH" ] && [ -z "$PRIV_RAW" ]; then
-      echo "Error: Either PRIV_PATH or PRIV_RAW must be provided" >&2
+  if [ -z "$PRIV_FILE" ] && [ -z "$PRIV_RAW" ]; then
+      echo "Error: Either PRIV_FILE or PRIV_RAW must be provided" >&2
       exit 1
   fi
 
   if [ -n "$PRIV_RAW" ]; then
       ARGS="${ARGS} --p2p.priv.raw ${PRIV_RAW}"
   else
-      ARGS="${ARGS} --p2p.priv.path ${PRIV_PATH}"
+      SOURCE_FILE="/script/$PRIV_FILE"
+      DEST_FILE="/data/private-key/$PRIV_FILE"
+
+      if [ -f "$SOURCE_FILE" ]; then
+          cp "$SOURCE_FILE" "$DEST_FILE"
+          chmod 600 "$DEST_FILE"
+      else
+        echo "Error: /script/$PRIV_FILE does not exist"
+        exit 1
+      fi
+
+      ARGS="${ARGS} --p2p.priv.path $DEST_FILE"
   fi
 
   if [ -n "$PUBLIC_IP" ]; then

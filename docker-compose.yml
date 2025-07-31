@@ -60,6 +60,7 @@ services:
       - .env
     volumes:
       - l2_execution_engine_data:/data/taiko-geth
+      - private_key_data:/data/private-key
       - ./script:/script
     entrypoint:
       - /bin/sh
@@ -124,5 +125,6 @@ services:
 
 volumes:
   l2_execution_engine_data:
+  private_key_data:
   prometheus_data:
   grafana_data:
