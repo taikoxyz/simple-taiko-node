@@ -2,3 +2,4 @@
 .env*.bak
 
 .idea/
+privkey.txt
