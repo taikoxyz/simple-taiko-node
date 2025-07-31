@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.18.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.4...v1.18.0) (2025-07-31)
+
+
+### Features
+
+* **driver,prover:** update mainnet bootnodes and scripts ([#403](https://github.com/taikoxyz/simple-taiko-node/issues/403)) ([3b7869a](https://github.com/taikoxyz/simple-taiko-node/commit/3b7869a8452435322c7fd27a3eac470a9c371a0c))
+
+
+### Chores
+
+* **driver:** update hekla p2p bootnodes ([#401](https://github.com/taikoxyz/simple-taiko-node/issues/401)) ([4ecf454](https://github.com/taikoxyz/simple-taiko-node/commit/4ecf454d844e03740035c88253127b7d42f6b36b))
+* **hekla,driver,client:** add flag to enable p2p network ([#405](https://github.com/taikoxyz/simple-taiko-node/issues/405)) ([34bc59b](https://github.com/taikoxyz/simple-taiko-node/commit/34bc59b4fcdef55da163475a51e11da538eda931))
+
 ## [1.17.4](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.3...v1.17.4) (2025-07-19)
 
 
