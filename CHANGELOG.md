@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.18.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.18.0...v1.18.1) (2025-08-05)
+
+
+### Chores
+
+* **driver:** hotfix version ([#406](https://github.com/taikoxyz/simple-taiko-node/issues/406)) ([e3a4859](https://github.com/taikoxyz/simple-taiko-node/commit/e3a485965ac76fdb81b1f03593cf5dca49f6fd8d))
+
 ## [1.18.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.17.4...v1.18.0) (2025-07-31)
 
 
