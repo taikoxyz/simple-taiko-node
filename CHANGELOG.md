@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.19.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.18.2...v1.19.0) (2025-08-12)
+
+
+### Features
+
+* **geth:** increase base fee ([#408](https://github.com/taikoxyz/simple-taiko-node/issues/408)) ([f46d733](https://github.com/taikoxyz/simple-taiko-node/commit/f46d7331ca409fad9e95583e8003ebb3dbc934ec))
+
 ## [1.18.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.18.1...v1.18.2) (2025-08-12)
 
 
