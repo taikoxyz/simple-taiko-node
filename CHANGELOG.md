@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.18.2](https://github.com/taikoxyz/simple-taiko-node/compare/v1.18.1...v1.18.2) (2025-08-12)
+
+
+### Bug Fixes
+
+* **driver, prover:** remove prover_set req, move flags ([#411](https://github.com/taikoxyz/simple-taiko-node/issues/411)) ([9745c68](https://github.com/taikoxyz/simple-taiko-node/commit/9745c68461cf1945adc455f8368e2cc33f1bee48))
+
+
+### Chores
+
+* **driver:** hotfix ([#409](https://github.com/taikoxyz/simple-taiko-node/issues/409)) ([1ee99e2](https://github.com/taikoxyz/simple-taiko-node/commit/1ee99e262cf3baeea0e50448f1027a1d73ba2b7e))
+
 ## [1.18.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.18.0...v1.18.1) (2025-08-05)
 
 
