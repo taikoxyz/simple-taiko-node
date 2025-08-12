@@ -15,8 +15,7 @@ ARGS="--l1.ws "${L1_ENDPOINT_WS}" \
     --jwtSecret /data/taiko-geth/geth/jwtsecret \
     --p2p.bootnodes ${P2P_BOOTNODES} \
     --p2p.listen.ip 0.0.0.0 \
-    --p2p.useragent taiko \
-    "
+    --p2p.useragent taiko"
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
