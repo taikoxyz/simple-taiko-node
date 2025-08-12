@@ -29,10 +29,6 @@ if [ "$ENABLE_PROVER" = "true" ]; then
         exit 1
     fi
 
-    if [ -n "$PROVER_SET" ]; then
-        ARGS="${ARGS} --proverSet ${PROVER_SET}"
-    fi
-
     if [ -n "$TOKEN_ALLOWANCE" ]; then
         ARGS="${ARGS} --prover.allowance ${TOKEN_ALLOWANCE}"
     fi
