@@ -12,13 +12,10 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
     --taikoAnchor ${TAIKO_ANCHOR_ADDRESS} \
     --verbosity ${VERBOSITY} \
     --preconfirmation.whitelist ${PRECONFIRMATION_WHITELIST} \
-    --preconfirmation.serverPort 9871 \
     --jwtSecret /data/taiko-geth/geth/jwtsecret \
     --p2p.bootnodes ${P2P_BOOTNODES} \
     --p2p.listen.ip 0.0.0.0 \
-    --p2p.useragent taiko \
-    --p2p.peerstore.path /node-keys/peerstore \
-    --p2p.discovery.path /node-keys/discv5"
+    --p2p.useragent taiko"
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
@@ -26,6 +23,10 @@ if [ "$DISABLE_P2P_SYNC" = "false" ]; then
 fi
 
 if [ "$ENABLE_PRECONFS_P2P" = "true" ]; then
+  ARGS="${ARGS} --p2p.peerstore.path /node-keys/peerstore \
+      --p2p.discovery.path /node-keys/discv5 \
+      --preconfirmation.serverPort 9871"
+
   if [ -z "$PRIV_FILE" ] && [ -z "$PRIV_RAW" ]; then
       echo "Error: Either PRIV_FILE or PRIV_RAW must be provided" >&2
       exit 1
