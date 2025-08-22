@@ -34,7 +34,6 @@ services:
       --http.api debug,eth,net,web3,txpool,taiko
       --http.addr "0.0.0.0"
       --http.vhosts "*"
-      --syncmode full
       --ws
       --ws.api debug,eth,net,web3,txpool,taiko
       --ws.addr "0.0.0.0"
