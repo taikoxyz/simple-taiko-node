@@ -2,7 +2,7 @@
 services:
     taiko-geth:
         container_name: taiko-geth
-        image: nethswitchboard/preconf-taiko-geth:whitelist # us-docker.pkg.dev/evmchain/images/taiko-geth:v1.17.0  #
+        image: nethswitchboard/preconf-taiko-geth:whitelist
         restart: unless-stopped
         pull_policy: always
         extra_hosts:
@@ -24,6 +24,8 @@ services:
             logs_enabled: "true"
             custom_operator: "dev"
             custom_network: "dev"
+        env_file:
+            - .env
         command:
             - '--syncmode=snap'
             - '--cache=4096'
@@ -36,7 +38,7 @@ services:
             - '--rpc.txfeecap=10'
             - '--gcmode=archive'
             - '--datadir=/data/taiko-geth'
-            - '--networkid=${CHAIN_ID}'
+            - '--networkid=${L2_CHAIN_ID}'
             - '--port=30303'
             - '--nodiscover'
             - '--metrics'
@@ -60,9 +62,9 @@ services:
 
     taiko-driver:
         container_name: taiko-driver
-        image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-9a9b0b1
+        image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-34cc928
         restart: unless-stopped
-        # pull_policy: always
+        pull_policy: always
         extra_hosts:
             - "host.docker.internal:host-gateway"
         volumes:
@@ -110,15 +112,15 @@ services:
         image: ghcr.io/foundry-rs/foundry:stable
         restart: "no"
         volumes:
-            - ./script/transfer_funds.sh:/transfer_funds.sh:rw
+            - ./script/transfer_funds_and_add_operator.sh:/transfer_funds_and_add_operator.sh:rw
             - ./.env:/envfile:ro
         working_dir: /tmp
         entrypoint: ["/bin/sh", "-c"]
         command:
             - |
-                cp /transfer_funds.sh ./transfer_funds.sh && \
-                chmod +x ./transfer_funds.sh && \
-                ./transfer_funds.sh --private-key ${OPERATOR_1_PRIVATE_KEY}
+                cp /transfer_funds_and_add_operator.sh ./transfer_funds_and_add_operator.sh && \
+                chmod +x ./transfer_funds_and_add_operator.sh && \
+                ./transfer_funds_and_add_operator.sh --private-key ${OPERATOR_1_PRIVATE_KEY}
         env_file:
             - .env
         networks:
@@ -131,7 +133,7 @@ services:
 
     catalyst-node:
         container_name: catalyst-node
-        image: nethermind/catalyst-node:v1.8.0
+        image: nethermind/catalyst-node:v1.8.1
         restart: unless-stopped
         pull_policy: always
         volumes:
@@ -154,9 +156,12 @@ services:
         extra_hosts:
             - "host.docker.internal:host-gateway"
         depends_on:
-            - taiko-geth
-            - taiko-driver
-            - transfer-funds
+            transfer-funds:
+                condition: service_completed_successfully
+            taiko-geth:
+                condition: service_started
+            taiko-driver:
+                condition: service_started
 
 #   catalyst-node-2:
 #     container_name: catalyst-node-2
