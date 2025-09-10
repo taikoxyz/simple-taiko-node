@@ -1,20 +1,47 @@
 # This is the docker-compose file with L2 for the Kurtosis preconfirm devnet package.
 services:
-    taiko-geth:
-        container_name: taiko-geth
-        image: nethswitchboard/preconf-taiko-geth:whitelist
+    transfer-funds:
+        container_name: transfer-funds
+        image: ghcr.io/foundry-rs/foundry:stable
+        restart: "no"
+        volumes:
+            - ./script/transfer_funds_and_add_operator.sh:/transfer_funds_and_add_operator.sh:rw
+            - ./.env:/envfile:ro
+        working_dir: /tmp
+        entrypoint: ["/bin/sh", "-c"]
+        command:
+            - |
+                cp /transfer_funds_and_add_operator.sh ./transfer_funds_and_add_operator.sh && \
+                chmod +x ./transfer_funds_and_add_operator.sh && \
+                ./transfer_funds_and_add_operator.sh --private-key ${OPERATOR_1_PRIVATE_KEY}
+        env_file:
+            - .env
+        networks:
+            - preconf
+        # depends_on:
+        #     - taiko-geth-1
+        #     - taiko-driver
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+    taiko-geth-1:
+        container_name: taiko-geth-1
+        image: ${TAIKO_GETH_IMAGE}
         restart: unless-stopped
-        pull_policy: always
+        # pull_policy: always
         extra_hosts:
             - "host.docker.internal:host-gateway"
         volumes:
             - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
+            - taiko-geth-data-1:/data/taiko-geth
+            - ./geth-1-nodekey:/data/taiko-geth/geth/nodekey:ro
+            - ./geth-1-config.toml:/data/taiko-geth/geth/config.toml:ro
         ports:
             - "${PORT_L2_EXECUTION_ENGINE_1_METRICS}:6060"
             - "${PORT_L2_EXECUTION_ENGINE_1_HTTP}:8545"
             - "${PORT_L2_EXECUTION_ENGINE_1_WS}:8546"
-            - "${PORT_L2_EXECUTION_ENGINE_1_P2P}:30306"
-            - "${PORT_L2_EXECUTION_ENGINE_1_P2P}:30306/udp"
+            - "${PORT_L2_EXECUTION_ENGINE_1_P2P}:30303"
+            - "${PORT_L2_EXECUTION_ENGINE_1_P2P}:30303/udp"
             - "${PORT_L2_EXECUTION_ENGINE_1_AUTH}:8551"
         networks:
             - preconf
@@ -59,10 +86,12 @@ services:
             - '--http.api=admin,debug,eth,net,web3,txpool,miner,taiko'
             - '--ws.api=admin,debug,eth,net,web3,txpool,miner,taiko'
             - '--taiko'
+            - '--config=/data/taiko-geth/geth/config.toml'
+            - '--nodekey=/data/taiko-geth/geth/nodekey'
 
     taiko-driver:
         container_name: taiko-driver
-        image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-34cc928
+        image: ${TAIKO_CLIENT_IMAGE}
         restart: unless-stopped
         pull_policy: always
         extra_hosts:
@@ -87,14 +116,14 @@ services:
         env_file:
             - .env
         depends_on:
-            - taiko-geth
+            - taiko-geth-1
         command:
             - 'driver'
             - '--l1.ws=${L1_ENDPOINT_WS}'
             - '--l1.beacon=${L1_BEACON_HTTP}'
             - '--jwtSecret=/jwtsecret.hex'
-            - '--l2.ws=ws://taiko-geth:8546'
-            - '--l2.auth=http://taiko-geth:8551'
+            - '--l2.ws=ws://taiko-geth-1:8546'
+            - '--l2.auth=http://taiko-geth-1:8551'
             - '--preconfirmation.serverPort=1235'
             - '--p2p.priv.path=/p2psecret.hex'
             - '--p2p.listen.tcp=9222'
@@ -106,34 +135,9 @@ services:
             - '--metrics=true'
             - '--verbosity=4'
 
-
-    transfer-funds:
-        container_name: transfer-funds
-        image: ghcr.io/foundry-rs/foundry:stable
-        restart: "no"
-        volumes:
-            - ./script/transfer_funds_and_add_operator.sh:/transfer_funds_and_add_operator.sh:rw
-            - ./.env:/envfile:ro
-        working_dir: /tmp
-        entrypoint: ["/bin/sh", "-c"]
-        command:
-            - |
-                cp /transfer_funds_and_add_operator.sh ./transfer_funds_and_add_operator.sh && \
-                chmod +x ./transfer_funds_and_add_operator.sh && \
-                ./transfer_funds_and_add_operator.sh --private-key ${OPERATOR_1_PRIVATE_KEY}
-        env_file:
-            - .env
-        networks:
-            - preconf
-        depends_on:
-            - taiko-geth
-            - taiko-driver
-        extra_hosts:
-            - "host.docker.internal:host-gateway"
-
     catalyst-node:
         container_name: catalyst-node
-        image: nethermind/catalyst-node:v1.8.1
+        image: ${CATALYST_IMAGE}
         restart: unless-stopped
         pull_policy: always
         volumes:
@@ -158,27 +162,85 @@ services:
         depends_on:
             transfer-funds:
                 condition: service_completed_successfully
-            taiko-geth:
+            taiko-geth-1:
                 condition: service_started
             taiko-driver:
                 condition: service_started
 
-#   catalyst-node-2:
-#     container_name: catalyst-node-2
-#     image: nethswitchboard/preconf-avs-node:whitelist
-#     restart: unless-stopped
-#     pull_policy: always
-#     volumes:
-#       - ./jwtsecret.hex:/jwtsecret.hex:ro
-#     networks:
-#       - preconf
-#     # Inherit env vars from parent process
-#     env_file:
-#       - .env.catalyst-node-2
+
+
+### stack #2
+
+    taiko-geth-2:
+        container_name: taiko-geth-2
+        image: ${TAIKO_GETH_IMAGE}
+        restart: unless-stopped
+        # pull_policy: always
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        volumes:
+            - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
+            - taiko-geth-data-2:/data/taiko-geth
+            - ./geth-2-config.toml:/data/taiko-geth/geth/config.toml:ro
+            - ./geth-2-nodekey:/data/taiko-geth/geth/nodekey:ro
+        ports:
+            - "${PORT_L2_EXECUTION_ENGINE_2_METRICS}:6060"
+            - "${PORT_L2_EXECUTION_ENGINE_2_HTTP}:8545"
+            - "${PORT_L2_EXECUTION_ENGINE_2_WS}:8546"
+            - "${PORT_L2_EXECUTION_ENGINE_2_P2P}:30303"
+            - "${PORT_L2_EXECUTION_ENGINE_2_P2P}:30303/udp"
+            - "${PORT_L2_EXECUTION_ENGINE_2_AUTH}:8551"
+        networks:
+            - preconf
+        labels:
+            metrics_enabled: "true"
+            #metrics_port: "6060"
+            logs_enabled: "true"
+            custom_operator: "dev"
+            custom_network: "dev"
+        env_file:
+            - .env
+        command:
+            - '--syncmode=snap'
+            - '--cache=4096'
+            - '--maxpeers=100'
+            - '--maxpendpeers=50'
+            - '--txpool.globalslots=10000'
+            - '--txpool.globalqueue=10000'
+            - '--rpc.batch-request-limit=5000'
+            - '--rpc.batch-response-max-size=50000000'
+            - '--rpc.txfeecap=10'
+            - '--gcmode=archive'
+            - '--datadir=/data/taiko-geth'
+            - '--networkid=${L2_CHAIN_ID}'
+            - '--port=30303'
+            - '--nodiscover'
+            - '--metrics'
+            - '--metrics.addr=0.0.0.0'
+            #- '--metrics.port=6060'
+            - '--http'
+            - '--http.addr=0.0.0.0'
+            - '--http.vhosts=*'
+            - '--http.corsdomain=*'
+            - '--ws'
+            - '--ws.addr=0.0.0.0'
+            - '--ws.origins=*'
+            - '--authrpc.addr=0.0.0.0'
+            - '--authrpc.port=8551'
+            - '--authrpc.vhosts=*'
+            - '--authrpc.jwtsecret=/jwtsecret.hex'
+            - '--allow-insecure-unlock'
+            - '--http.api=admin,debug,eth,net,web3,txpool,miner,taiko'
+            - '--ws.api=admin,debug,eth,net,web3,txpool,miner,taiko'
+            - '--taiko'
+            - '--config=/data/taiko-geth/geth/config.toml'
+            - '--nodekey=/data/taiko-geth/geth/nodekey'
+
+
 
 volumes:
-    taiko-geth-data:
-
+    taiko-geth-data-1:
+    taiko-geth-data-2:
 
 networks:
     preconf:
