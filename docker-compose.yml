@@ -145,11 +145,10 @@ services:
                   --p2p.listen.tcp=9000 \
                   --p2p.listen.udp=9000 \
                   --p2p.useragent=taiko \
-                  --p2p.advertise.tcp=9000 \
-                  --p2p.advertise.udp=9000 \
                   --p2p.disable=false \
                   --metrics=true \
                   --verbosity=4 \
+                  --p2p.advertise.ip=taiko-driver-1 \
                   --p2p.bootnodes=$$ENR
 
 
@@ -299,9 +298,8 @@ services:
                   --p2p.listen.tcp=9000 \
                   --p2p.listen.udp=9000 \
                   --p2p.useragent=taiko \
-                  --p2p.advertise.tcp=9000 \
-                  --p2p.advertise.udp=9000 \
                   --p2p.disable=false \
+                  --p2p.advertise.ip=taiko-driver-2 \
                   --metrics=true \
                   --verbosity=4 \
                   --p2p.bootnodes=$$ENR
