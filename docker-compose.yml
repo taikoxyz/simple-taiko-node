@@ -6,16 +6,16 @@ services:
         restart: "no"
         volumes:
             - ./script/transfer_funds_and_add_operator.sh:/transfer_funds_and_add_operator.sh:rw
-            - ./.env.main:/envfile:ro
+            - ./.env:/envfile:ro
         working_dir: /tmp
         entrypoint: ["/bin/sh", "-c"]
         command:
             - |
                 cp /transfer_funds_and_add_operator.sh ./transfer_funds_and_add_operator.sh && \
                 chmod +x ./transfer_funds_and_add_operator.sh && \
-                ./transfer_funds_and_add_operator.sh --private-key ${OPERATOR_1_PRIVATE_KEY}
+                ./transfer_funds_and_add_operator.sh
         env_file:
-            - .env.main
+            - .env
         networks:
             - preconf
         extra_hosts:
@@ -24,8 +24,6 @@ services:
     p2p-bootnode:
         container_name: p2p-bootnode
         image: nethswitchboard/bootnode-p2p:whitelist
-        # ports:
-        #     - "8888:9001"
         command:
             - p2p-boot-node
             - p2p-bootnode
@@ -63,7 +61,7 @@ services:
             custom_operator: "dev"
             custom_network: "dev"
         env_file:
-            - .env.main
+            - .env
         command:
             - '--syncmode=snap'
             - '--cache=4096'
@@ -126,14 +124,15 @@ services:
             custom_network: "dev"
         # Inherit env vars from parent process
         env_file:
-            - .env.main
+            - .env
+            - .env.stack-1
         depends_on:
             - taiko-geth-1
             - p2p-bootnode
         entrypoint: ["/bin/sh", "-c"]
         command:
             - |
-                export ENR=$$(cat /bootnode/.env) && \
+                export ENR=$$(cat /bootnode/enr) && \
                 exec taiko-client driver \
                   --l1.ws=$${L1_ENDPOINT_WS} \
                   --l1.beacon=$${L1_BEACON_HTTP} \
@@ -152,16 +151,16 @@ services:
                   --p2p.bootnodes=$$ENR
 
 
-    catalyst-node:
-        container_name: catalyst-node
+    catalyst-node-1:
+        container_name: catalyst-node-1
         image: ${CATALYST_IMAGE}
         restart: unless-stopped
         pull_policy: always
         volumes:
             - ./jwtsecret.hex:/jwtsecret.hex:ro
-        ports:
+        # ports:
             # Metrics
-            - 9898:9898
+            # - 9898:9898
         networks:
             - preconf
         labels:
@@ -172,8 +171,8 @@ services:
             custom_network: "dev"
         # Inherit env vars from parent process
         env_file:
-            - .env.main
-            - .env.catalyst1
+            - .env
+            - .env.stack-1
         extra_hosts:
             - "host.docker.internal:host-gateway"
         depends_on:
@@ -216,7 +215,7 @@ services:
             custom_operator: "dev"
             custom_network: "dev"
         env_file:
-            - .env.main
+            - .env
         command:
             - '--syncmode=snap'
             - '--cache=4096'
@@ -280,13 +279,14 @@ services:
         # Inherit env vars from parent process
         env_file:
             - .env
+            - .env.stack-2
         depends_on:
             - taiko-geth-2
             - p2p-bootnode
         entrypoint: ["/bin/sh", "-c"]
         command:
             - |
-                export ENR=$$(cat /bootnode/.env) && \
+                export ENR=$$(cat /bootnode/enr) && \
                 exec taiko-client driver \
                   --l1.ws=$${L1_ENDPOINT_WS} \
                   --l1.beacon=$${L1_BEACON_HTTP} \
@@ -303,6 +303,38 @@ services:
                   --metrics=true \
                   --verbosity=4 \
                   --p2p.bootnodes=$$ENR
+
+    catalyst-node-2:
+        container_name: catalyst-node-2
+        image: ${CATALYST_IMAGE}
+        restart: unless-stopped
+        pull_policy: always
+        volumes:
+            - ./jwtsecret.hex:/jwtsecret.hex:ro
+        # ports:
+            # Metrics
+            # - 9898:9898
+        networks:
+            - preconf
+        labels:
+            metrics_enabled: "true"
+            metrics_port: "9898"
+            logs_enabled: "true"
+            custom_operator: "dev"
+            custom_network: "dev"
+        # Inherit env vars from parent process
+        env_file:
+            - .env
+            - .env.stack-2
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        depends_on:
+            transfer-funds:
+                condition: service_completed_successfully
+            taiko-geth-2:
+                condition: service_started
+            taiko-driver-2:
+                condition: service_started
 
 volumes:
     taiko-geth-data-1:

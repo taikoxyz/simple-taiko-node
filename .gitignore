@@ -1,4 +1,3 @@
-.env
 .env*.bak
 
 .idea/
