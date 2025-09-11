@@ -39,7 +39,7 @@ services:
         container_name: taiko-geth-1
         image: ${TAIKO_GETH_IMAGE}
         restart: unless-stopped
-        # pull_policy: always
+        pull_policy: always
         extra_hosts:
             - "host.docker.internal:host-gateway"
         volumes:
@@ -193,7 +193,7 @@ services:
         container_name: taiko-geth-2
         image: ${TAIKO_GETH_IMAGE}
         restart: unless-stopped
-        # pull_policy: always
+        pull_policy: always
         extra_hosts:
             - "host.docker.internal:host-gateway"
         volumes:
