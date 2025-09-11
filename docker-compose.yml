@@ -6,7 +6,7 @@ services:
         restart: "no"
         volumes:
             - ./script/transfer_funds_and_add_operator.sh:/transfer_funds_and_add_operator.sh:rw
-            - ./.env:/envfile:ro
+            - ./.env.main:/envfile:ro
         working_dir: /tmp
         entrypoint: ["/bin/sh", "-c"]
         command:
@@ -15,7 +15,7 @@ services:
                 chmod +x ./transfer_funds_and_add_operator.sh && \
                 ./transfer_funds_and_add_operator.sh --private-key ${OPERATOR_1_PRIVATE_KEY}
         env_file:
-            - .env
+            - .env.main
         networks:
             - preconf
         extra_hosts:
@@ -63,7 +63,7 @@ services:
             custom_operator: "dev"
             custom_network: "dev"
         env_file:
-            - .env
+            - .env.main
         command:
             - '--syncmode=snap'
             - '--cache=4096'
@@ -126,8 +126,7 @@ services:
             custom_network: "dev"
         # Inherit env vars from parent process
         env_file:
-            - .env
-            # - /bootnode/.env
+            - .env.main
         depends_on:
             - taiko-geth-1
             - p2p-bootnode
@@ -174,7 +173,7 @@ services:
             custom_network: "dev"
         # Inherit env vars from parent process
         env_file:
-            - .env
+            - .env.main
             - .env.catalyst1
         extra_hosts:
             - "host.docker.internal:host-gateway"
@@ -218,7 +217,7 @@ services:
             custom_operator: "dev"
             custom_network: "dev"
         env_file:
-            - .env
+            - .env.main
         command:
             - '--syncmode=snap'
             - '--cache=4096'
