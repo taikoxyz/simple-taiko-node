@@ -18,11 +18,22 @@ services:
             - .env
         networks:
             - preconf
-        # depends_on:
-        #     - taiko-geth-1
-        #     - taiko-driver
         extra_hosts:
             - "host.docker.internal:host-gateway"
+
+    p2p-bootnode:
+        container_name: p2p-bootnode
+        image: nethswitchboard/bootnode-p2p:whitelist
+        # ports:
+        #     - "8888:9001"
+        command:
+            - p2p-boot-node
+            - p2p-bootnode
+            - "9000"
+        networks:
+            - preconf
+        volumes:
+            - bootnode-data:/tmp:rw
 
     taiko-geth-1:
         container_name: taiko-geth-1
@@ -89,8 +100,8 @@ services:
             - '--config=/data/taiko-geth/geth/config.toml'
             - '--nodekey=/data/taiko-geth/geth/nodekey'
 
-    taiko-driver:
-        container_name: taiko-driver
+    taiko-driver-1:
+        container_name: taiko-driver-1
         image: ${TAIKO_CLIENT_IMAGE}
         restart: unless-stopped
         pull_policy: always
@@ -98,10 +109,11 @@ services:
             - "host.docker.internal:host-gateway"
         volumes:
             - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
-            - ./p2psecret.hex:/p2psecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > p2psecret.hex`
+            - ./p2psecret-1.hex:/p2psecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > p2psecret.hex`
+            - bootnode-data:/bootnode:ro
         ports:
             # P2P
-            - "${PORT_P2P_DRIVER_1}:9222"
+            - "${PORT_P2P_DRIVER_1}:9000"
             # Metrics
             # - 6060:6061
         networks:
@@ -115,25 +127,32 @@ services:
         # Inherit env vars from parent process
         env_file:
             - .env
+            # - /bootnode/.env
         depends_on:
             - taiko-geth-1
+            - p2p-bootnode
+        entrypoint: ["/bin/sh", "-c"]
         command:
-            - 'driver'
-            - '--l1.ws=${L1_ENDPOINT_WS}'
-            - '--l1.beacon=${L1_BEACON_HTTP}'
-            - '--jwtSecret=/jwtsecret.hex'
-            - '--l2.ws=ws://taiko-geth-1:8546'
-            - '--l2.auth=http://taiko-geth-1:8551'
-            - '--preconfirmation.serverPort=1235'
-            - '--p2p.priv.path=/p2psecret.hex'
-            - '--p2p.listen.tcp=9222'
-            - '--p2p.listen.udp=9222'
-            - '--p2p.useragent=taiko'
-            - '--p2p.advertise.tcp=9222'
-            - '--p2p.advertise.udp=9222'
-            - '--p2p.disable=false'
-            - '--metrics=true'
-            - '--verbosity=4'
+            - |
+                export ENR=$$(cat /bootnode/.env) && \
+                exec taiko-client driver \
+                  --l1.ws=$${L1_ENDPOINT_WS} \
+                  --l1.beacon=$${L1_BEACON_HTTP} \
+                  --jwtSecret=/jwtsecret.hex \
+                  --l2.ws=ws://taiko-geth-1:8546 \
+                  --l2.auth=http://taiko-geth-1:8551 \
+                  --preconfirmation.serverPort=1235 \
+                  --p2p.priv.path=/p2psecret.hex \
+                  --p2p.listen.tcp=9000 \
+                  --p2p.listen.udp=9000 \
+                  --p2p.useragent=taiko \
+                  --p2p.advertise.tcp=9000 \
+                  --p2p.advertise.udp=9000 \
+                  --p2p.disable=false \
+                  --metrics=true \
+                  --verbosity=4 \
+                  --p2p.bootnodes=$$ENR
+
 
     catalyst-node:
         container_name: catalyst-node
@@ -164,7 +183,7 @@ services:
                 condition: service_completed_successfully
             taiko-geth-1:
                 condition: service_started
-            taiko-driver:
+            taiko-driver-1:
                 condition: service_started
 
 
@@ -236,11 +255,62 @@ services:
             - '--config=/data/taiko-geth/geth/config.toml'
             - '--nodekey=/data/taiko-geth/geth/nodekey'
 
-
+    taiko-driver-2:
+        container_name: taiko-driver-2
+        image: ${TAIKO_CLIENT_IMAGE}
+        restart: unless-stopped
+        pull_policy: always
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        volumes:
+            - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
+            - ./p2psecret-2.hex:/p2psecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > p2psecret.hex`
+            - bootnode-data:/bootnode:ro
+        ports:
+            # P2P
+            - "${PORT_P2P_DRIVER_2}:9000"
+            # Metrics
+            # - 6060:6061
+        networks:
+            - preconf
+        labels:
+            metrics_enabled: "true"
+            metrics_port: "6061"
+            logs_enabled: "true"
+            custom_operator: "dev"
+            custom_network: "dev"
+        # Inherit env vars from parent process
+        env_file:
+            - .env
+        depends_on:
+            - taiko-geth-2
+            - p2p-bootnode
+        entrypoint: ["/bin/sh", "-c"]
+        command:
+            - |
+                export ENR=$$(cat /bootnode/.env) && \
+                exec taiko-client driver \
+                  --l1.ws=$${L1_ENDPOINT_WS} \
+                  --l1.beacon=$${L1_BEACON_HTTP} \
+                  --jwtSecret=/jwtsecret.hex \
+                  --l2.ws=ws://taiko-geth-2:8546 \
+                  --l2.auth=http://taiko-geth-2:8551 \
+                  --preconfirmation.serverPort=1235 \
+                  --p2p.priv.path=/p2psecret.hex \
+                  --p2p.listen.tcp=9000 \
+                  --p2p.listen.udp=9000 \
+                  --p2p.useragent=taiko \
+                  --p2p.advertise.tcp=9000 \
+                  --p2p.advertise.udp=9000 \
+                  --p2p.disable=false \
+                  --metrics=true \
+                  --verbosity=4 \
+                  --p2p.bootnodes=$$ENR
 
 volumes:
     taiko-geth-data-1:
     taiko-geth-data-2:
+    bootnode-data:
 
 networks:
     preconf:
