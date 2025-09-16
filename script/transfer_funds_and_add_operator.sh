@@ -23,6 +23,7 @@ setup_operator() {
     return 1
   fi
 
+  echo
   echo "Setting up operator: $OPERATOR_ADDRESS"
 
   # Check and transfer TAIKO tokens if needed
@@ -44,6 +45,7 @@ setup_operator() {
     echo "Operator allowance after approval: $(cast call $TAIKO_TOKEN "allowance(address,address)(uint256)" $OPERATOR_ADDRESS $TAIKO_INBOX --rpc-url $L1_ENDPOINT_WS)"
   fi
 
+  echo
   echo "Operator setup completed for: $OPERATOR_ADDRESS"
 }
 
@@ -66,10 +68,12 @@ OPERATOR_COUNT=$(cast call $PRECONFIRMATION_WHITELIST "operatorCount()" --rpc-ur
 echo Number of operators: $OPERATOR_COUNT
 if [ $((OPERATOR_COUNT)) -eq 0 ]; then
     OPERATOR_CHANGE_DELAY=0
-    echo Setting operator change delay to $OPERATOR_CHANGE_DELAY
+    echo
+    echo "Setting operator change delay to $OPERATOR_CHANGE_DELAY"
     cast send $PRECONFIRMATION_WHITELIST "setOperatorChangeDelay(uint8)" $OPERATOR_CHANGE_DELAY --rpc-url $L1_ENDPOINT_WS --private-key $CONTRACT_OWNER_PRIVATE_KEY
 
-    echo Adding operator to whitelist using preconfirmation whitelist address $PRECONFIRMATION_WHITELIST
+    echo
+    echo "Adding operator to whitelist using preconfirmation whitelist address $PRECONFIRMATION_WHITELIST"
     cast send $PRECONFIRMATION_WHITELIST "addOperator(address, address)" $OPERATOR_ADDRESS_1 $OPERATOR_ADDRESS_1 $PRECONFIRMATION_WHITELIST --rpc-url $L1_ENDPOINT_WS --private-key $CONTRACT_OWNER_PRIVATE_KEY
     cast send $PRECONFIRMATION_WHITELIST "addOperator(address, address)" $OPERATOR_ADDRESS_2 $OPERATOR_ADDRESS_2 $PRECONFIRMATION_WHITELIST --rpc-url $L1_ENDPOINT_WS --private-key $CONTRACT_OWNER_PRIVATE_KEY
 fi
