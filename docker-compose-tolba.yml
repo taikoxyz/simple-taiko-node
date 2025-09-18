@@ -22,6 +22,7 @@ services:
       --taiko
       --networkid "${CHAIN_ID}"
       --gcmode archive
+      --syncmode full
       --datadir /data/taiko-geth
       --metrics
       --metrics.expensive
