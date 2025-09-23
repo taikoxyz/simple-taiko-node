@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.20.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.20.0...v1.20.1) (2025-09-23)
+
+
+### Chores
+
+* **repo:** rename tolba ([#418](https://github.com/taikoxyz/simple-taiko-node/issues/418)) ([69d35e7](https://github.com/taikoxyz/simple-taiko-node/commit/69d35e73b515634b9781d221c94e9112a772bfac))
+
 ## [1.20.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.19.0...v1.20.0) (2025-09-22)
 
 
