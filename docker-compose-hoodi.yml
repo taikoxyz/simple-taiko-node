@@ -64,7 +64,7 @@ services:
     entrypoint:
       - /bin/sh
       - -c
-      - "/script/start-driver-tolba.sh"
+      - "/script/start-driver-hoodi.sh"
     <<: *logging
     profiles:
       - l2_execution_engine
