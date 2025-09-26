@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.20.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.20.0...v1.20.1) (2025-09-23)
+
+
+### Chores
+
+* **repo:** rename tolba ([#418](https://github.com/taikoxyz/simple-taiko-node/issues/418)) ([69d35e7](https://github.com/taikoxyz/simple-taiko-node/commit/69d35e73b515634b9781d221c94e9112a772bfac))
+
+## [1.20.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.19.0...v1.20.0) (2025-09-22)
+
+
+### Features
+
+* **driver:** add docker compose about tolba testnet ([#417](https://github.com/taikoxyz/simple-taiko-node/issues/417)) ([0bb27e1](https://github.com/taikoxyz/simple-taiko-node/commit/0bb27e13b3bd20d728831fd2a6bb5fc34a78bfce))
+
+
+### Chores
+
+* **driver:** hotfix geth flag ([#413](https://github.com/taikoxyz/simple-taiko-node/issues/413)) ([e740be2](https://github.com/taikoxyz/simple-taiko-node/commit/e740be2d06633b459c3597e346c79ca445eb09d8))
+
 ## [1.19.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.18.2...v1.19.0) (2025-08-12)
 
 

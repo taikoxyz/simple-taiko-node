@@ -1,0 +1,115 @@
+x-logging: &logging
+  logging:
+    options:
+      max-size: 10m
+      max-file: "3"
+
+services:
+  l2_execution_engine:
+    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v1.18.0
+    restart: unless-stopped
+    pull_policy: always
+    stop_grace_period: 3m
+    volumes:
+      - l2_execution_engine_data:/data/taiko-geth
+    ports:
+      - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
+      - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
+      - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
+      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}"
+      - "${PORT_L2_EXECUTION_ENGINE_P2P}:${PORT_L2_EXECUTION_ENGINE_P2P}/udp"
+    command: |
+      --taiko
+      --networkid "${CHAIN_ID}"
+      --gcmode archive
+      --syncmode full
+      --datadir /data/taiko-geth
+      --metrics
+      --metrics.expensive
+      --metrics.addr "0.0.0.0"
+      --bootnodes ${BOOT_NODES}
+      --authrpc.addr "0.0.0.0"
+      --authrpc.vhosts "*"
+      --http
+      --http.api debug,eth,net,web3,txpool,taiko
+      --http.addr "0.0.0.0"
+      --http.vhosts "*"
+      --ws
+      --ws.api debug,eth,net,web3,txpool,taiko
+      --ws.addr "0.0.0.0"
+      --ws.origins "*"
+      --gpo.ignoreprice "25000000"
+      --port ${PORT_L2_EXECUTION_ENGINE_P2P}
+      --discovery.port ${PORT_L2_EXECUTION_ENGINE_P2P}
+      --maxpeers ${MAXPEERS:-50}
+      --maxpendpeers ${MAXPENDPEERS:-0}
+      ${GETH_ADDITIONAL_ARGS:-}
+    <<: *logging
+    profiles:
+      - l2_execution_engine
+
+  taiko_client_driver:
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v1.10.1
+    restart: unless-stopped
+    pull_policy: always
+    ports:
+      - "${P2P_TCP_PORT}:${P2P_TCP_PORT}/tcp"
+      - "${P2P_UDP_PORT}:${P2P_UDP_PORT}/udp"
+    env_file:
+      - .env
+    volumes:
+      - l2_execution_engine_data:/data/taiko-geth
+      - private_key_data:/data/private-key
+      - ./script:/script
+    entrypoint:
+      - /bin/sh
+      - -c
+      - "/script/start-driver-hoodi.sh"
+    <<: *logging
+    profiles:
+      - l2_execution_engine
+
+  prometheus:
+    image: prom/prometheus:latest
+    restart: unless-stopped
+    ports:
+      - ${PORT_PROMETHEUS}:9090
+    depends_on:
+      - l2_execution_engine
+      - taiko_client_driver
+    volumes:
+      - ./docker/prometheus/l2:/etc/prometheus
+      - prometheus_data:/prometheus
+    command:
+      - --log.level=debug
+      - --config.file=/etc/prometheus/prometheus.yml
+    <<: *logging
+    profiles:
+      - l2_execution_engine
+
+  grafana:
+    image: grafana/grafana:latest
+    restart: unless-stopped
+    ports:
+      - ${PORT_GRAFANA}:3000
+    depends_on:
+      - l2_execution_engine
+      - taiko_client_driver
+      - prometheus
+    environment:
+      - GF_PATHS_CONFIG=/etc/grafana/custom/settings.ini
+      - GF_PATHS_PROVISIONING=/etc/grafana/custom/provisioning
+      - GF_LOG_LEVEL=WARN
+    volumes:
+      - ./docker/grafana/custom/settings.ini:/etc/grafana/custom/settings.ini
+      - ./docker/grafana/custom/l2/provisioning/:/etc/grafana/custom/provisioning/
+      - grafana_data:/var/lib/grafana
+    <<: *logging
+    profiles:
+      - l2_execution_engine
+
+volumes:
+  l2_execution_engine_data:
+  private_key_data:
+  prometheus_data:
+  grafana_data:
