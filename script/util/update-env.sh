@@ -13,21 +13,28 @@ update_env() {
     local env_path=$1
     local env_sample_path=$2
 
-    cp $env_path "${env_path}.bak"  # backup original .env file
+    cp "$env_path" "${env_path}.bak"  # backup original .env file
 
     # Process lines in .env.sample
     while IFS= read -r line || [[ -n "$line" ]]; do
         if [[ $line =~ ^#.*$ || $line == "" ]]; then  # if comment or empty line
+            echo "$line" >> "${env_path}.new"
+        elif [[ "$line" != *"="* ]]; then  # if line does not contain '='
             echo "$line" >> "${env_path}.new"
         else
             key=$(echo "$line" | cut -d '=' -f 1)  # extract the key
             value_sample=$(echo "$line" | cut -d '=' -f 2-)  # extract the value from sample
 
             # search for the key in .env file
-            value_env=$(grep "^$key=" "${env_path}.bak" | cut -d '=' -f 2-)
-            if [[ $value_env && -n $value_sample ]]; then
+            if grep -q -F "^$key=" "${env_path}.bak"; then
+                value_env=$(grep -F "^$key=" "${env_path}.bak" | head -n1 | cut -d '=' -f 2-)
+            else
+                value_env=""
+            fi
+
+            if [[ -n "$value_env" && -n "$value_sample" ]]; then
                 echo "$key=$value_sample" >> "${env_path}.new"  # use updated value from .env.sample
-            elif [[ $value_env ]]; then
+            elif [[ -n "$value_env" ]]; then
                 echo "$key=$value_env" >> "${env_path}.new"  # use value from .env if key exists and sample value is empty
             else
                 echo "$line" >> "${env_path}.new"  # use default value from .env.sample
