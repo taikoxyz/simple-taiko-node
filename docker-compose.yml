@@ -182,6 +182,41 @@ services:
                 condition: service_started
             taiko-driver-1:
                 condition: service_started
+            web3signer_l1:
+                condition: service_started
+            web3signer_l2:
+                condition: service_started
+
+    web3signer_l1:
+        container_name: web3signer_l1
+        image: nethswitchboard/web3signer_eip_4844:2.4
+        restart: unless-stopped
+        pull_policy: always
+        volumes:
+        - ./docker/web3signer_config:/config
+        networks:
+        - preconf
+        command:
+        - '--key-store-path=/config'
+        - '--http-host-allowlist=*'
+        - 'eth1'
+        - '--chain-id=${L1_CHAIN_ID}'
+
+    web3signer_l2:
+        container_name: web3signer_l2
+        image: nethswitchboard/web3signer_eip_4844:2.4
+        restart: unless-stopped
+        pull_policy: always
+        volumes:
+        - ./docker/web3signer_config:/config
+        networks:
+        - preconf
+        command:
+        - '--key-store-path=/config'
+        - '--http-host-allowlist=*'
+        - 'eth1'
+        - '--chain-id=${L2_CHAIN_ID}'
+
 
 
 
