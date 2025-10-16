@@ -35,7 +35,13 @@ setup_operator() {
   fi
 
   # Check operator ETH balance
-  echo "Operator L1 ETH balance: $(cast balance --rpc-url $L1_ENDPOINT_WS $OPERATOR_ADDRESS)"
+  OPERATOR_L1_ETH_BALANCE=$(cast balance --rpc-url $L1_ENDPOINT_WS $OPERATOR_ADDRESS)
+  echo "Operator L1 ETH balance: $OPERATOR_L1_ETH_BALANCE"
+
+  if [ $((OPERATOR_L1_ETH_BALANCE)) -eq 0 ]; then
+    cast send $OPERATOR_ADDRESS --value 1000ether --rpc-url $L1_ENDPOINT_WS --private-key $CONTRACT_OWNER_PRIVATE_KEY
+    echo "Operator L1 ETH balance after transfer: $(cast balance --rpc-url $L1_ENDPOINT_WS $OPERATOR_ADDRESS)"
+  fi
 
   # Check and set allowance if needed
   OPERATOR_ALLOWANCE=$(cast call $TAIKO_TOKEN "allowance(address,address)(uint256)" $OPERATOR_ADDRESS $TAIKO_INBOX --rpc-url $L1_ENDPOINT_WS | cut -d' ' -f1)
