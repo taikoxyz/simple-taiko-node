@@ -147,6 +147,8 @@ services:
                   --p2p.disable=false \
                   --metrics=true \
                   --verbosity=4 \
+                  --pacayaInbox=$${PACAYA_INBOX} \
+                  --shastaInbox=$${SHASTA_INBOX} \
                   --p2p.advertise.ip=taiko-driver-1 \
                   --p2p.bootnodes=$$ENR
 
