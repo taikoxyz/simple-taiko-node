@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.21.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.20.1...v1.21.0) (2025-10-21)
+
+
+### Features
+
+* **driver:** reset taiko hoodi with chain id 167013 ([#420](https://github.com/taikoxyz/simple-taiko-node/issues/420)) ([d80c9ab](https://github.com/taikoxyz/simple-taiko-node/commit/d80c9ab846994c5627792d12a106208f3c11f161))
+
 ## [1.20.1](https://github.com/taikoxyz/simple-taiko-node/compare/v1.20.0...v1.20.1) (2025-09-23)
 
 
