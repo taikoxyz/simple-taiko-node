@@ -33,6 +33,18 @@ services:
         volumes:
             - bootnode-data:/tmp:rw
 
+    fork-switch:
+        container_name: fork-switch
+        image: nethswitchboard/pacaya-shasta-transition
+        pull_policy: always
+        networks:
+            - preconf
+        env_file:
+            - .env
+            - .env.stack-1
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
     taiko-geth-1:
         container_name: taiko-geth-1
         image: ${TAIKO_GETH_IMAGE}
