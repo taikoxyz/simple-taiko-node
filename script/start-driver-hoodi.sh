@@ -12,7 +12,8 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
     --taikoAnchor ${TAIKO_ANCHOR_ADDRESS} \
     --verbosity ${VERBOSITY} \
     --preconfirmation.whitelist ${PRECONFIRMATION_WHITELIST} \
-    --jwtSecret /data/taiko-geth/geth/jwtsecret"
+    --jwtSecret /data/taiko-geth/geth/jwtsecret \
+    --blob.server https://blobindexer.hoodi.taiko.xyz/v1"
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
