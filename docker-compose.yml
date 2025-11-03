@@ -109,6 +109,7 @@ services:
             - '--taiko'
             - '--config=/data/taiko-geth/geth/config.toml'
             - '--nodekey=/data/taiko-geth/geth/nodekey'
+            - '--taiko.internal-shasta-time=${TAIKO_INTERNAL_SHASTA_TIME}'
 
     taiko-driver-1:
         container_name: taiko-driver-1
@@ -300,6 +301,7 @@ services:
             - '--taiko'
             - '--config=/data/taiko-geth/geth/config.toml'
             - '--nodekey=/data/taiko-geth/geth/nodekey'
+            - '--taiko.internal-shasta-time=${TAIKO_INTERNAL_SHASTA_TIME}'
 
     taiko-driver-2:
         container_name: taiko-driver-2
