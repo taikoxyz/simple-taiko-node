@@ -16,6 +16,12 @@ async function initShastaGenesis(shastaInboxAddress, signer, provider, shastaFor
     const owner = await inbox.owner();
     console.log(`[initShastaGenesis] inbox owner: ${owner}`);
 
+    const activationTimestamp = await inbox.activationTimestamp();
+    if (activationTimestamp != 0) {
+        console.log(`[initShastaGenesis] inbox already activated at: ${activationTimestamp}`);
+        return;
+    }
+
     while (true) {
         const currentHeight = await provider.getBlockNumber();
         const block = await provider.getBlock(currentHeight);
