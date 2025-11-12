@@ -1,0 +1,23 @@
+{
+    "name": "shasta-pacay-transition",
+    "version": "1.0.0",
+    "description": "Monitor for Shasta to Pacay transition",
+    "main": "monitor_for_transition.js",
+    "scripts": {
+        "start": "node index.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "ethers": "^6.8.0",
+        "dotenv": "^16.3.1"
+    },
+    "keywords": [
+        "taiko",
+        "shasta",
+        "pacay",
+        "transition",
+        "ethereum"
+    ],
+    "author": "",
+    "license": "ISC"
+}

@@ -2,3 +2,5 @@
 .env*.bak
 
 .idea/
+
+node_modules/
