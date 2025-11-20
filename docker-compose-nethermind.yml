@@ -1,0 +1,399 @@
+# This is the docker-compose file with L2 using Nethermind for the Kurtosis preconfirm devnet package.
+services:
+    # alethia-deployer:
+    #     container_name: alethia-deployer
+    #     image: nethswitchboard/preconf-taiko-protocol:alethia-v2.3.1
+    #     volumes:
+    #         - ./script:/deployer:rw
+    #         - ./deployments:/deployments:rw
+    #     env_file:
+    #         - .env
+    #     command:
+    #         - /deployer/alethia-deployer.sh
+    #     networks:
+    #         - preconf
+    #     extra_hosts:
+    #         - "host.docker.internal:host-gateway"
+    
+    # shasta-deployer:
+    #     container_name: shasta-deployer
+    #     image: nethswitchboard/preconf-taiko-protocol:shasta
+    #     volumes:
+    #         - ./script:/deployer:rw
+    #         - ./deployments:/deployments:rw
+    #     env_file:
+    #         - .env
+    #     command:
+    #         - /deployer/alethia-deployer.sh
+    #     networks:
+    #         - preconf
+    #     extra_hosts:
+    #         - "host.docker.internal:host-gateway"
+
+    transfer-funds:
+        container_name: transfer-funds
+        image: ghcr.io/foundry-rs/foundry:stable
+        restart: "no"
+        volumes:
+            - ./script/transfer_funds_and_add_operator.sh:/transfer_funds_and_add_operator.sh:rw
+            - ./.env:/envfile:ro
+        working_dir: /tmp
+        entrypoint: ["/bin/sh", "-c"]
+        command:
+            - |
+                cp /transfer_funds_and_add_operator.sh ./transfer_funds_and_add_operator.sh && \
+                chmod +x ./transfer_funds_and_add_operator.sh && \
+                ./transfer_funds_and_add_operator.sh
+        env_file:
+            - .env
+        networks:
+            - preconf
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+    # p2p-bootnode:
+    #     container_name: p2p-bootnode
+    #     image: nethermind/catalyst-p2p-bootnode:sha-8d5e7b1
+    #     command:
+    #         # - p2p-boot-node
+    #         - p2p-bootnode
+    #         - "9000"
+    #     ports:
+    #         - "9000:9000/udp"  # Add UDP port mapping for discv5
+    #     networks:
+    #         - preconf
+    #     volumes:
+    #         - bootnode-data:/tmp:rw
+
+    fork-switch:
+        container_name: fork-switch
+        build:
+            context: ./shasta-pacay-transition
+            dockerfile: Dockerfile
+        networks:
+            - preconf
+        env_file:
+            - .env
+            - .env.stack-1
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+
+    taiko-nethermind-1:
+        container_name: taiko-nethermind-1
+        image: nethermindeth/nethermind:taiko-shasta-changes
+        restart: unless-stopped
+        pull_policy: always
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        volumes:
+            - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
+            - taiko-nethermind-data-1:/data/nethermind
+            - ./taiko-shasta-chainspec.json:/taiko-shasta-chainspec.json:ro
+        ports:
+            - "${PORT_L2_EXECUTION_ENGINE_1_METRICS}:9091"
+            - "${PORT_L2_EXECUTION_ENGINE_1_HTTP}:8547"
+            - "${PORT_L2_EXECUTION_ENGINE_1_WS}:8548"
+            - "${PORT_L2_EXECUTION_ENGINE_1_P2P}:30304"
+            - "${PORT_L2_EXECUTION_ENGINE_1_P2P}:30304/udp"
+            - "${PORT_L2_EXECUTION_ENGINE_1_AUTH}:8552"
+        networks:
+            - preconf
+        labels:
+            metrics_enabled: "true"
+            logs_enabled: "true"
+            custom_operator: "dev"
+            custom_network: "dev"
+        env_file:
+            - .env
+        command:
+            - './nethermind/nethermind'
+            - '--data-dir=/data/nethermind'
+            - '--config=none'
+            - '--Init.ChainSpecPath=/taiko-shasta-chainspec.json'
+            - '--Init.GenesisHash=0x3c23176474acbf1a4bbb8c2fe97d9a7c3cb9743317296e6adbcf1627900c4238'
+            - '--jsonrpc-jwtsecretfile=/jwtsecret.hex'
+            - '--JsonRpc.Enabled=true'
+            - '--JsonRpc.Host=0.0.0.0'
+            - '--JsonRpc.Port=8547'
+            - '--JsonRpc.EnabledModules=debug,eth,net,web3,txpool,rpc,subscribe,trace,personal,proof,parity,health'
+            - '--JsonRpc.EngineHost=0.0.0.0'
+            - '--JsonRpc.EnginePort=8552'
+            - '--JsonRpc.WebSocketsPort=8548'
+            - '--Metrics.Enabled=true'
+            - '--Metrics.ExposeHost=0.0.0.0'
+            - '--Network.P2PPort=30304'
+            - '--Network.DiscoveryPort=30304'
+            - '--JsonRpc.MaxBatchResponseBodySize=120000000'
+            - '--Sync.FastSync=false'
+            - '--Sync.SnapSync=false'
+            - '--Seq.MinLevel=Info'
+            - '--Seq.ServerUrl=https://seq.nethermind.io'
+            - '--Pruning.PruningBoundary=1000'
+            - '--log=debug'
+
+    taiko-driver-1:
+        container_name: taiko-driver-1
+        image: ${TAIKO_CLIENT_IMAGE}
+        restart: unless-stopped
+        pull_policy: always
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        volumes:
+            - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
+            - ./p2psecret-1.hex:/p2psecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > p2psecret.hex`
+            # - bootnode-data:/bootnode:ro
+        ports:
+            # P2P
+            - "${PORT_P2P_DRIVER_1}:9000"
+            # Metrics
+            # - 6060:6061
+        networks:
+            - preconf
+        labels:
+            metrics_enabled: "true"
+            metrics_port: "6061"
+            logs_enabled: "true"
+            custom_operator: "dev"
+            custom_network: "dev"
+        # Inherit env vars from parent process
+        env_file:
+            - .env
+            - .env.stack-1
+        depends_on:
+            - taiko-nethermind-1
+            # - p2p-bootnode
+        entrypoint: ["/bin/sh", "-c"]
+        command:
+            - |
+                exec taiko-client driver \
+                  --l1.ws=$${L1_ENDPOINT_WS} \
+                  --l1.beacon=$${L1_BEACON_HTTP} \
+                  --jwtSecret=/jwtsecret.hex \
+                  --l2.ws=ws://taiko-nethermind-1:8548 \
+                  --l2.auth=http://taiko-nethermind-1:8552 \
+                  --preconfirmation.serverPort=1235 \
+                  --p2p.priv.path=/p2psecret.hex \
+                  --p2p.listen.tcp=9000 \
+                  --p2p.listen.udp=9000 \
+                  --p2p.useragent=taiko \
+                  --p2p.disable=false \
+                  --metrics=true \
+                  --verbosity=4 \
+                  --pacayaInbox=$${PACAYA_INBOX} \
+                  --shastaInbox=$${SHASTA_INBOX}
+
+
+    catalyst-node-1:
+        container_name: catalyst-node-1
+        image: ${CATALYST_IMAGE}
+        restart: unless-stopped
+        pull_policy: always
+        volumes:
+            - ./jwtsecret.hex:/jwtsecret.hex:ro
+        # ports:
+            # Metrics
+            # - 9898:9898
+        networks:
+            - preconf
+        labels:
+            metrics_enabled: "true"
+            metrics_port: "9898"
+            logs_enabled: "true"
+            custom_operator: "dev"
+            custom_network: "dev"
+        # Inherit env vars from parent process
+        env_file:
+            - .env
+            - .env.stack-1-nmc
+        extra_hosts:
+            - "host.docker.internal:host-gateway"
+        depends_on:
+            transfer-funds:
+                condition: service_completed_successfully
+            taiko-nethermind-1:
+                condition: service_started
+            taiko-driver-1:
+                condition: service_started
+            web3signer_l1:
+                condition: service_started
+            web3signer_l2:
+                condition: service_started
+
+    web3signer_l1:
+        container_name: web3signer_l1
+        image: consensys/web3signer:25.11.0
+        restart: unless-stopped
+        pull_policy: always
+        volumes:
+        - ./docker/web3signer_config:/config
+        networks:
+        - preconf
+        command:
+        - '--key-store-path=/config'
+        - '--http-host-allowlist=*'
+        - 'eth1'
+        - '--chain-id=${L1_CHAIN_ID}'
+
+    web3signer_l2:
+        container_name: web3signer_l2
+        image: consensys/web3signer:25.11.0
+        restart: unless-stopped
+        pull_policy: always
+        volumes:
+        - ./docker/web3signer_config:/config
+        networks:
+        - preconf
+        command:
+        - '--key-store-path=/config'
+        - '--http-host-allowlist=*'
+        - 'eth1'
+        - '--chain-id=${L2_CHAIN_ID}'
+
+
+# ### stack #2
+
+#     taiko-nethermind-2:
+#         container_name: taiko-nethermind-2
+#         image: nethermindeth/nethermind:taiko-shasta-changes
+#         restart: unless-stopped
+#         pull_policy: always
+#         extra_hosts:
+#             - "host.docker.internal:host-gateway"
+#         volumes:
+#             - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
+#             - taiko-nethermind-data-2:/data/nethermind
+#             - ./taiko-shasta-chainspec.json:/taiko-shasta-chainspec.json:ro
+#         ports:
+#             - "${PORT_L2_EXECUTION_ENGINE_2_METRICS}:9091"
+#             - "${PORT_L2_EXECUTION_ENGINE_2_HTTP}:8547"
+#             - "${PORT_L2_EXECUTION_ENGINE_2_WS}:8548"
+#             - "${PORT_L2_EXECUTION_ENGINE_2_P2P}:30304"
+#             - "${PORT_L2_EXECUTION_ENGINE_2_P2P}:30304/udp"
+#             - "${PORT_L2_EXECUTION_ENGINE_2_AUTH}:8552"
+#         networks:
+#             - preconf
+#         labels:
+#             metrics_enabled: "true"
+#             logs_enabled: "true"
+#             custom_operator: "dev"
+#             custom_network: "dev"
+#         env_file:
+#             - .env
+#         command:
+#             - '--data-dir=/data/nethermind'
+#             - '--config=none'
+#             - '--Init.ChainSpecPath=/taiko-shasta-chainspec.json'
+#             - '--Init.GenesisHash=0x3c23176474acbf1a4bbb8c2fe97d9a7c3cb9743317296e6adbcf1627900c4238'
+#             - '--jsonrpc-jwtsecretfile=/jwtsecret.hex'
+#             - '--JsonRpc.Enabled=true'
+#             - '--JsonRpc.Host=0.0.0.0'
+#             - '--JsonRpc.Port=8547'
+#             - '--JsonRpc.EnabledModules=debug,eth,net,web3,txpool,rpc,subscribe,trace,personal,proof,parity,health'
+#             - '--JsonRpc.EngineHost=0.0.0.0'
+#             - '--JsonRpc.EnginePort=8552'
+#             - '--JsonRpc.WebSocketsPort=8548'
+#             - '--Metrics.Enabled=true'
+#             - '--Metrics.ExposeHost=0.0.0.0'
+#             - '--Network.P2PPort=30304'
+#             - '--Network.DiscoveryPort=30304'
+#             - '--JsonRpc.MaxBatchResponseBodySize=120000000'
+#             - '--Sync.FastSync=false'
+#             - '--Sync.SnapSync=false'
+#             - '--Seq.MinLevel=Info'
+#             - '--Seq.ServerUrl=https://seq.nethermind.io'
+#             - '--Pruning.PruningBoundary=1000'
+#             - '--log=debug'
+
+#     taiko-driver-2:
+#         container_name: taiko-driver-2
+#         image: ${TAIKO_CLIENT_IMAGE}
+#         restart: unless-stopped
+#         pull_policy: always
+#         extra_hosts:
+#             - "host.docker.internal:host-gateway"
+#         volumes:
+#             - ./jwtsecret.hex:/jwtsecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > jwtsecret.hex`
+#             - ./p2psecret-2.hex:/p2psecret.hex:ro # Generate with `openssl rand -hex 32 | tr -d "\n" > p2psecret.hex`
+#             - bootnode-data:/bootnode:ro
+#         ports:
+#             # P2P
+#             - "${PORT_P2P_DRIVER_2}:9000"
+#             # Metrics
+#             # - 6060:6061
+#         networks:
+#             - preconf
+#         labels:
+#             metrics_enabled: "true"
+#             metrics_port: "6061"
+#             logs_enabled: "true"
+#             custom_operator: "dev"
+#             custom_network: "dev"
+#         # Inherit env vars from parent process
+#         env_file:
+#             - .env
+#             - .env.stack-2
+#         depends_on:
+#             - taiko-nethermind-2
+#             - p2p-bootnode
+#         entrypoint: ["/bin/sh", "-c"]
+#         command:
+#             - |
+#                 export ENR=$$(cat /bootnode/enr) && \
+#                 exec taiko-client driver \
+#                   --l1.ws=$${L1_ENDPOINT_WS} \
+#                   --l1.beacon=$${L1_BEACON_HTTP} \
+#                   --jwtSecret=/jwtsecret.hex \
+#                   --l2.ws=ws://taiko-nethermind-2:8548 \
+#                   --l2.auth=http://taiko-nethermind-2:8552 \
+#                   --preconfirmation.serverPort=1235 \
+#                   --p2p.priv.path=/p2psecret.hex \
+#                   --p2p.listen.tcp=9000 \
+#                   --p2p.listen.udp=9000 \
+#                   --p2p.useragent=taiko \
+#                   --p2p.disable=false \
+#                   --p2p.advertise.ip=taiko-driver-2 \
+#                   --metrics=true \
+#                   --verbosity=4 \
+#                   --p2p.bootnodes=$$ENR
+
+#     catalyst-node-2:
+#         container_name: catalyst-node-2
+#         image: ${CATALYST_IMAGE}
+#         restart: unless-stopped
+#         pull_policy: always
+#         volumes:
+#             - ./jwtsecret.hex:/jwtsecret.hex:ro
+#         # ports:
+#             # Metrics
+#             # - 9898:9898
+#         networks:
+#             - preconf
+#         labels:
+#             metrics_enabled: "true"
+#             metrics_port: "9898"
+#             logs_enabled: "true"
+#             custom_operator: "dev"
+#             custom_network: "dev"
+#         # Inherit env vars from parent process
+#         env_file:
+#             - .env
+#             - .env.stack-2
+#         extra_hosts:
+#             - "host.docker.internal:host-gateway"
+#         depends_on:
+#             transfer-funds:
+#                 condition: service_completed_successfully
+#             taiko-nethermind-2:
+#                 condition: service_started
+#             taiko-driver-2:
+#                 condition: service_started
+
+volumes:
+    taiko-nethermind-data-1:
+    # taiko-nethermind-data-2:
+    # bootnode-data:
+
+networks:
+    preconf:
+        driver: bridge
+

@@ -63,6 +63,6 @@ else
 fi
 
 # Run docker-compose up -d
-echo "Running: docker-compose up -d"
-docker-compose up -d
+echo "Running: docker-compose -f docker-compose-nethermind.yml up -d"
+docker-compose -f docker-compose-nethermind.yml up -d
 
