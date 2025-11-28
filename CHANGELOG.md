@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.22.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.21.0...v1.22.0) (2025-11-28)
+
+
+### Features
+
+* **driver:** blobserver flag  ([#424](https://github.com/taikoxyz/simple-taiko-node/issues/424)) ([efda3fc](https://github.com/taikoxyz/simple-taiko-node/commit/efda3fcebe8172964da38cb2b8f9d42e32943f34))
+* **hoodi:** add blob server URL for driver ([#422](https://github.com/taikoxyz/simple-taiko-node/issues/422)) ([aa77f21](https://github.com/taikoxyz/simple-taiko-node/commit/aa77f21ad5e23ceecf2a7c0d4172a2255cb0f592))
+
+
+### Chores
+
+* **hoodi:** bump geth version ([#425](https://github.com/taikoxyz/simple-taiko-node/issues/425)) ([b0335cd](https://github.com/taikoxyz/simple-taiko-node/commit/b0335cd5196bfe8ae9212f5b82b4aa80fe359e9b))
+
 ## [1.21.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.20.1...v1.21.0) (2025-10-21)
 
 
