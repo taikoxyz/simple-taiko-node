@@ -14,9 +14,13 @@ ARGS="--l1.ws "${L1_ENDPOINT_WS}" \
     --preconfirmation.whitelist ${PRECONFIRMATION_WHITELIST} \
     --jwtSecret /data/taiko-geth/geth/jwtsecret"
 
+if [ -n "$BLOB_SERVER_URL" ]; then
+    ARGS="${ARGS} --blob.server ${BLOB_SERVER_URL}"
+fi
+
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
-        --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
+    --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
 fi
 
 if [ "$ENABLE_PRECONFS_P2P" = "true" ]; then
