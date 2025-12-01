@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.22.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.21.0...v1.22.0) (2025-12-01)
+
+
+### Features
+
+* **driver:** add blobserver flag back, update env comments ([#427](https://github.com/taikoxyz/simple-taiko-node/issues/427)) ([18a3fc8](https://github.com/taikoxyz/simple-taiko-node/commit/18a3fc879230a10c0cdf8e353b621f6e5c4f7354))
+* **driver:** blobserver flag  ([#424](https://github.com/taikoxyz/simple-taiko-node/issues/424)) ([efda3fc](https://github.com/taikoxyz/simple-taiko-node/commit/efda3fcebe8172964da38cb2b8f9d42e32943f34))
+* **hoodi:** add blob server URL for driver ([#422](https://github.com/taikoxyz/simple-taiko-node/issues/422)) ([aa77f21](https://github.com/taikoxyz/simple-taiko-node/commit/aa77f21ad5e23ceecf2a7c0d4172a2255cb0f592))
+
+
+### Chores
+
+* **driver:** bump mainnet driver version ([#428](https://github.com/taikoxyz/simple-taiko-node/issues/428)) ([a16fbcf](https://github.com/taikoxyz/simple-taiko-node/commit/a16fbcf158e75af549d75ba474457d9d83f9cf81))
+* **hoodi:** bump geth version ([#425](https://github.com/taikoxyz/simple-taiko-node/issues/425)) ([b0335cd](https://github.com/taikoxyz/simple-taiko-node/commit/b0335cd5196bfe8ae9212f5b82b4aa80fe359e9b))
+
 ## [1.21.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.20.1...v1.21.0) (2025-10-21)
 
 
