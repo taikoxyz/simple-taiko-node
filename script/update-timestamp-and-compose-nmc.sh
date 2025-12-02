@@ -56,6 +56,33 @@ if [ "$EXISTING_CONTAINERS" -eq 0 ]; then
     UPDATED_VALUE=$(grep "^TAIKO_INTERNAL_SHASTA_TIME=" "$ENV_FILE" | cut -d'=' -f2)
     echo "Updated value: $UPDATED_VALUE"
     echo ""
+
+    # Update shastaTimestamp in taiko-shasta-chainspec.json
+    CHAINSPEC_FILE="$PROJECT_ROOT/taiko-shasta-chainspec.json"
+    
+    if [ ! -f "$CHAINSPEC_FILE" ]; then
+        echo "Error: chainspec file not found at $CHAINSPEC_FILE"
+        exit 1
+    fi
+
+    # Convert decimal timestamp to hex (uppercase with 0x prefix)
+    HEX_TIMESTAMP=$(printf "0x%X" "$NEW_TIMESTAMP")
+    
+    echo "Updating shastaTimestamp in chainspec to: $HEX_TIMESTAMP"
+    
+    # Update shastaTimestamp in JSON file
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        # macOS (BSD sed)
+        sed -i '' "s/\"shastaTimestamp\": \"0x[0-9A-Fa-f]*\"/\"shastaTimestamp\": \"$HEX_TIMESTAMP\"/" "$CHAINSPEC_FILE"
+    else
+        # Linux (GNU sed)
+        sed -i "s/\"shastaTimestamp\": \"0x[0-9A-Fa-f]*\"/\"shastaTimestamp\": \"$HEX_TIMESTAMP\"/" "$CHAINSPEC_FILE"
+    fi
+
+    # Verify the chainspec update
+    UPDATED_HEX=$(grep -o "\"shastaTimestamp\": \"0x[0-9A-Fa-f]*\"" "$CHAINSPEC_FILE")
+    echo "Updated chainspec: $UPDATED_HEX"
+    echo ""
 else
     # Containers already exist - skip timestamp update
     echo "Docker-compose containers already exist. Skipping timestamp update."
