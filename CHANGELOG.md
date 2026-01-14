@@ -1,5 +1,22 @@
 # Changelog
 
+## [1.23.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.22.0...v1.23.0) (2026-01-14)
+
+
+### Features
+
+* **docker:** bump `taiko-geth` tag ([#433](https://github.com/taikoxyz/simple-taiko-node/issues/433)) ([93d186e](https://github.com/taikoxyz/simple-taiko-node/commit/93d186ed78bfa1cb315e392f04006aff4ecd23dd))
+
+
+### Chores
+
+* **mainnet:** add p2p bootnodes provided by nethermind on mainnet ([#430](https://github.com/taikoxyz/simple-taiko-node/issues/430)) ([ca170b5](https://github.com/taikoxyz/simple-taiko-node/commit/ca170b58f989584daeb255d7269c007f531f0170))
+
+
+### Documentation
+
+* **repo:** update copyright year in `LICENSE` file ([#432](https://github.com/taikoxyz/simple-taiko-node/issues/432)) ([3ce5478](https://github.com/taikoxyz/simple-taiko-node/commit/3ce54787ce4f840d19f20a0b01cb483bdc4b492b))
+
 ## [1.22.0](https://github.com/taikoxyz/simple-taiko-node/compare/v1.21.0...v1.22.0) (2025-12-01)
 
 
