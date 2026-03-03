@@ -6,7 +6,11 @@ if [ "$ENABLE_PROVER" = "true" ]; then
     ARGS="--l1.ws ${L1_ENDPOINT_WS}
         --l2.ws ws://l2_execution_engine:8546
         --l2.http http://l2_execution_engine:8545
-        --taikoInbox ${TAIKO_INBOX_ADDRESS}
+        --l2.auth http://l2_execution_engine:8551
+        --jwtSecret /data/taiko-geth/geth/jwtsecret
+        --pacayaInbox ${TAIKO_INBOX_ADDRESS}
+        --shastaInbox ${SHASTA_INBOX_ADDRESS}
+        --shasta.time ${TAIKO_INTERNAL_SHASTA_TIME}
         --taikoAnchor ${TAIKO_ANCHOR_ADDRESS}
         --taikoToken ${TAIKO_TOKEN_L1_ADDRESS}
         --l1.proverPrivKey ${L1_PROVER_PRIVATE_KEY}
