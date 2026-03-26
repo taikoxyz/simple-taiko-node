@@ -10,6 +10,7 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
     --l2.auth http://l2_execution_engine:8551 \
     --pacayaInbox ${TAIKO_INBOX_ADDRESS} \
     --shastaInbox ${SHASTA_INBOX_ADDRESS} \
+    --shasta.time ${TAIKO_INTERNAL_SHASTA_TIME} \
     --taikoAnchor ${TAIKO_ANCHOR_ADDRESS} \
     --verbosity ${VERBOSITY} \
     --preconfirmation.whitelist ${PRECONFIRMATION_WHITELIST} \
