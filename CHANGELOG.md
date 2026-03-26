@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.1.0...v2.2.0) (2026-03-26)
+
+
+### Features
+
+* **driver,prover:** introduce Shasta fork on mainnet ([#439](https://github.com/taikoxyz/simple-taiko-node/issues/439)) ([7ab067c](https://github.com/taikoxyz/simple-taiko-node/commit/7ab067c8a98f21c168e7399f217218a09afd7d92))
+
 ## [2.1.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.0.0...v2.1.0) (2026-02-04)
 
 
