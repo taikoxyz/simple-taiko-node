@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.1](https://github.com/taikoxyz/simple-taiko-node/compare/v2.2.0...v2.2.1) (2026-03-27)
+
+
+### Chores
+
+* **hoodi:** bump hoodi version to the latest version ([#441](https://github.com/taikoxyz/simple-taiko-node/issues/441)) ([13d031a](https://github.com/taikoxyz/simple-taiko-node/commit/13d031a72c4559f3c1658cd684a3af84493f934e))
+
 ## [2.2.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.1.0...v2.2.0) (2026-03-26)
 
 
