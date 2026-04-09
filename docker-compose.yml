@@ -47,7 +47,6 @@ services:
     <<: *logging
     profiles:
       - l2_execution_engine
-      - prover
 
   taiko_client_driver:
     image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v2.3.0
@@ -69,25 +68,6 @@ services:
     <<: *logging
     profiles:
       - l2_execution_engine
-      - prover
-
-  taiko_client_prover_relayer:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v2.3.0
-    restart: unless-stopped
-    pull_policy: always
-    ports:
-      - "${PORT_PROVER_SERVER}:9876"
-    env_file:
-      - .env
-    volumes:
-      - ./script:/script
-    entrypoint:
-      - /bin/sh
-      - -c
-      - "/script/start-prover-relayer.sh"
-    <<: *logging
-    profiles:
-      - prover
 
   prometheus:
     image: prom/prometheus:latest
@@ -103,7 +83,6 @@ services:
     <<: *logging
     profiles:
       - l2_execution_engine
-      - prover
 
   grafana:
     image: grafana/grafana:latest
@@ -121,7 +100,6 @@ services:
     <<: *logging
     profiles:
       - l2_execution_engine
-      - prover
 
 volumes:
   l2_execution_engine_data:
