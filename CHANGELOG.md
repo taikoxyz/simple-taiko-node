@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.2.3](https://github.com/taikoxyz/simple-taiko-node/compare/v2.2.2...v2.2.3) (2026-04-10)
+
+
+### Chores
+
+* **docker:** remove prover profile ([#445](https://github.com/taikoxyz/simple-taiko-node/issues/445)) ([ce9499f](https://github.com/taikoxyz/simple-taiko-node/commit/ce9499fd999e2624661350eb87e179ac64d22b9e))
+
 ## [2.2.2](https://github.com/taikoxyz/simple-taiko-node/compare/v2.2.1...v2.2.2) (2026-04-02)
 
 
