@@ -18,6 +18,7 @@ services:
       - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
       - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
       - "${PORT_L2_EXECUTION_ENGINE_WS}:8546"
+      - "${PORT_L2_EXECUTION_ENGINE_DISCOVERY}:${PORT_L2_EXECUTION_ENGINE_DISCOVERY}"
       - "${PORT_L2_EXECUTION_ENGINE_DISCOVERY}:${PORT_L2_EXECUTION_ENGINE_DISCOVERY}/udp"
     entrypoint:
       - /bin/sh
@@ -46,10 +47,6 @@ services:
           --authrpc.addr 0.0.0.0 \
           --authrpc.jwtsecret /data/alethia-reth/jwtsecret \
           --ipcpath /data/alethia-reth/reth.ipc \
-          --proofs-history \
-          --proofs-history.backfill-window-only \
-          --proofs-history.storage-path /data/alethia-reth/proofs-history \
-          --proofs-history.window 350000 \
           --bootnodes "${BOOT_NODES}"
     <<: *logging
     profiles:
