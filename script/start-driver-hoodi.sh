@@ -19,14 +19,14 @@ fi
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
-    --p2p.syncTimeout 24h \
     --p2p.checkPointSyncUrl ${P2P_SYNC_URL}"
 fi
 
 if [ "$ENABLE_PRECONFS_P2P" = "true" ]; then
-  ARGS="${ARGS} --preconfirmation.serverPort 9871 \
+  ARGS="${ARGS} --p2p.peerstore.path /node-keys/peerstore \
+      --p2p.discovery.path /node-keys/discv5 \
+      --preconfirmation.serverPort 9871 \
       --preconfirmation.jwtSecret /data/alethia-reth/jwtsecret \
-      --p2p.disable=false \
       --p2p.listen.ip 0.0.0.0 \
       --p2p.useragent taiko \
       --p2p.bootnodes ${P2P_BOOTNODES}"
