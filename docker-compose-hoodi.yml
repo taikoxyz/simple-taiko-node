@@ -52,8 +52,7 @@ services:
           --proofs-history.backfill-window-only \
           --proofs-history.storage-path /data/alethia-reth/proofs-history \
           --proofs-history.window 350000 \
-          --bootnodes "${BOOT_NODES}" \
-          ${RETH_ADDITIONAL_ARGS:-}
+          --bootnodes "${BOOT_NODES}"
     <<: *logging
     profiles:
       - l2_execution_engine
@@ -69,6 +68,7 @@ services:
       - .env
     volumes:
       - l2_execution_engine_data:/data/alethia-reth
+      - private_key_data:/data/private-key
       - ./script:/script
     entrypoint:
       - /bin/sh
@@ -119,5 +119,6 @@ services:
 
 volumes:
   l2_execution_engine_data:
+  private_key_data:
   prometheus_data:
   grafana_data:

@@ -11,7 +11,12 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
     --inbox ${TAIKO_INBOX_ADDRESS} \
     --taikoAnchor ${TAIKO_ANCHOR_ADDRESS} \
     --verbosity ${VERBOSITY} \
+    --preconfirmation.whitelist ${PRECONFIRMATION_WHITELIST} \
     --jwtSecret /data/alethia-reth/jwtsecret"
+
+if [ -n "$BLOB_SERVER_URL" ]; then
+    ARGS="${ARGS} --blob.server ${BLOB_SERVER_URL}"
+fi
 
 if [ "$DISABLE_P2P_SYNC" = "false" ]; then
     ARGS="${ARGS} --p2p.sync \
@@ -26,6 +31,28 @@ if [ "$ENABLE_PRECONFS_P2P" = "true" ]; then
       --p2p.listen.ip 0.0.0.0 \
       --p2p.useragent taiko \
       --p2p.bootnodes ${P2P_BOOTNODES}"
+
+  if [ -z "$PRIV_FILE" ] && [ -z "$PRIV_RAW" ]; then
+      echo "Error: Either PRIV_FILE or PRIV_RAW must be provided" >&2
+      exit 1
+  fi
+
+  if [ -n "$PRIV_RAW" ]; then
+      ARGS="${ARGS} --p2p.priv.raw ${PRIV_RAW}"
+  else
+      SOURCE_FILE="/script/$PRIV_FILE"
+      DEST_FILE="/data/private-key/$PRIV_FILE"
+
+      if [ -f "$SOURCE_FILE" ]; then
+          cp "$SOURCE_FILE" "$DEST_FILE"
+          chmod 600 "$DEST_FILE"
+      else
+        echo "Error: /script/$PRIV_FILE does not exist"
+        exit 1
+      fi
+
+      ARGS="${ARGS} --p2p.priv.path $DEST_FILE"
+  fi
 
   if [ -n "$PUBLIC_IP" ]; then
       ARGS="${ARGS} --p2p.advertise.ip ${PUBLIC_IP} \
