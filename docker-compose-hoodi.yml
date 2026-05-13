@@ -58,7 +58,7 @@ services:
       - l2_execution_engine
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-ec050f4
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:sha-6b2d202
     restart: unless-stopped
     pull_policy: always
     ports:
