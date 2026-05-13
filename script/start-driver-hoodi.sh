@@ -11,7 +11,6 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
     --inbox ${TAIKO_INBOX_ADDRESS} \
     --taikoAnchor ${TAIKO_ANCHOR_ADDRESS} \
     --verbosity ${VERBOSITY} \
-    --preconfirmation.whitelist ${PRECONFIRMATION_WHITELIST} \
     --jwtSecret /data/alethia-reth/jwtsecret"
 
 if [ -n "$BLOB_SERVER_URL" ]; then
