@@ -62,7 +62,7 @@ services:
     env_file:
       - .env
     volumes:
-      - l2_execution_engine_data:/data/alethia-reth
+      - ${L2_RETH_DATA_DIR:-l2_execution_engine_data}:/data/alethia-reth
       - private_key_data:/data/private-key
       - ./script:/script
     entrypoint:
