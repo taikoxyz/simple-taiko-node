@@ -13,7 +13,7 @@ services:
     environment:
       - RUST_LOG_STYLE=never
     volumes:
-      - l2_execution_engine_data:/data/alethia-reth
+      - ${L2_RETH_DATA_DIR:-l2_execution_engine_data}:/data/alethia-reth
     ports:
       - "${PORT_L2_EXECUTION_ENGINE_METRICS}:6060"
       - "${PORT_L2_EXECUTION_ENGINE_HTTP}:8545"
