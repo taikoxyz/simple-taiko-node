@@ -84,7 +84,7 @@ services:
       --metrics
       --metrics.expensive
       --metrics.addr "0.0.0.0"
-      --bootnodes ${L2_GETH_BOOT_NODES}
+      --bootnodes ${GETH_BOOT_NODES}
       --authrpc.addr "0.0.0.0"
       --authrpc.vhosts "*"
       --http
