@@ -6,7 +6,7 @@ x-logging: &logging
 
 services:
   reth_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/alethia-reth:sha-6e17536
+    image: us-docker.pkg.dev/evmchain/images/alethia-reth:v1.2.0
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
