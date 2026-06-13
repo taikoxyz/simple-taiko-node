@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.3.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.2.2...v2.3.0) (2026-06-12)
+
+
+### Features
+
+* **driver:** upgrade Hoodi node to alethia-reth with Unzen fork ([#449](https://github.com/taikoxyz/simple-taiko-node/issues/449)) ([b978691](https://github.com/taikoxyz/simple-taiko-node/commit/b978691de7a0d9579dea18fe33f528efc334ae5d))
+
+
+### Chores
+
+* **docker:** remove prover profile ([#445](https://github.com/taikoxyz/simple-taiko-node/issues/445)) ([ce9499f](https://github.com/taikoxyz/simple-taiko-node/commit/ce9499fd999e2624661350eb87e179ac64d22b9e))
+
 ## [2.2.2](https://github.com/taikoxyz/simple-taiko-node/compare/v2.2.1...v2.2.2) (2026-04-02)
 
 
