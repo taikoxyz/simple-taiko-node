@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.3.1](https://github.com/taikoxyz/simple-taiko-node/compare/v2.3.0...v2.3.1) (2026-06-29)
+
+
+### Chores
+
+* **docker:** bump version to `taiko-alethia-client-v2.3.1` on mainnet ([#453](https://github.com/taikoxyz/simple-taiko-node/issues/453)) ([89e5f9e](https://github.com/taikoxyz/simple-taiko-node/commit/89e5f9e3a4dde3d2324bae54e4cf907e20e4c2c2))
+* **repo:** fix link ([#451](https://github.com/taikoxyz/simple-taiko-node/issues/451)) ([0203ba1](https://github.com/taikoxyz/simple-taiko-node/commit/0203ba160b033b9bd1390a8c23beba387a3fca27))
+
 ## [2.3.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.2.2...v2.3.0) (2026-06-12)
 
 
