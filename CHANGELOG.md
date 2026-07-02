@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.3.2](https://github.com/taikoxyz/simple-taiko-node/compare/v2.3.1...v2.3.2) (2026-07-02)
+
+
+### Chores
+
+* **driver:** bump version to `taiko-alethia-client-v2.5.0` ([#454](https://github.com/taikoxyz/simple-taiko-node/issues/454)) ([9fb6cef](https://github.com/taikoxyz/simple-taiko-node/commit/9fb6cef2fba3ef364bce5caf446b0222a3442b24))
+
 ## [2.3.1](https://github.com/taikoxyz/simple-taiko-node/compare/v2.3.0...v2.3.1) (2026-06-29)
 
 
