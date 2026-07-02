@@ -106,7 +106,7 @@ services:
       - geth_execution_engine
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v2.4.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v2.5.0
     restart: unless-stopped
     pull_policy: always
     ports:
