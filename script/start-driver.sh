@@ -14,7 +14,7 @@ ARGS="--l1.ws ${L1_ENDPOINT_WS} \
     --l2.ws ws://l2_execution_engine:8546 \
     --l1.beacon ${L1_BEACON_HTTP} \
     --l2.auth http://l2_execution_engine:8551 \
-    --inbox ${SHASTA_INBOX_ADDRESS} \
+    --inbox ${TAIKO_INBOX_ADDRESS} \
     --taikoAnchor ${TAIKO_ANCHOR_ADDRESS} \
     --verbosity ${VERBOSITY} \
     --jwtSecret ${JWT_SECRET}"
