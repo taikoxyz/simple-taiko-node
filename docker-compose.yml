@@ -104,7 +104,6 @@ services:
     <<: *logging
     profiles:
       - geth_execution_engine
-      - l2_execution_engine
 
   taiko_client_driver:
     image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v2.6.0
@@ -127,7 +126,6 @@ services:
     <<: *logging
     profiles:
       - geth_execution_engine
-      - l2_execution_engine
       - reth_execution_engine
 
   prometheus:
@@ -146,7 +144,6 @@ services:
     <<: *logging
     profiles:
       - geth_execution_engine
-      - l2_execution_engine
       - reth_execution_engine
 
   grafana:
@@ -168,11 +165,11 @@ services:
     <<: *logging
     profiles:
       - geth_execution_engine
-      - l2_execution_engine
       - reth_execution_engine
 
 volumes:
   l2_execution_engine_data:
+  l2_reth_execution_engine_data:
   private_key_data:
   prometheus_data:
   grafana_data:
