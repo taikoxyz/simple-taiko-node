@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.4.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.3.2...v2.4.0) (2026-07-21)
+
+
+### Features
+
+* **driver:** upgrade node for Unzen fork ([#456](https://github.com/taikoxyz/simple-taiko-node/issues/456)) ([f507fdd](https://github.com/taikoxyz/simple-taiko-node/commit/f507fddb058892dc46c4e62161159abe414dd7c7))
+
 ## [2.3.2](https://github.com/taikoxyz/simple-taiko-node/compare/v2.3.1...v2.3.2) (2026-07-02)
 
 
