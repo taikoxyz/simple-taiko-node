@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.5.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.4.0...v2.5.0) (2026-07-22)
+
+
+### Features
+
+* **mainnet:** add bootnodes ([#458](https://github.com/taikoxyz/simple-taiko-node/issues/458)) ([b58b1ec](https://github.com/taikoxyz/simple-taiko-node/commit/b58b1ec23e77cd4ecad7189c0a589617475f64ec))
+
 ## [2.4.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.3.2...v2.4.0) (2026-07-21)
 
 
