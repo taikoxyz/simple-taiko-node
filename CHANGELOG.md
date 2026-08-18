@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.6.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.5.0...v2.6.0) (2026-08-17)
+
+
+### Features
+
+* **hoodi:** add EL bootnodes ([#460](https://github.com/taikoxyz/simple-taiko-node/issues/460)) ([abfded1](https://github.com/taikoxyz/simple-taiko-node/commit/abfded18eb967e05785abff741c2513c8f0da4a7))
+
+
+### Chores
+
+* **reth:** bump alethia-reth to v1.3.1 ([#462](https://github.com/taikoxyz/simple-taiko-node/issues/462)) ([a075c32](https://github.com/taikoxyz/simple-taiko-node/commit/a075c32af44cabd07b9cfeb08beed8220db1840d))
+
 ## [2.5.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.4.0...v2.5.0) (2026-07-22)
 
 
