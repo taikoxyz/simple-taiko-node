@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/taikoxyz/simple-taiko-node/compare/v2.6.0...v2.6.1) (2026-08-18)
+
+
+### Chores
+
+* **env:** remove stale bootnodes ([#463](https://github.com/taikoxyz/simple-taiko-node/issues/463)) ([26f14ec](https://github.com/taikoxyz/simple-taiko-node/commit/26f14ec61af07990446e31fb1815fa3b1ee89699))
+
 ## [2.6.0](https://github.com/taikoxyz/simple-taiko-node/compare/v2.5.0...v2.6.0) (2026-08-17)
 
 
