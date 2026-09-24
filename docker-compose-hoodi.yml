@@ -57,7 +57,7 @@ services:
       - reth_execution_engine
 
   geth_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v2.5.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-geth:v2.7.0
     restart: unless-stopped
     pull_policy: always
     env_file:
