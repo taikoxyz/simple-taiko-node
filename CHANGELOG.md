@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.3](https://github.com/taikoxyz/simple-taiko-node/compare/v2.6.2...v2.6.3) (2026-09-29)
+
+
+### Chores
+
+* **docker:** bump alethia-reth to v1.4.1 and taiko-client to v2.7.0 ([#467](https://github.com/taikoxyz/simple-taiko-node/issues/467)) ([b31d802](https://github.com/taikoxyz/simple-taiko-node/commit/b31d8025c032175d3b9c27cb0cf19dedec597452))
+
 ## [2.6.2](https://github.com/taikoxyz/simple-taiko-node/compare/v2.6.1...v2.6.2) (2026-09-24)
 
 
