@@ -6,7 +6,7 @@ x-logging: &logging
 
 services:
   reth_execution_engine:
-    image: us-docker.pkg.dev/evmchain/images/alethia-reth:v1.3.1
+    image: us-docker.pkg.dev/evmchain/images/alethia-reth:v1.4.1
     restart: unless-stopped
     pull_policy: always
     stop_grace_period: 3m
@@ -106,7 +106,7 @@ services:
       - geth_execution_engine
 
   taiko_client_driver:
-    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v2.5.0
+    image: us-docker.pkg.dev/evmchain/images/taiko-client:taiko-alethia-client-v2.7.0
     restart: unless-stopped
     pull_policy: always
     ports:
