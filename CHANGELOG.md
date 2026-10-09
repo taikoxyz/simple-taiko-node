@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.4](https://github.com/taikoxyz/simple-taiko-node/compare/v2.6.3...v2.6.4) (2026-10-09)
+
+
+### Chores
+
+* **docker:** bump taiko-client to v2.8.0 ([#469](https://github.com/taikoxyz/simple-taiko-node/issues/469)) ([ee985e0](https://github.com/taikoxyz/simple-taiko-node/commit/ee985e013d27024d35d138efc17623981c33bd9e))
+
 ## [2.6.3](https://github.com/taikoxyz/simple-taiko-node/compare/v2.6.2...v2.6.3) (2026-09-29)
 
 
