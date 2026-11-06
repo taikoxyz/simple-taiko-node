@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.6](https://github.com/taikoxyz/simple-taiko-node/compare/v2.6.5...v2.6.6) (2026-11-06)
+
+
+### Chores
+
+* **docker:** bump alethia-reth to v1.5.0 ([#473](https://github.com/taikoxyz/simple-taiko-node/issues/473)) ([f3b33e2](https://github.com/taikoxyz/simple-taiko-node/commit/f3b33e20c9717c54f04266f2076757c44b16cd43))
+
 ## [2.6.5](https://github.com/taikoxyz/simple-taiko-node/compare/v2.6.4...v2.6.5) (2026-10-22)
 
 
